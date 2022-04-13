@@ -39,6 +39,11 @@ public class Bear extends Roar {
         this.setDiet(diet);
     }
 
+    public Bear(int size, int horSpeed, int verSpeed, Color color)
+    {
+        super(location, size, horSpeed, verSpeed, color);
+    }
+
 
     /**
      * @param name : name of the animal

@@ -13,8 +13,6 @@ public class ZooFrame extends JFrame implements ActionListener
 {
 
 
-
-
     public static void main(String[] args)
     {
         ZooFrame zooframe = new ZooFrame();
@@ -83,7 +81,7 @@ public class ZooFrame extends JFrame implements ActionListener
         frame.add(zoo, BorderLayout.SOUTH);
         label = new JLabel();
         frame.add(label);
-        }
+    }
 
 
 
@@ -93,7 +91,7 @@ public class ZooFrame extends JFrame implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
-       if(e.getSource() == exit)
+        if(e.getSource() == exit)
         {
             System.out.println("Bye, have a great day !");
             System.exit(1);

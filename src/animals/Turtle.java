@@ -10,6 +10,8 @@ import mobility.Point;
 import utilities.MessageUtility;
 import diet.Herbivore;
 
+import java.awt.*;
+
 /**
  * the utilities of this class is the creation of a new animal turtle. all function turtle can be use is here or
  * from supers classes.
@@ -36,6 +38,11 @@ public class Turtle extends Chew
         this.setWeight(1);
         setAge(1);
         this.setDiet(diet);
+    }
+
+    public Turtle(int size, int horSpeed, int verSpeed, Color color)
+    {
+        super(location, size, horSpeed, verSpeed, color);
     }
 
 

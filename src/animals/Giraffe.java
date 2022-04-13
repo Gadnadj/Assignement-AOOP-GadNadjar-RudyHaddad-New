@@ -10,6 +10,8 @@ import mobility.Point;
 import utilities.MessageUtility;
 import diet.Herbivore;
 
+import java.awt.*;
+
 
 /**
  * the utilities of this class is the creation of a new animal Giraffe. all function bear can be use is here or
@@ -47,6 +49,11 @@ public class Giraffe extends Chew
         setNeckLength(1.5);
         this.setDiet(diet);
 
+    }
+
+    public Giraffe(int size, int horSpeed, int verSpeed, Color color)
+    {
+        super(location, size, horSpeed, verSpeed, color);
     }
 
 

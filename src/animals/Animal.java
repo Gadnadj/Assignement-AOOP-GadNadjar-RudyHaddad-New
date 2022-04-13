@@ -57,6 +57,7 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
    public Animal(Point location, int size, int horSpeed, int verSpeed, Color color)
    {
        super(location);
+       this.size = size;
        this.horSpeed = horSpeed;
        this.verSpeed = verSpeed;
        this.col = color;

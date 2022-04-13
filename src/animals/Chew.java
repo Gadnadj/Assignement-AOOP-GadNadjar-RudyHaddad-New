@@ -5,6 +5,8 @@ package animals;
 import mobility.Point;
 import utilities.MessageUtility;
 
+import java.awt.*;
+
 /** this class is for animals can chew. so all animals can chew has from here
  *
  *  * @see animals.Animal
@@ -21,6 +23,10 @@ public abstract class Chew extends Animal
     public Chew(String name, Point location)
     {
         super(name, location);
+    }
+
+    public Chew(Point location, int size, int horSpeed, int verSpeed, Color color) {
+        super(location, size, horSpeed, verSpeed, color);
     }
 
 

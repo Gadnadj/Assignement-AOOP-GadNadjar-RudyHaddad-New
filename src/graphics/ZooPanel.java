@@ -1,6 +1,7 @@
 package graphics;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,16 +14,14 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener
     JPanel bluePanel;
     JButton addAnimal, moveAnimal, clear, food, info, exit;
 
-
-
-
+    JTable tableAnimal;
 
     public ZooPanel()
     {
         this.setBackground(Color.BLUE);
         addAnimal = new JButton("Add Animal");
         addAnimal.addActionListener(this);
-        moveAnimal = new JButton("New Animal");
+        moveAnimal = new JButton("Move Animal");
         moveAnimal.addActionListener(this);
         clear = new JButton("Clear");
         clear.addActionListener(this);
@@ -76,7 +75,18 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener
 
         if(e.getSource() == info)
         {
-            NewWindow window = new NewWindow();
+
+
+            String[][] data = new String[10][6];
+            final String[] column = {"Animal", "Color", "Weight", "Horizontal speed", "Vertical speed", "Eat Counter"};
+
+
+            tableAnimal = new JTable(data, column);
+
+
+            NewWindow window = new NewWindow(tableAnimal);
+
+
         }
 
         if(e.getSource() == exit)

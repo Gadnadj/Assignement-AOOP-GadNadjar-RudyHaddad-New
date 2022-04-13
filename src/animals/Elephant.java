@@ -10,6 +10,8 @@ import mobility.Point;
 import diet.Herbivore;
 import utilities.MessageUtility;
 
+import java.awt.*;
+
 /**
  * the utilities of this class is the creation of a new animal elephant. all function bear can be use is here or
  * from supers classes.
@@ -44,6 +46,11 @@ public class Elephant extends Chew
         this.setWeight(500);
         settrunkLength(1);
         this.setDiet(diet);
+    }
+
+    public Elephant(int size, int horSpeed, int verSpeed, Color color)
+    {
+        super(location, size, horSpeed, verSpeed, color);
     }
 
 

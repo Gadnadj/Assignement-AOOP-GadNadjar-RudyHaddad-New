@@ -17,7 +17,16 @@ package food;
 public enum EFoodType
 {
     /**
-     * type of food of all animals
+     * type meat
      */
-    MEAT, NOTFOOD, VEGETABLE;
+    MEAT,
+    /**
+     * type Not food
+     */
+
+    NOTFOOD,
+    /**
+     * type Vegetable
+     */
+    VEGETABLE;
 }

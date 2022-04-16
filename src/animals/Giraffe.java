@@ -51,9 +51,19 @@ public class Giraffe extends Chew
 
     }
 
-    public Giraffe(int size, int horSpeed, int verSpeed, Color color)
+    /**
+     *
+     * @param size : size of the animal
+     * @param horSpeed : horizontal speed of the animal
+     * @param verSpeed : vertical speed of the animal
+     * @param color : color of the animal
+     */
+    public Giraffe(int size, int horSpeed, int verSpeed, String color)
     {
         super(location, size, horSpeed, verSpeed, color);
+        this.setWeight(450);
+        setNeckLength(1.5);
+        this.setDiet(diet);
     }
 
 
@@ -85,6 +95,37 @@ public class Giraffe extends Chew
 
     }
 
+
+//    public void drawObject (Graphics g)
+//    {
+//            g.setColor(this.getColor());
+//        if(this.getx_dir_()==1) // giraffe goes to the right side
+//            g.drawImage(this.getImg1(), this.getLocation().getY()-this.getSize()/2, this.getLocation().getY()-this.getSize()/10, this.getSize()/2, this.getSize(), this.getPan());
+//        else // giraffe goes to the left side
+//            g.drawImage(this.getImg2(), this.getLocation().getX(), this.getLocation().getY()-this.getSize()/10, this.getSize()/2, this.getSize(), this.getPan());
+//    }
+
+    /**
+     *
+     * @param x : coordinate x
+     * @return boolean
+     */
+    public boolean settX(int x)
+    {
+        this.location.setX(x);
+        return true;
+    }
+
+    /**
+     *
+     * @param y : coordinate y
+     * @return boolean
+     */
+    public boolean settY(int y)
+    {
+        this.location.setY(y);
+        return true;
+    }
 
     /**
      *

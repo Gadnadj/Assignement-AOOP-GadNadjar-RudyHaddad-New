@@ -39,9 +39,19 @@ public class Bear extends Roar {
         this.setDiet(diet);
     }
 
-    public Bear(int size, int horSpeed, int verSpeed, Color color)
+    /**
+     *
+     * @param size : size of the animal
+     * @param horSpeed : horizontal speed of the animal
+     * @param verSpeed : vertical speed of the animal
+     * @param color : color of the animal
+     */
+    public Bear(int size, int horSpeed, int verSpeed, String color)
     {
         super(location, size, horSpeed, verSpeed, color);
+        this.setWeight(308.2);
+        this.furColor = String.valueOf(setFurColor("gray"));
+        this.setDiet(diet);
     }
 
 
@@ -58,6 +68,27 @@ public class Bear extends Roar {
         this.setDiet(diet);
     }
 
+    /**
+     *
+     * @param x : coordinate x
+     * @return boolean
+     */
+    public boolean settX(int x)
+    {
+        this.location.setX(x);
+        return true;
+    }
+
+    /**
+     *
+     * @param y : coordinate y
+     * @return boolean
+     */
+    public boolean settY(int y)
+    {
+        this.location.setY(y);
+        return true;
+    }
 
     /**
      *

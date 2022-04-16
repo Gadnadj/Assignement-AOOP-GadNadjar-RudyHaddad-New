@@ -40,9 +40,19 @@ public class Turtle extends Chew
         this.setDiet(diet);
     }
 
-    public Turtle(int size, int horSpeed, int verSpeed, Color color)
+    /**
+     *
+     * @param size : size of the animal
+     * @param horSpeed : horizontal speed of the animal
+     * @param verSpeed : vertical speed of the animal
+     * @param color : color of the animal
+     */
+    public Turtle(int size, int horSpeed, int verSpeed, String color)
     {
         super(location, size, horSpeed, verSpeed, color);
+        this.setWeight(1);
+        setAge(1);
+        this.setDiet(diet);
     }
 
 
@@ -71,6 +81,27 @@ public class Turtle extends Chew
         this.setDiet(diet);
     }
 
+    /**
+     *
+     * @param x : coordinate x
+     * @return boolean
+     */
+    public boolean settX(int x)
+    {
+        this.location.setX(x);
+        return true;
+    }
+
+    /**
+     *
+     * @param y : coordinate y
+     * @return boolean
+     */
+    public boolean settY(int y)
+    {
+        this.location.setY(y);
+        return true;
+    }
 
     /**
      *

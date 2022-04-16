@@ -1,29 +1,22 @@
 package graphics;
 
-import animals.Animal;
-
 import javax.swing.*;
 
+/**
+ * this class creates a new frame, which includes a table containing all the animals and
+ * their information (name, weight, horizontal speed, vertical speed, color, number of food eaten)
+ * @author Rudy Haddad
+ *
+ */
 public class NewWindow
 {
     JFrame frame;
     JLabel label;
-    Animal arrAnimals[] = new Animal[10];
 
-
-    NewWindow()
-    {
-        label = new JLabel();
-        frame = new JFrame();
-        label.setBounds(0,0,150,50);
-        frame.add(label);
-        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800,600);
-        frame.setLayout(null);
-        frame.setVisible(true);
-
-    }
-
+    /**
+     *
+     * @param a : JTable
+     */
     NewWindow(JTable a){
         label = new JLabel();
         frame = new JFrame();

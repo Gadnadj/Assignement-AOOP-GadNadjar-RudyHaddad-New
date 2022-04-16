@@ -43,9 +43,20 @@ public class Lion extends Roar{
         this.setDiet(diet);
     }
 
-    public Lion(int size, int horSpeed, int verSpeed, Color color)
+    /**
+     *
+     * @param size : size of the animal
+     * @param horSpeed : horizontal speed of the animal
+     * @param verSpeed : vertical speed of the animal
+     * @param color : color of the animal
+     */
+    public Lion(int size, int horSpeed, int verSpeed, String color)
     {
         super(location, size, horSpeed, verSpeed, color);
+        this.scarCount = 0;
+        this.setWeight(408.2);
+        this.setDiet(diet);
+
     }
 
     /**
@@ -57,6 +68,27 @@ public class Lion extends Roar{
         return "[!]" + this.getName() + " : " + "total distance :" + "[" + this.gettotalDistance() + "]" + ", weight : " + "[" + this.getWeight() + "]";
     }
 
+    /**
+     *
+     * @param x : coordinate x
+     * @return boolean
+     */
+    public boolean settX(int x)
+    {
+        this.location.setX(x);
+        return true;
+    }
+
+    /**
+     *
+     * @param y : coordinate y
+     * @return boolean
+     */
+    public boolean settY(int y)
+    {
+        this.location.setY(y);
+        return true;
+    }
 
 
     /**

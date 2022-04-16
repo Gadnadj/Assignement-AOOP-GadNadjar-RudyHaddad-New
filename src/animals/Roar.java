@@ -38,7 +38,16 @@ public abstract class Roar extends Animal
     {
         super(name, location);
     }
-    public Roar(Point location, int size, int horSpeed, int verSpeed, Color color){super(location, size, horSpeed, verSpeed, color);}
+
+    /**
+     *
+     * @param location : location of the animal
+     * @param size : size of the animal
+     * @param horSpeed : horizontal speed of the animal
+     * @param verSpeed : vertical speed of the animal
+     * @param color : color of the animal
+     */
+    public Roar(Point location, int size, int horSpeed, int verSpeed, String color){super(location, size, horSpeed, verSpeed, color);}
 
     public void makeSound()
     {

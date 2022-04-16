@@ -25,7 +25,15 @@ public abstract class Chew extends Animal
         super(name, location);
     }
 
-    public Chew(Point location, int size, int horSpeed, int verSpeed, Color color) {
+    /**
+     *
+     * @param location : location of the animal
+     * @param size : size of the animal
+     * @param horSpeed : horizontal speed of the animal
+     * @param verSpeed : vertical speed of the animal
+     * @param color : color of the animal
+     */
+    public Chew(Point location, int size, int horSpeed, int verSpeed, String color) {
         super(location, size, horSpeed, verSpeed, color);
     }
 

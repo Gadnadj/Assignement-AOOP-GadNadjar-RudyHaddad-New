@@ -67,6 +67,11 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
      */
     JButton exit;
 
+    /**
+     *
+     */
+
+
 
 
     /**
@@ -86,6 +91,8 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
     /**
      * constructor
      */
+    private static int counter = 0;
+
     public ZooPanel() {
         this.setBackground(Color.PINK);
         addAnimal = new JButton("Add Animal");
@@ -130,19 +137,25 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
         }
 
         if (e.getSource() == moveAnimal) {
-
+            for(int i = 0 ; i < ZooPanel.data.size() ; i++)
+                ZooPanel.data.get(i).setChanges(false);
             if (ZooPanel.data.size() == 0)
                 JOptionPane.showMessageDialog(null, "There's no animals", "Error", JOptionPane.ERROR_MESSAGE);
             else
                 window2 = new NewWindow2();
         }
 
-        if (e.getSource() == clear) {
-            if (this.data.size() == 0) {
+        if (e.getSource() == clear)
+        {
+            if (this.data.size() == 0)
+            {
                 JOptionPane.showMessageDialog(null, "There's no animals", "Error", JOptionPane.ERROR_MESSAGE);
-            } else {
-                for (int i = 0; i < data.size(); i++)
-                    this.data = new ArrayList<Animal>();
+            }
+            else
+            {
+                ZooPanel.data.clear();
+//                for (int i = 0; i < data.size(); i++)
+//                    this.data = new ArrayList<Animal>();
                 for (int i = 0; i < dataTable.length; i++)
                     dataTable = new Object[10][6];
                 AddAnimalDialog.counter = 0;
@@ -162,15 +175,13 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
                     responses,
                     0);
             System.out.println(responses[foods]);
-
-
         }
+
             if (e.getSource() == info) {
 
                 String[] column = {"Animal", "Color", "Weight", "Horizontal speed", "Vertical speed", "Eat Counter"};
                 tableAnimal = new JTable(dataTable, column);
                 NewWindow window = new NewWindow(tableAnimal);
-
             }
 
             if (e.getSource() == exit)
@@ -182,4 +193,43 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
             //data[AddAnimalDialog.counter][0] = animals;
         }
 
+    public boolean isChange()
+    {
+        if(data.size() != 0)
+        {
+            if (ZooPanel.data.get(counter).getChanges() && counter < ZooPanel.data.size())
+                return true;
+            else
+                return false;
+        }
+        return false;
     }
+
+    public void manageZoo()
+    {
+        while(true)
+        {
+            if (isChange())
+            {
+                repaint();
+                counter++;
+            }
+            if(counter == data.size())
+                break;
+            counter++;
+        }
+        counter = 0;
+    }
+
+    public void paintComponent(Graphics g)
+    {
+        super.paintComponent(g) ;
+        if(data.size() != 0)
+        {
+            if (ZooPanel.data.get(counter).getImg1() != null)
+                g.drawImage(ZooPanel.data.get(counter).getImg1(), 0, 0, getWidth(), getHeight(), this);
+        }
+    }
+}
+
+

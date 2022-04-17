@@ -26,6 +26,28 @@ public abstract class Mobile implements ILocatable {
     }
 
 
+    public boolean setX(int x)
+    {
+        this.location.setX(x);
+        return true;
+    }
+
+    public boolean setY(int y)
+    {
+        this.location.setY(y);
+        return true;
+    }
+
+    public int getttX()
+    {
+        return this.location.getX();
+    }
+
+    public int getttY()
+    {
+        return this.location.getX();
+    }
+
     /**
      *
      * @return Point: the location of the animal

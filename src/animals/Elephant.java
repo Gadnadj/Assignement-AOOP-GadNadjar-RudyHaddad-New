@@ -23,7 +23,7 @@ import java.awt.*;
 public class Elephant extends Chew
 {
     private double trunkLength;
-    private static final Point location = new Point(50,90);
+    private static Point location = new Point(50,90);
     private final static IDiet diet = new Herbivore();
 
     /**
@@ -111,6 +111,7 @@ public class Elephant extends Chew
         this.location.setY(y);
         return true;
     }
+
 
     /**
      *

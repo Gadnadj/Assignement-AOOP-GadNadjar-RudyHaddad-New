@@ -20,15 +20,6 @@ import java.io.IOException;
 public class ZooFrame extends JFrame implements ActionListener
 {
     /**
-     *
-     * @param args : main
-     */
-    public static void main(String[] args)
-    {
-        ZooFrame zooframe = new ZooFrame();
-    }
-
-    /**
      * item exit
      */
     private JMenuItem exit;
@@ -67,6 +58,17 @@ public class ZooFrame extends JFrame implements ActionListener
      * zoo
      */
     private ZooPanel zoo;
+
+
+    /**
+     *
+     * @param args : main
+     */
+    public static void main(String[] args)
+    {
+        ZooFrame zooframe = new ZooFrame();
+        zooframe.zoo.manageZoo();
+    }
 
     /**
      * constructor
@@ -115,6 +117,7 @@ public class ZooFrame extends JFrame implements ActionListener
         frame.add(zoo, BorderLayout.SOUTH);
         label = new JLabel();
         frame.add(label);
+
     }
 
     /**
@@ -130,16 +133,16 @@ public class ZooFrame extends JFrame implements ActionListener
 
         if (e.getSource() == image)
         {
-//            try {
-//                frame.getContentPane().add(new FrameBackGround("savanna.png"));
-//            } catch (IOException ex) {
-//                ex.printStackTrace();
-//            }
+            try {
+                frame.getContentPane().add(new FrameBackGround("savanna.png"));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
 
         if(e.getSource() == green)
         {
-           frame.getContentPane().setBackground(Color.GREEN);
+           //frame.getContentPane().setBackground(Color.GREEN);
         }
 
         if(e.getSource() == none)
@@ -153,5 +156,4 @@ public class ZooFrame extends JFrame implements ActionListener
         }
 
     }
-
 }

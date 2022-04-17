@@ -8,6 +8,7 @@ import food.IEdible;
 import mobility.Point;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import utilities.MessageUtility;

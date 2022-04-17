@@ -10,7 +10,11 @@ import utilities.MessageUtility;
 import diet.IDiet;
 import diet.Omnivore;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
 
 
@@ -23,7 +27,7 @@ import java.util.Objects;
  **/
 public class Bear extends Roar {
     private String furColor;
-    private static final Point location = new Point(100, 5);
+    private static Point location = new Point(100, 5);
     private final static IDiet diet = new Omnivore();
 
 

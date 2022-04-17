@@ -26,16 +26,16 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
     private String name;
     private double weight;
     private IDiet diet;
-    private static final Point location = new Point(0, 0);
 
 
 
-    private final int EAT_DISTANCE = 5;
+
+    private final int EAT_DISTANCE = 10;
     private int size;
     private String col;
     private int horSpeed;
     private int verSpeed;
-    private boolean coordChanged;
+    private boolean coordChanged = false;
     private Thread thread;
     private int x_dir;
     private int y_dir;
@@ -77,8 +77,18 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
      */
     public boolean settX(int x)
     {
-        Animal.location.setX(x);
+        this.setX(x);
         return true;
+    }
+
+    public int gettX()
+    {
+        return this.getLocation().getX();
+    }
+
+    public int gettY()
+    {
+        return this.getLocation().getY();
     }
 
     /**
@@ -88,9 +98,10 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
      */
     public boolean settY(int y)
     {
-        Animal.location.setY(y);
+        this.setY(y);
         return true;
     }
+
 
 
     /**
@@ -196,13 +207,15 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
      * @return String
      */
     @Override
-    public int getSize() {
-        return 0;
+    public int getSize()
+    {
+        return this.size;
     }
 
 
     @Override
-    public void eatInc() {
+    public void eatInc()
+    {
 
     }
 
@@ -259,7 +272,7 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
     @Override
     public boolean getChanges()
     {
-        return false;
+        return this.coordChanged;
     }
 
     /**
@@ -269,7 +282,7 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
     @Override
     public void setChanges(boolean state)
     {
-
+        this.coordChanged = state;
     }
 
     /**

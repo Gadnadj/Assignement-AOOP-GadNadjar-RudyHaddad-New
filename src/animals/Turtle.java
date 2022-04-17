@@ -23,7 +23,7 @@ import java.awt.*;
 public class Turtle extends Chew
 {
     private int age;
-    private static final Point location = new Point(80,0);
+    private static Point location = new Point(80,0);
     private final static IDiet diet = new Herbivore();
 
 
@@ -102,6 +102,7 @@ public class Turtle extends Chew
         this.location.setY(y);
         return true;
     }
+
 
     /**
      *

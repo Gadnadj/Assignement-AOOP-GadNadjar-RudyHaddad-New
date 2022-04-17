@@ -24,7 +24,7 @@ import java.awt.*;
 public class Giraffe extends Chew
 {
     private double neckLength;
-    private static final Point location = new Point(50,0);
+    private static Point location = new Point(50,0);
     private final static IDiet diet = new Herbivore();
 
     /**
@@ -126,6 +126,7 @@ public class Giraffe extends Chew
         this.location.setY(y);
         return true;
     }
+
 
     /**
      *

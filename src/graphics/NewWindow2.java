@@ -70,10 +70,9 @@ public class NewWindow2 extends JFrame implements ActionListener
     public NewWindow2()
     {
         frame = new JFrame();
-        frame.setTitle("Add Animal");
+        frame.setTitle("Move Animal");
         frame.setSize(new Dimension(600, 100));
         frame.setLayout(new GridLayout(2, 6));
-        //this.pack();
         frame.setVisible(true);
         allAnimal = new JLabel("Animal");
         select_X = new JLabel("Coordinate X");
@@ -127,19 +126,29 @@ public class NewWindow2 extends JFrame implements ActionListener
 
         if (e.getSource() == cSelect_X)
         {
+            if(ZooPanel.data.get(counter).gettX() != cSelect_X.getSelectedIndex())
+                ZooPanel.data.get(counter).setChanges(true);
             ZooPanel.data.get(counter).settX(cSelect_X.getSelectedIndex());
+
+
+
+
         }
 
         if(e.getSource() == cSelect_Y)
         {
+            if(ZooPanel.data.get(counter).gettY() != cSelect_Y.getSelectedIndex())
+                ZooPanel.data.get(counter).setChanges(true);
             ZooPanel.data.get(counter).settY(cSelect_Y.getSelectedIndex());
+
+
+
         }
 
         if(e.getSource() == bConfirmation)
         {
             JOptionPane.showMessageDialog(null, "Coordinate Changed", "Coordinate", JOptionPane.INFORMATION_MESSAGE);
             frame.dispose();
-            System.out.println(ZooPanel.data.get(counter).getLocation());
         }
     }
 }

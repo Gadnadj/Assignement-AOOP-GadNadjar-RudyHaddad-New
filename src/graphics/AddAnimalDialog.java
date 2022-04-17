@@ -325,8 +325,6 @@ public class AddAnimalDialog<counter> extends JDialog implements ActionListener
                 vSpeed = 1;
             if(color == null)
                 color = "NATURAL";
-            if(size == 0)
-                size = 1;
             addAnimal();
             counter++;
             dispose();

@@ -85,6 +85,7 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
     /**
      * Object array
      */
+
     protected static Object[][] dataTable = new Object[10][6];
     /**
      * type of food
@@ -134,7 +135,6 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
 
         panelControler.setBackground(Color.PINK);
         this.setLayout(new BorderLayout());
-
         this.add(panelControler, BorderLayout.PAGE_END);
         manageZoo();
 
@@ -192,20 +192,24 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
         if (e.getSource() == addAnimal)
         {
             if (AddAnimalDialog.animalcounter < 10) {
-                a = new AddAnimalDialog(this);
+                new AddAnimalDialog(this);
                 manageZoo();
             } else
                 JOptionPane.showMessageDialog(null, "There is no more places in the zoo", "Can't add animal", JOptionPane.ERROR_MESSAGE);
         }
 
         if (e.getSource() == moveAnimal) {
-            //for (int i = 0; i < ZooPanel.data.size(); i++)
-                //ZooPanel.data.get(i).setChanges(false);
+//            for (int i = 0; i < ZooPanel.data.size(); i++)
+//                ZooPanel.data.get(i).setChanges(false);
             if (ZooPanel.data.size() == 0)
                 JOptionPane.showMessageDialog(null, "There's no animals", "Error", JOptionPane.ERROR_MESSAGE);
             else
-                window2 = new NewWindow2();
-            manageZoo();
+            {
+                window2 = new NewWindow2(this);
+//                manageZoo();
+            }
+
+
         }
 
         if (e.getSource() == clear) {
@@ -232,6 +236,8 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
                     null,
                     responses,
                     0);
+            System.out.println(foods);
+
             if(foods == 0)
             {
                 this.plant = new Lettuce(this);
@@ -249,7 +255,6 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
             }
 
             repaint();
-            manageZoo();
         }
 
         if (e.getSource() == info) {
@@ -267,61 +272,71 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
         //data[AddAnimalDialog.counter][0] = animals;
     }
 
-    public boolean isChange() {
-        if (data.size() != 0)
-        {
-            if (ZooPanel.data.get(AddAnimalDialog.animalcounter - 1).getChanges())
+    public boolean isChange(){
+        for (Animal animal : ZooPanel.data)
+            if(animal.getChanges())
+            {
+                animal.setChanges(false);
                 return true;
-            else
-                return false;
-        }
+            }
         return false;
     }
 
     public void manageZoo()
     {
         int counter2 = 0;
-            if (isChange())
-                repaint();
+        if (isChange())
+            repaint();
 
-            for(Animal animal : ZooPanel.data)
+        for(Animal animal : ZooPanel.data)
+        {
+            //System.out.println(animal.calcDistance(plant.getLocation()));
+            if (plant != null)
             {
-                //System.out.println(animal.calcDistance(plant.getLocation()));
-                if (plant != null)
+                if (animal.calcDistance(plant.getLocation()) <= animal.getEatDistance() && (animal.getDiet().canEat(plant.getFoodtype())))
                 {
-                    if (animal.calcDistance(plant.getLocation()) <= animal.getEatDistance() && (animal.getDiet().canEat(plant.getFoodtype())))
-                    {
-                        animal.eat(plant);
-                        animal.setEatCount();
-                        plant = null;
-                        ZooPanel.dataTable[counter2][5] = animal.getEatCount();
-                        ZooPanel.dataTable[counter2][2] = animal.getWeight();
-                    }
+                    animal.eat(plant);
+                    animal.setEatCount();
+                    plant = null;
+                    ZooPanel.dataTable[counter2][5] = animal.getEatCount();
+                    ZooPanel.dataTable[counter2][2] = animal.getWeight();
                 }
-                counter2++;
             }
-            for(int i = 0 ; i < ZooPanel.data.size() ; i++)
+            counter2++;
+        }
+        for(int i = 0 ; i < ZooPanel.data.size() ; i++)
+        {
+            for(int j = 0 ; j < ZooPanel.data.size() ; j++)
             {
-                for(int j = 0 ; j < ZooPanel.data.size() ; j++)
+                if(ZooPanel.data.get(i).equals(ZooPanel.data.get(j)))
+                    continue;
+                else
                 {
-                    if(ZooPanel.data.get(i).equals(ZooPanel.data.get(j)))
-                        continue;
-                    else
+                    if(ZooPanel.data.get(i).getDiet().canEat(ZooPanel.data.get(j).getFoodtype()) && ZooPanel.data.get(i).getWeight()
+                            > ZooPanel.data.get(j).getWeight() * 2 && ZooPanel.data.get(i).calcDistance(ZooPanel.data.get(j).getLocation()) < ZooPanel.data.get(j).getSize())
                     {
-                        if(ZooPanel.data.get(i).getDiet().canEat(ZooPanel.data.get(j).getFoodtype()) && ZooPanel.data.get(i).getWeight()
-                        > ZooPanel.data.get(j).getWeight() * 2 && ZooPanel.data.get(i).calcDistance(ZooPanel.data.get(j).getLocation()) < ZooPanel.data.get(j).getSize())
+                        ZooPanel.data.get(i).eat(ZooPanel.data.get(j));
+                        ZooPanel.data.remove(j);
+                        AddAnimalDialog.animalcounter =- 1;
+                        repaint();
+                        for(int k = 0 ; k < ZooPanel.data.size() ; k++)
                         {
-                            ZooPanel.data.get(i).eat(ZooPanel.data.get(j));
-                            ZooPanel.data.remove(j);
-                            AddAnimalDialog.animalcounter =- 1;
-                            repaint();
-                            return;
+                            ZooPanel.dataTable[k][0] = ZooPanel.data.get(k).getClass().getSimpleName();
+                            ZooPanel.dataTable[k][1] = ZooPanel.data.get(k).getColor();
+                            ZooPanel.dataTable[k][2] = ZooPanel.data.get(k).getWeight();
+                            ZooPanel.dataTable[k][3] = ZooPanel.data.get(k).getHorSpeed();
+                            ZooPanel.dataTable[k][4] = ZooPanel.data.get(k).getVerSpeed();
+                            ZooPanel.dataTable[k][5] = ZooPanel.data.get(k).getEatCount();
                         }
+
+                        return;
                     }
                 }
             }
+        }
 
     }
+
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

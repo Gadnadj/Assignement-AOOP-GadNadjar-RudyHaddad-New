@@ -8,12 +8,12 @@ import java.awt.event.ActionListener;
 import java.lang.reflect.Field;
 
 /**
- * 
+ *
  * @param <counter> : number of animals
  */
 public class AddAnimalDialog<counter> extends JDialog implements ActionListener
 {
-    
+
     /**
      * type of the animal
      */
@@ -23,7 +23,7 @@ public class AddAnimalDialog<counter> extends JDialog implements ActionListener
      * size of the animal
      */
     private int size = 0;
-    
+
     /**
      * horizontal speed
      */
@@ -83,8 +83,8 @@ public class AddAnimalDialog<counter> extends JDialog implements ActionListener
 
 
     private double distance;
-    
-    
+
+
     /**
      * confirmation button
      */
@@ -271,7 +271,7 @@ public class AddAnimalDialog<counter> extends JDialog implements ActionListener
             }
         }
 
-    return null;
+        return null;
     }
 
     /**

@@ -73,10 +73,12 @@ public class NewWindow2 extends JFrame implements ActionListener
 
     private Plant plant = null;
 
+    private ZooPanel ZooPan;
 
 
 
-    public NewWindow2()
+
+    public NewWindow2(ZooPanel pan)
     {
         frame = new JFrame();
         frame.setTitle("Move Animal");
@@ -87,6 +89,8 @@ public class NewWindow2 extends JFrame implements ActionListener
         select_X = new JLabel("Coordinate X");
         select_Y = new JLabel("Coordinate y");
         Confirmation = new JLabel("Confirmation");
+
+        this.ZooPan = pan;
 
         cSelect_X = new JComboBox();
         cSelect_Y = new JComboBox();
@@ -107,7 +111,7 @@ public class NewWindow2 extends JFrame implements ActionListener
         for (int i = 0; i <= 800; i++) {
             cSelect_X.addItem(i);
         }
-        for (int i = 0 ; i <= 800; i++) {
+        for (int i = 0 ; i <= 600; i++) {
             cSelect_Y.addItem(i);
         }
         for(int i = 0 ; i < ZooPanel.data.size(); i++)
@@ -159,6 +163,7 @@ public class NewWindow2 extends JFrame implements ActionListener
         {
             JOptionPane.showMessageDialog(null, "Coordinate Changed", "Coordinate", JOptionPane.INFORMATION_MESSAGE);
             frame.dispose();
+            ZooPan.manageZoo();
             System.out.println(ZooPanel.data.get(counter).getLocation());
         }
     }

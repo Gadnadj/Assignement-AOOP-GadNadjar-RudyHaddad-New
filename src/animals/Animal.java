@@ -39,7 +39,7 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
     private String col;
     private int horSpeed;
     private int verSpeed;
-    private boolean coordChanged = false;
+    private boolean coordChanged = true;
 
     private Thread thread;
     private int x_dir = 1;

@@ -5,6 +5,7 @@ package animals;
 import diet.Carnivore;
 import food.EFoodType;
 import food.IEdible;
+import graphics.ZooPanel;
 import mobility.Point;
 
 import java.awt.*;
@@ -51,9 +52,9 @@ public class Lion extends Roar{
      * @param verSpeed : vertical speed of the animal
      * @param color : color of the animal
      */
-    public Lion(int size, int horSpeed, int verSpeed, String color)
+    public Lion(int size, int horSpeed, int verSpeed, String color, ZooPanel pan)
     {
-        super(location, size, horSpeed, verSpeed, color);
+        super(location, size, horSpeed, verSpeed, color, pan);
         this.scarCount = 0;
         this.setWeight(408.2);
         this.setDiet(diet);
@@ -147,6 +148,12 @@ public class Lion extends Roar{
         }
     }
 
+    public void drawObject(Graphics g) {
+        if (this.getX_dir() == 1) // giraffe goes to the right side
+            g.drawImage(this.getImg1(), this.getLocation().getX() - this.getSize() / 2, this.getLocation().getY() - this.getSize() / 10, this.getSize() / 2, this.getSize(), this.getPan());
+        else // giraffe goes to the left side
+            g.drawImage(this.getImg2(), this.getLocation().getX(), this.getLocation().getY() - this.getSize() / 10, this.getSize() / 2, this.getSize(), this.getPan());
+    }
 
 
 

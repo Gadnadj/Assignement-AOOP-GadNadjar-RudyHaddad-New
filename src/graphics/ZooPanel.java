@@ -3,6 +3,9 @@ package graphics;
 
 
 import animals.Animal;
+import plants.Cabbage;
+import plants.Lettuce;
+import plants.Plant;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -62,6 +65,8 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
      */
     JButton info;
 
+    private Plant plant = null;
+
     /**
      * button exit
      */
@@ -70,8 +75,6 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
     /**
      *
      */
-
-
 
 
     /**
@@ -88,31 +91,88 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
      */
     private int foods;
 
+
+    private JPanel panelControler;
+
     /**
      * constructor
      */
     private static int counter = 0;
 
-    public ZooPanel() {
-        this.setBackground(Color.PINK);
+    private ZooFrame frame2;
+
+    public ZooPanel()
+    {
+
+        panelControler = new JPanel(new FlowLayout());
+
+
         addAnimal = new JButton("Add Animal");
-        addAnimal.addActionListener(this);
         moveAnimal = new JButton("Move Animal");
-        moveAnimal.addActionListener(this);
         clear = new JButton("Clear");
-        clear.addActionListener(this);
         food = new JButton("Food");
-        food.addActionListener(this);
         info = new JButton("Info");
-        info.addActionListener(this);
         exit = new JButton("exit");
+
+
+
+        addAnimal.addActionListener(this);
+        moveAnimal.addActionListener(this);
+        clear.addActionListener(this);
+        food.addActionListener(this);
+        info.addActionListener(this);
         exit.addActionListener(this);
-        this.add(addAnimal);
-        this.add(moveAnimal);
-        this.add(clear);
-        this.add(food);
-        this.add(info);
-        this.add(exit);
+
+
+        panelControler.add(addAnimal);
+        panelControler.add(moveAnimal);
+        panelControler.add(clear);
+        panelControler.add(food);
+        panelControler.add(info);
+        panelControler.add(exit);
+
+
+        panelControler.setBackground(Color.PINK);
+        this.setLayout(new BorderLayout());
+        this.add(panelControler, BorderLayout.PAGE_END);
+        manageZoo();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//        this.setSize(800, 600);
+//        this.setBackground(Color.PINK);
+//
+//
+//        addAnimal = new JButton("Add Animal");
+//        addAnimal.addActionListener(this);
+//        moveAnimal = new JButton("Move Animal");
+//        moveAnimal.addActionListener(this);
+//        clear = new JButton("Clear");
+//        clear.addActionListener(this);
+//        food = new JButton("Food");
+//        food.addActionListener(this);
+//        info = new JButton("Info");
+//        info.addActionListener(this);
+//        exit = new JButton("exit");
+//        exit.addActionListener(this);
+//        this.add(addAnimal);
+//        this.add(moveAnimal);
+//        this.add(clear);
+//        this.add(food);
+//        this.add(info);
+//        this.add(exit);
+
 
 
     }
@@ -124,20 +184,21 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
     }
 
     /**
-     *
      * @param e : e
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == addAnimal) {
-            if (AddAnimalDialog.counter < 10)
-                a = new AddAnimalDialog();
-            else
+        if (e.getSource() == addAnimal)
+        {
+            if (AddAnimalDialog.counter < 10) {
+                a = new AddAnimalDialog(this);
+                manageZoo();
+            } else
                 JOptionPane.showMessageDialog(null, "There is no more places in the zoo", "Can't add animal", JOptionPane.ERROR_MESSAGE);
         }
 
         if (e.getSource() == moveAnimal) {
-            for(int i = 0 ; i < ZooPanel.data.size() ; i++)
+            for (int i = 0; i < ZooPanel.data.size(); i++)
                 ZooPanel.data.get(i).setChanges(false);
             if (ZooPanel.data.size() == 0)
                 JOptionPane.showMessageDialog(null, "There's no animals", "Error", JOptionPane.ERROR_MESSAGE);
@@ -145,14 +206,10 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
                 window2 = new NewWindow2();
         }
 
-        if (e.getSource() == clear)
-        {
-            if (this.data.size() == 0)
-            {
+        if (e.getSource() == clear) {
+            if (this.data.size() == 0) {
                 JOptionPane.showMessageDialog(null, "There's no animals", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            else
-            {
+            } else {
                 ZooPanel.data.clear();
 //                for (int i = 0; i < data.size(); i++)
 //                    this.data = new ArrayList<Animal>();
@@ -164,8 +221,7 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
 
         }
 
-        if (e.getSource() == food)
-        {
+        if (e.getSource() == food) {
             String[] responses = {"Lettuce", "Cabbage", "Meat"};
             foods = JOptionPane.showOptionDialog(null,
                     "Please choose food",
@@ -174,30 +230,46 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
                     null,
                     responses,
                     0);
-            System.out.println(responses[foods]);
-        }
+            System.out.println(foods);
 
-            if (e.getSource() == info) {
-
-                String[] column = {"Animal", "Color", "Weight", "Horizontal speed", "Vertical speed", "Eat Counter"};
-                tableAnimal = new JTable(dataTable, column);
-                NewWindow window = new NewWindow(tableAnimal);
-            }
-
-            if (e.getSource() == exit)
+            if(foods == 0)
             {
-                System.out.println("Bye, have a great day !");
-                System.exit(1);
+                this.plant = new Lettuce(this);
+                this.plant.loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/lettuce.png");
             }
-            //String[]animals = {a.getName1(), a.getColors(), "a.gethSpeed1()", "a.gethSpeed1()", "AddAnimalDialog.counter"};
-            //data[AddAnimalDialog.counter][0] = animals;
+            if(foods == 1)
+            {
+                this.plant = new Cabbage(this);
+                this.plant.loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/cabbage.png");
+            }
+
+            if(foods == 2)
+            {
+
+            }
+
+            repaint();
         }
 
-    public boolean isChange()
-    {
-        if(data.size() != 0)
+        if (e.getSource() == info) {
+
+            String[] column = {"Animal", "Color", "Weight", "Horizontal speed", "Vertical speed", "Eat Counter"};
+            tableAnimal = new JTable(dataTable, column);
+            NewWindow window = new NewWindow(tableAnimal);
+        }
+
+        if (e.getSource() == exit) {
+            System.out.println("Bye, have a great day !");
+            System.exit(1);
+        }
+        //String[]animals = {a.getName1(), a.getColors(), "a.gethSpeed1()", "a.gethSpeed1()", "AddAnimalDialog.counter"};
+        //data[AddAnimalDialog.counter][0] = animals;
+    }
+
+    public boolean isChange() {
+        if (data.size() != 0)
         {
-            if (ZooPanel.data.get(counter).getChanges() && counter < ZooPanel.data.size())
+            if (ZooPanel.data.get(AddAnimalDialog.counter - 1).getChanges() && AddAnimalDialog.counter < ZooPanel.data.size())
                 return true;
             else
                 return false;
@@ -207,28 +279,21 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
 
     public void manageZoo()
     {
-        while(true)
-        {
-            if (isChange())
-            {
-                repaint();
-                counter++;
-            }
-            if(counter == data.size())
-                break;
-            counter++;
-        }
-        counter = 0;
+//            if (isChange())
+//        repaint();
     }
 
-    public void paintComponent(Graphics g)
-    {
-        super.paintComponent(g) ;
-        if(data.size() != 0)
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if (data.size() != 0)
         {
-            if (ZooPanel.data.get(counter).getImg1() != null)
-                g.drawImage(ZooPanel.data.get(counter).getImg1(), 0, 0, getWidth(), getHeight(), this);
+            for(int i = 0 ; i < data.size() ; i++)
+            {
+                ZooPanel.data.get(i).drawObject(g);
+            }
         }
+        if(plant!= null)
+            plant.drawObject(g);
     }
 }
 

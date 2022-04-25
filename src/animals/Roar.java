@@ -11,6 +11,7 @@ package animals;
  * @author rudy Haddad
  */
 
+import graphics.ZooPanel;
 import mobility.Point;
 import utilities.MessageUtility;
 
@@ -47,7 +48,7 @@ public abstract class Roar extends Animal
      * @param verSpeed : vertical speed of the animal
      * @param color : color of the animal
      */
-    public Roar(Point location, int size, int horSpeed, int verSpeed, String color){super(location, size, horSpeed, verSpeed, color);}
+    public Roar(Point location, int size, int horSpeed, int verSpeed, String color, ZooPanel pan){super(location, size, horSpeed, verSpeed, color, pan);}
 
     public void makeSound()
     {
@@ -55,6 +56,13 @@ public abstract class Roar extends Animal
             MessageUtility.logSound(getName(), "Roars, then stretches and shakes its mane");
         if(this instanceof Bear)
             MessageUtility.logSound(getName(),"Stands on its hind legs, roars and scratches its belly");
+    }
+
+    public void drawObject(Graphics g) {
+        if (this.getX_dir() == 1) // giraffe goes to the right side
+            g.drawImage(this.getImg1(), this.getLocation().getX() - this.getSize() / 2, this.getLocation().getY() - this.getSize() / 10, this.getSize() / 2, this.getSize(), this.getPan());
+        else // giraffe goes to the left side
+            g.drawImage(this.getImg2(), this.getLocation().getX(), this.getLocation().getY() - this.getSize() / 10, this.getSize() / 2, this.getSize(), this.getPan());
     }
 
 }

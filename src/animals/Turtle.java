@@ -6,6 +6,7 @@ import diet.IDiet;
 import diet.Omnivore;
 import food.EFoodType;
 import food.IEdible;
+import graphics.ZooPanel;
 import mobility.Point;
 import utilities.MessageUtility;
 import diet.Herbivore;
@@ -20,18 +21,16 @@ import java.awt.*;
  * @see animals.Animal
  *
  **/
-public class Turtle extends Chew
-{
+public class Turtle extends Chew {
     private int age;
-    private static Point location = new Point(80,0);
+    private static Point location = new Point(80, 0);
     private final static IDiet diet = new Herbivore();
 
 
     /**
-     *  @param name : name of the animal
+     * @param name : name of the animal
      */
-    public Turtle(String name)
-    {
+    public Turtle(String name) {
         super(name, location);
         this.setName(name);
         MessageUtility.logConstractor("Turtle", name);
@@ -41,15 +40,13 @@ public class Turtle extends Chew
     }
 
     /**
-     *
-     * @param size : size of the animal
+     * @param size     : size of the animal
      * @param horSpeed : horizontal speed of the animal
      * @param verSpeed : vertical speed of the animal
-     * @param color : color of the animal
+     * @param color    : color of the animal
      */
-    public Turtle(int size, int horSpeed, int verSpeed, String color)
-    {
-        super(location, size, horSpeed, verSpeed, color);
+    public Turtle(int size, int horSpeed, int verSpeed, String color, ZooPanel pan) {
+        super(location, size, horSpeed, verSpeed, color, pan);
         this.setWeight(1);
         setAge(1);
         this.setDiet(diet);
@@ -57,24 +54,20 @@ public class Turtle extends Chew
 
 
     /**
-     *  @param name : name of the animal
-     *  @param age : age of the turtle
+     * @param name : name of the animal
+     * @param age  : age of the turtle
      */
-    public Turtle(String name, int age)
-    {
+    public Turtle(String name, int age) {
         super(name, location);
         MessageUtility.logSetter(this.getName(), "setName", name, true);
         MessageUtility.logConstractor("Turtle", name);
         this.setWeight(1);
-        if(age < 0 || age > 500)
-        {
+        if (age < 0 || age > 500) {
             MessageUtility.logSetter(this.getName(), "setAge", age, false);
             this.age = 1;
             MessageUtility.logSetter(this.getName(), "setAge", this.age, true);
 
-        }
-        else
-        {
+        } else {
             this.age = age;
             MessageUtility.logSetter(this.getName(), "setAge", age, true);
         }
@@ -82,53 +75,42 @@ public class Turtle extends Chew
     }
 
     /**
-     *
      * @param x : coordinate x
      * @return boolean
      */
-    public boolean settX(int x)
-    {
+    public boolean settX(int x) {
         this.location.setX(x);
         return true;
     }
 
     /**
-     *
      * @param y : coordinate y
      * @return boolean
      */
-    public boolean settY(int y)
-    {
+    public boolean settY(int y) {
         this.location.setY(y);
         return true;
     }
 
 
     /**
-     *
      * @return String :
      */
-    public String toString()
-    {
+    public String toString() {
         return "[!]" + this.getName() + " : " + "total distance :" + "[" + this.gettotalDistance() + "]" + ", weight : " + "[" + this.getWeight() + "]";
     }
 
 
     /**
-     *  @param age : age of the aninal
-     *
+     * @param age : age of the aninal
      * @return boolean : true if the placement worked
      */
-    public boolean setAge(int age)
-    {
-        if(age < 0 || age > 500)
-        {
+    public boolean setAge(int age) {
+        if (age < 0 || age > 500) {
             this.age = 1;
             MessageUtility.logSetter(this.getName(), "setAge", age, false);
             return false;
-        }
-        else
-        {
+        } else {
             this.age = age;
             MessageUtility.logSetter(this.getName(), "setAge", age, true);
             return true;
@@ -136,22 +118,18 @@ public class Turtle extends Chew
     }
 
 
-
     /**
      *
      */
-    public void chew()
-    {
+    public void chew() {
         System.out.println("Retracts its head in then eats quietly");
     }
 
     /**
-     *
      * @return EFoodType : return the type of food of the animal
      */
     @Override
-    public EFoodType getFoodtype()
-    {
+    public EFoodType getFoodtype() {
         MessageUtility.logGetter(this.getName(), "getFoodType", EFoodType.MEAT);
 
         return EFoodType.MEAT;
@@ -160,7 +138,6 @@ public class Turtle extends Chew
 
     /**
      * @param obj : edibility of animal
-     *
      * @return boolean : true if the object is edible
      */
     @Override
@@ -176,5 +153,12 @@ public class Turtle extends Chew
                 return true;
             }
         }
+    }
+
+    public void drawObject(Graphics g) {
+        if (this.getX_dir() == 1) // giraffe goes to the right side
+            g.drawImage(this.getImg1(), this.getLocation().getX() - this.getSize() / 2, this.getLocation().getY() - this.getSize() / 10, this.getSize() / 2, this.getSize(), this.getPan());
+        else // giraffe goes to the left side
+            g.drawImage(this.getImg2(), this.getLocation().getX(), this.getLocation().getY() - this.getSize() / 10, this.getSize() / 2, this.getSize(), this.getPan());
     }
 }

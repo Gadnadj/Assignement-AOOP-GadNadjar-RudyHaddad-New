@@ -6,6 +6,7 @@ import diet.IDiet;
 import diet.Omnivore;
 import food.EFoodType;
 import food.IEdible;
+import graphics.ZooPanel;
 import mobility.Point;
 import diet.Herbivore;
 import utilities.MessageUtility;
@@ -55,9 +56,9 @@ public class Elephant extends Chew
      * @param verSpeed : vertical speed of the animal
      * @param color : color of the animal
      */
-    public Elephant(int size, int horSpeed, int verSpeed, String color)
+    public Elephant(int size, int horSpeed, int verSpeed, String color, ZooPanel pan)
     {
-        super(location, size, horSpeed, verSpeed, color);
+        super(location, size, horSpeed, verSpeed, color, pan);
         this.setWeight(500);
         settrunkLength(1);
         this.setDiet(diet);
@@ -192,5 +193,12 @@ public class Elephant extends Chew
                 return true;
             }
         }
+    }
+
+    public void drawObject(Graphics g) {
+        if (this.getX_dir() == 1) // giraffe goes to the right side
+            g.drawImage(this.getImg1(), this.getLocation().getX() - this.getSize() / 2, this.getLocation().getY() - this.getSize() / 10, this.getSize() / 2, this.getSize(), this.getPan());
+        else // giraffe goes to the left side
+            g.drawImage(this.getImg2(), this.getLocation().getX(), this.getLocation().getY() - this.getSize() / 10, this.getSize() / 2, this.getSize(), this.getPan());
     }
 }

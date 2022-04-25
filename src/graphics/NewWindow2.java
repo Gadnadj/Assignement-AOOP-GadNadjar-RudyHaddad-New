@@ -1,10 +1,13 @@
 package graphics;
 
 
+import plants.Plant;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 
 /**
  * This class is a child class of JFrame and implements the ActionListener interface. It creates a new frame,
@@ -67,6 +70,12 @@ public class NewWindow2 extends JFrame implements ActionListener
     /**
      * constructor
      */
+
+    private Plant plant = null;
+
+
+
+
     public NewWindow2()
     {
         frame = new JFrame();

@@ -11,8 +11,12 @@ import diet.IDiet;
 import mobility.Point;
 import food.EFoodType;
 import utilities.MessageUtility;
+
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * the usefulness of this class is to create instances of animals that will belong to the zoo,
@@ -36,12 +40,15 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
     private int horSpeed;
     private int verSpeed;
     private boolean coordChanged = false;
+
     private Thread thread;
-    private int x_dir;
-    private int y_dir;
+    private int x_dir = 1;
+    private int y_dir = -1;
     private int EatCount;
     private ZooPanel pan;
-    private BufferedImage img1, img2;
+    private BufferedImage img1 = null;
+
+    private BufferedImage img2 = null;
 
 
     /**
@@ -62,12 +69,13 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
      * @param verSpeed : vertical speed of the animal
      * @param color : color of the animal
      */
-    public Animal(Point location, int size, int horSpeed, int verSpeed, String color) {
+    public Animal(Point location, int size, int horSpeed, int verSpeed, String color, ZooPanel pan) {
         super(location);
         this.size = size;
         this.horSpeed = horSpeed;
         this.verSpeed = verSpeed;
         this.col = color;
+        this.pan = pan;
     }
 
     /**
@@ -159,6 +167,13 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
     public double getWeight() {
         MessageUtility.logGetter(this.getName(), "getWeight", this.weight);
         return this.weight;
+    }
+
+
+    public boolean setPan(ZooPanel pan)
+    {
+        this.pan = pan;
+        return true;
     }
 
 
@@ -261,7 +276,7 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
      */
     public ZooPanel getPan()
     {
-        return this.getPan();
+        return this.pan;
     }
 
 
@@ -292,7 +307,14 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
     @Override
     public void loadImages(String nm)
     {
-
+        try
+        {
+            this.img1 = ImageIO.read(new File(nm));
+        }
+        catch (IOException e)
+        {
+            System.out.println("Cannot load image");
+        }
     }
 
     /**
@@ -300,11 +322,7 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
      * @param g : g
      */
     @Override
-    public void drawObject(Graphics g)
-    {
-
-
-    }
+    public abstract void drawObject(Graphics g);
 
     /**
      *
@@ -356,6 +374,26 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
         return EatCount;
     }
 
+    public boolean setX_dir(int x_dir)
+    {
+        this.x_dir = x_dir;
+        return true;
+    }
 
+    public int getX_dir()
+    {
+        return this.x_dir;
+    }
+
+    public boolean setY_dir(int y_dir)
+    {
+        this.y_dir = y_dir;
+        return true;
+    }
+
+    public int getY_dir()
+    {
+        return this.y_dir;
+    }
 
 }

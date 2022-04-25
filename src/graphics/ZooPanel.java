@@ -97,7 +97,7 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
     /**
      * constructor
      */
-    private static int counter = 0;
+    //private static int counter = 0;
 
     private ZooFrame frame2;
 
@@ -191,7 +191,7 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == addAnimal)
         {
-            if (AddAnimalDialog.counter < 10) {
+            if (AddAnimalDialog.animalcounter < 10) {
                 a = new AddAnimalDialog(this);
                 manageZoo();
             } else
@@ -199,8 +199,8 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
         }
 
         if (e.getSource() == moveAnimal) {
-            for (int i = 0; i < ZooPanel.data.size(); i++)
-                ZooPanel.data.get(i).setChanges(false);
+            //for (int i = 0; i < ZooPanel.data.size(); i++)
+                //ZooPanel.data.get(i).setChanges(false);
             if (ZooPanel.data.size() == 0)
                 JOptionPane.showMessageDialog(null, "There's no animals", "Error", JOptionPane.ERROR_MESSAGE);
             else
@@ -217,7 +217,7 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
 //                    this.data = new ArrayList<Animal>();
                 for (int i = 0; i < dataTable.length; i++)
                     dataTable = new Object[10][6];
-                AddAnimalDialog.counter = 0;
+                AddAnimalDialog.animalcounter = 0;
                 JOptionPane.showMessageDialog(null, "All animals deleted", "Information", JOptionPane.INFORMATION_MESSAGE);
             }
 
@@ -270,7 +270,7 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
     public boolean isChange() {
         if (data.size() != 0)
         {
-            if (ZooPanel.data.get(AddAnimalDialog.counter - 1).getChanges() && AddAnimalDialog.counter < ZooPanel.data.size())
+            if (ZooPanel.data.get(AddAnimalDialog.animalcounter - 1).getChanges())
                 return true;
             else
                 return false;
@@ -286,7 +286,7 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
 
             for(Animal animal : ZooPanel.data)
             {
-                System.out.println(animal.calcDistance(plant.getLocation()));
+                //System.out.println(animal.calcDistance(plant.getLocation()));
                 if (plant != null)
                 {
                     if (animal.calcDistance(plant.getLocation()) <= animal.getEatDistance() && (animal.getDiet().canEat(plant.getFoodtype())))
@@ -299,6 +299,26 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
                     }
                 }
                 counter2++;
+            }
+            for(int i = 0 ; i < ZooPanel.data.size() ; i++)
+            {
+                for(int j = 0 ; j < ZooPanel.data.size() ; j++)
+                {
+                    if(ZooPanel.data.get(i).equals(ZooPanel.data.get(j)))
+                        continue;
+                    else
+                    {
+                        if(ZooPanel.data.get(i).getDiet().canEat(ZooPanel.data.get(j).getFoodtype()) && ZooPanel.data.get(i).getWeight()
+                        > ZooPanel.data.get(j).getWeight() * 2 && ZooPanel.data.get(i).calcDistance(ZooPanel.data.get(j).getLocation()) < ZooPanel.data.get(j).getSize())
+                        {
+                            ZooPanel.data.get(i).eat(ZooPanel.data.get(j));
+                            ZooPanel.data.remove(j);
+                            AddAnimalDialog.animalcounter =- 1;
+                            repaint();
+                            return;
+                        }
+                    }
+                }
             }
 
     }

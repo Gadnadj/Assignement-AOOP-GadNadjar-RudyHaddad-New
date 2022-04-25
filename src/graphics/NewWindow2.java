@@ -107,7 +107,7 @@ public class NewWindow2 extends JFrame implements ActionListener
         for (int i = 0; i <= 800; i++) {
             cSelect_X.addItem(i);
         }
-        for (int i = 0 ; i <= 600; i++) {
+        for (int i = 0 ; i <= 800; i++) {
             cSelect_Y.addItem(i);
         }
         for(int i = 0 ; i < ZooPanel.data.size(); i++)
@@ -115,6 +115,7 @@ public class NewWindow2 extends JFrame implements ActionListener
             cAllAnimal.addItem(ZooPanel.data.get(i).getClass().getSimpleName());
         }
 
+        cAllAnimal.addActionListener(this);
         cSelect_X.addActionListener(this);
         cSelect_Y.addActionListener(this);
         bConfirmation.addActionListener(this);

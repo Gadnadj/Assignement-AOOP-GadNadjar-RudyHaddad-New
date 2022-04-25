@@ -42,7 +42,7 @@ public class AddAnimalDialog<counter> extends JDialog implements ActionListener
     /**
      * number of animals
      */
-    public static int counter = 0;
+    public static int animalcounter = 0;
 
     ZooPanel newPan;
 
@@ -170,43 +170,43 @@ public class AddAnimalDialog<counter> extends JDialog implements ActionListener
     public Animal addAnimal()
     {
         Animal animal = null;
-        if (counter < 10) {
+        if (animalcounter < 10) {
             if (name.equals("Lion"))
             {
                 Lion lion = new Lion(size, hSpeed, vSpeed, color, newPan);
                 lion.setWeight(size * 0.8);
-                ZooPanel.data.add(counter, lion);
-                ZooPanel.dataTable[counter][0] = name;
-                ZooPanel.dataTable[counter][1] = color;
-                ZooPanel.dataTable[counter][2] = lion.getWeight();
-                ZooPanel.dataTable[counter][3] = hSpeed;
-                ZooPanel.dataTable[counter][4] = vSpeed;
-                ZooPanel.dataTable[counter][5] = lion.getEatCount();
+                ZooPanel.data.add(animalcounter, lion);
+                ZooPanel.dataTable[animalcounter][0] = name;
+                ZooPanel.dataTable[animalcounter][1] = color;
+                ZooPanel.dataTable[animalcounter][2] = lion.getWeight();
+                ZooPanel.dataTable[animalcounter][3] = hSpeed;
+                ZooPanel.dataTable[animalcounter][4] = vSpeed;
+                ZooPanel.dataTable[animalcounter][5] = lion.getEatCount();
                 if(color.equals("NATURAL"))
-                    ZooPanel.data.get(counter).loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/lio_n_1.png");
+                    ZooPanel.data.get(animalcounter).loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/lio_n_1.png");
                 if(color.equals("BLUE"))
-                    ZooPanel.data.get(counter).loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/lio_b_1.png");
+                    ZooPanel.data.get(animalcounter).loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/lio_b_1.png");
                 if(color.equals("RED"))
-                    ZooPanel.data.get(counter).loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/lio_r_1.png");
+                    ZooPanel.data.get(animalcounter).loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/lio_r_1.png");
             }
 
             if (name.equals("Bear"))
             {
                 Bear bear = new Bear(size, hSpeed, vSpeed, color, newPan);
                 bear.setWeight(size * 1.5);
-                ZooPanel.data.add(counter, bear);
-                ZooPanel.dataTable[counter][0] = name;
-                ZooPanel.dataTable[counter][1] = color;
-                ZooPanel.dataTable[counter][2] = bear.getWeight();
-                ZooPanel.dataTable[counter][3] = hSpeed;
-                ZooPanel.dataTable[counter][4] = vSpeed;
-                ZooPanel.dataTable[counter][5] = bear.getEatCount();
+                ZooPanel.data.add(animalcounter, bear);
+                ZooPanel.dataTable[animalcounter][0] = name;
+                ZooPanel.dataTable[animalcounter][1] = color;
+                ZooPanel.dataTable[animalcounter][2] = bear.getWeight();
+                ZooPanel.dataTable[animalcounter][3] = hSpeed;
+                ZooPanel.dataTable[animalcounter][4] = vSpeed;
+                ZooPanel.dataTable[animalcounter][5] = bear.getEatCount();
                 if(color.equals("NATURAL"))
-                    ZooPanel.data.get(counter).loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/bea_n_1.png");
+                    ZooPanel.data.get(animalcounter).loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/bea_n_1.png");
                 if(color.equals("BLUE"))
-                    ZooPanel.data.get(counter).loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/bea_b_1.png");
+                    ZooPanel.data.get(animalcounter).loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/bea_b_1.png");
                 if(color.equals("RED"))
-                    ZooPanel.data.get(counter).loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/bea_r_1.png");
+                    ZooPanel.data.get(animalcounter).loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/bea_r_1.png");
 
             }
 
@@ -214,19 +214,19 @@ public class AddAnimalDialog<counter> extends JDialog implements ActionListener
             {
                 Elephant elephant = new Elephant(size, hSpeed, vSpeed, color, newPan);
                 elephant.setWeight(size * 10);
-                ZooPanel.data.add(counter, elephant);
-                ZooPanel.dataTable[counter][0] = name;
-                ZooPanel.dataTable[counter][1] = color;
-                ZooPanel.dataTable[counter][2] = elephant.getWeight();
-                ZooPanel.dataTable[counter][3] = hSpeed;
-                ZooPanel.dataTable[counter][4] = vSpeed;
-                ZooPanel.dataTable[counter][5] = elephant.getEatCount();
+                ZooPanel.data.add(animalcounter, elephant);
+                ZooPanel.dataTable[animalcounter][0] = name;
+                ZooPanel.dataTable[animalcounter][1] = color;
+                ZooPanel.dataTable[animalcounter][2] = elephant.getWeight();
+                ZooPanel.dataTable[animalcounter][3] = hSpeed;
+                ZooPanel.dataTable[animalcounter][4] = vSpeed;
+                ZooPanel.dataTable[animalcounter][5] = elephant.getEatCount();
                 if(color.equals("NATURAL"))
-                    ZooPanel.data.get(counter).loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/elf_n_1.png");
+                    ZooPanel.data.get(animalcounter).loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/elf_n_1.png");
                 if(color.equals("BLUE"))
-                    ZooPanel.data.get(counter).loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/elf_b_1.png");
+                    ZooPanel.data.get(animalcounter).loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/elf_b_1.png");
                 if(color.equals("RED"))
-                    ZooPanel.data.get(counter).loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/elf_r_1.png");
+                    ZooPanel.data.get(animalcounter).loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/elf_r_1.png");
 
             }
 
@@ -235,19 +235,19 @@ public class AddAnimalDialog<counter> extends JDialog implements ActionListener
 
                 Giraffe giraffe = new Giraffe(size, hSpeed, vSpeed, color, newPan);
                 giraffe.setWeight(size * 2.2);
-                ZooPanel.data.add(counter, giraffe);
-                ZooPanel.dataTable[counter][0] = name;
-                ZooPanel.dataTable[counter][1] = color;
-                ZooPanel.dataTable[counter][2] = giraffe.getWeight();
-                ZooPanel.dataTable[counter][3] = hSpeed;
-                ZooPanel.dataTable[counter][4] = vSpeed;
-                ZooPanel.dataTable[counter][5] = giraffe.getEatCount();
+                ZooPanel.data.add(animalcounter, giraffe);
+                ZooPanel.dataTable[animalcounter][0] = name;
+                ZooPanel.dataTable[animalcounter][1] = color;
+                ZooPanel.dataTable[animalcounter][2] = giraffe.getWeight();
+                ZooPanel.dataTable[animalcounter][3] = hSpeed;
+                ZooPanel.dataTable[animalcounter][4] = vSpeed;
+                ZooPanel.dataTable[animalcounter][5] = giraffe.getEatCount();
                 if(color.equals("NATURAL"))
-                    ZooPanel.data.get(counter).loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/grf_n_1.png");
+                    ZooPanel.data.get(animalcounter).loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/grf_n_1.png");
                 if(color.equals("BLUE"))
-                    ZooPanel.data.get(counter).loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/grf_b_1.png");
+                    ZooPanel.data.get(animalcounter).loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/grf_b_1.png");
                 if(color.equals("RED"))
-                    ZooPanel.data.get(counter).loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/grf_r_1.png");
+                    ZooPanel.data.get(animalcounter).loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/grf_r_1.png");
 
             }
 
@@ -255,19 +255,19 @@ public class AddAnimalDialog<counter> extends JDialog implements ActionListener
             {
                 Turtle turtle = new Turtle(size, hSpeed, vSpeed, color, newPan);
                 turtle.setWeight(size * 0.5);
-                ZooPanel.data.add(counter, turtle);
-                ZooPanel.dataTable[counter][0] = name;
-                ZooPanel.dataTable[counter][1] = color;
-                ZooPanel.dataTable[counter][2] = turtle.getWeight();
-                ZooPanel.dataTable[counter][3] = hSpeed;
-                ZooPanel.dataTable[counter][4] = vSpeed;
-                ZooPanel.dataTable[counter][5] = turtle.getEatCount();
+                ZooPanel.data.add(animalcounter, turtle);
+                ZooPanel.dataTable[animalcounter][0] = name;
+                ZooPanel.dataTable[animalcounter][1] = color;
+                ZooPanel.dataTable[animalcounter][2] = turtle.getWeight();
+                ZooPanel.dataTable[animalcounter][3] = hSpeed;
+                ZooPanel.dataTable[animalcounter][4] = vSpeed;
+                ZooPanel.dataTable[animalcounter][5] = turtle.getEatCount();
                 if(color.equals("NATURAL"))
-                    ZooPanel.data.get(counter).loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/trt_n_1.png");
+                    ZooPanel.data.get(animalcounter).loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/trt_n_1.png");
                 if(color.equals("BLUE"))
-                    ZooPanel.data.get(counter).loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/trt_b_1.png");
+                    ZooPanel.data.get(animalcounter).loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/trt_b_1.png");
                 if(color.equals("RED"))
-                    ZooPanel.data.get(counter).loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/trt_r_1.png");
+                    ZooPanel.data.get(animalcounter).loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/trt_r_1.png");
             }
         }
 
@@ -361,9 +361,9 @@ public class AddAnimalDialog<counter> extends JDialog implements ActionListener
             if(color == null)
                 color = "NATURAL";
             addAnimal();
-            counter++;
+            animalcounter++;
             dispose();
-            if(counter>0)
+            if(animalcounter>0)
                 JOptionPane.showMessageDialog(null, "Animal Added", "Animal Added", JOptionPane.INFORMATION_MESSAGE);
 
         }

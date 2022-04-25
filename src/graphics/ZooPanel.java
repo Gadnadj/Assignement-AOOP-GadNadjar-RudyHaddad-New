@@ -134,6 +134,7 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
 
         panelControler.setBackground(Color.PINK);
         this.setLayout(new BorderLayout());
+
         this.add(panelControler, BorderLayout.PAGE_END);
         manageZoo();
 
@@ -204,6 +205,7 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
                 JOptionPane.showMessageDialog(null, "There's no animals", "Error", JOptionPane.ERROR_MESSAGE);
             else
                 window2 = new NewWindow2();
+            manageZoo();
         }
 
         if (e.getSource() == clear) {
@@ -230,8 +232,6 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
                     null,
                     responses,
                     0);
-            System.out.println(foods);
-
             if(foods == 0)
             {
                 this.plant = new Lettuce(this);
@@ -249,6 +249,7 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
             }
 
             repaint();
+            manageZoo();
         }
 
         if (e.getSource() == info) {
@@ -279,8 +280,27 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
 
     public void manageZoo()
     {
-//            if (isChange())
-//        repaint();
+        int counter2 = 0;
+            if (isChange())
+                repaint();
+
+            for(Animal animal : ZooPanel.data)
+            {
+                System.out.println(animal.calcDistance(plant.getLocation()));
+                if (plant != null)
+                {
+                    if (animal.calcDistance(plant.getLocation()) <= animal.getEatDistance() && (animal.getDiet().canEat(plant.getFoodtype())))
+                    {
+                        animal.eat(plant);
+                        animal.setEatCount();
+                        plant = null;
+                        ZooPanel.dataTable[counter2][5] = animal.getEatCount();
+                        ZooPanel.dataTable[counter2][2] = animal.getWeight();
+                    }
+                }
+                counter2++;
+            }
+
     }
 
     public void paintComponent(Graphics g) {

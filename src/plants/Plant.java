@@ -35,10 +35,9 @@ public abstract class Plant implements IEdible, ILocatable, IDrawable
      * contructor
      */
             public Plant(ZooPanel pan) {
-                Random rand = new Random();
                 this.height = 25;
                 this.weight = 25;
-                this.location = new Point((int) (pan.getWidth() / 2 - this.height / 2), (int) (pan.getHeight() / 2 - this.weight / 2 - 36));
+                this.location = new Point((int) (pan.getWidth() / 2 - this.height / 2), (int) (pan.getHeight() / 2 - this.weight / 2));
                 MessageUtility.logConstractor("Plant", "Plant");
                 this.col = "Natural";
                 this.pan = pan;

@@ -1,5 +1,6 @@
 package graphics;
 import animals.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -79,6 +80,9 @@ public class AddAnimalDialog<counter> extends JDialog implements ActionListener
      * Combo box color the animal
      */
     JComboBox cselectColor;
+
+
+    private double distance;
     
     
     /**
@@ -357,11 +361,11 @@ public class AddAnimalDialog<counter> extends JDialog implements ActionListener
             if(color == null)
                 color = "NATURAL";
             addAnimal();
-
             counter++;
             dispose();
             if(counter>0)
                 JOptionPane.showMessageDialog(null, "Animal Added", "Animal Added", JOptionPane.INFORMATION_MESSAGE);
+
         }
     }
 }

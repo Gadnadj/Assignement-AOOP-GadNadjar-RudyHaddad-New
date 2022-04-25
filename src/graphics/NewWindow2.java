@@ -158,6 +158,7 @@ public class NewWindow2 extends JFrame implements ActionListener
         {
             JOptionPane.showMessageDialog(null, "Coordinate Changed", "Coordinate", JOptionPane.INFORMATION_MESSAGE);
             frame.dispose();
+            System.out.println(ZooPanel.data.get(counter).getLocation());
         }
     }
 }

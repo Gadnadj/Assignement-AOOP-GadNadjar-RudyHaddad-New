@@ -59,10 +59,5 @@ public abstract class Chew extends Animal
         }
     }
 
-    public void drawObject(Graphics g) {
-        if (this.getX_dir() == 1) // giraffe goes to the right side
-            g.drawImage(this.getImg1(), this.getLocation().getX() - this.getSize() / 2, this.getLocation().getY() - this.getSize() / 10, this.getSize() / 2, this.getSize(), this.getPan());
-        else // giraffe goes to the left side
-            g.drawImage(this.getImg2(), this.getLocation().getX(), this.getLocation().getY() - this.getSize() / 10, this.getSize() / 2, this.getSize(), this.getPan());
-    }
+
 }

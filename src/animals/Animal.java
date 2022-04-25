@@ -44,7 +44,7 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
     private Thread thread;
     private int x_dir = 1;
     private int y_dir = -1;
-    private int EatCount;
+    private int eatCount = 0;
     private ZooPanel pan;
     private BufferedImage img1 = null;
 
@@ -322,7 +322,12 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
      * @param g : g
      */
     @Override
-    public abstract void drawObject(Graphics g);
+    public void drawObject(Graphics g) {
+        if (this.getX_dir() == 1) // giraffe goes to the right side
+            g.drawImage(this.getImg1(), this.getLocation().getX() - this.getSize() / 2, this.getLocation().getY() - this.getSize() / 10, this.getSize() / 2, this.getSize(), this.getPan());
+        else // giraffe goes to the left side
+            g.drawImage(this.getImg2(), this.getLocation().getX(), this.getLocation().getY() - this.getSize() / 10, this.getSize() / 2, this.getSize(), this.getPan());
+    }
 
     /**
      *
@@ -371,7 +376,7 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
     @Override
     public int getEatCount()
     {
-        return EatCount;
+        return eatCount;
     }
 
     public boolean setX_dir(int x_dir)
@@ -394,6 +399,17 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
     public int getY_dir()
     {
         return this.y_dir;
+    }
+
+    public boolean setEatCount()
+    {
+        this.eatCount += 1;
+        return true;
+    }
+
+    public int getEatDistance()
+    {
+        return this.EAT_DISTANCE;
     }
 
 }

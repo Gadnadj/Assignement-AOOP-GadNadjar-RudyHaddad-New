@@ -39,7 +39,7 @@ public class Bear extends Roar {
         super(name, location);
         this.setName(name);
         MessageUtility.logConstractor("Bear", name);
-        this.setWeight(308.2);
+        this.setWeight(this.getSize() * 0.8);
         this.furColor = String.valueOf(setFurColor("gray"));
         this.setDiet(diet);
     }

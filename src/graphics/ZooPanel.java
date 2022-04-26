@@ -86,7 +86,7 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
      * Object array
      */
 
-    protected static Object[][] dataTable = new Object[10][6];
+    protected static Object[][] dataTable = new Object[11][6];
     /**
      * type of food
      */
@@ -101,6 +101,8 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
     //private static int counter = 0;
 
     private ZooFrame frame2;
+
+    int totalEatCount = 0;
 
     public ZooPanel()
     {
@@ -220,7 +222,7 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
 //                for (int i = 0; i < data.size(); i++)
 //                    this.data = new ArrayList<Animal>();
                 for (int i = 0; i < dataTable.length; i++)
-                    dataTable = new Object[10][6];
+                    dataTable = new Object[11][6];
                 AddAnimalDialog.animalcounter = 0;
                 JOptionPane.showMessageDialog(null, "All animals deleted", "Information", JOptionPane.INFORMATION_MESSAGE);
             }
@@ -315,10 +317,16 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
                     if(ZooPanel.data.get(i).getDiet().canEat(ZooPanel.data.get(j).getFoodtype()) && ZooPanel.data.get(i).getWeight()
                             > ZooPanel.data.get(j).getWeight() * 2 && ZooPanel.data.get(i).calcDistance(ZooPanel.data.get(j).getLocation()) < ZooPanel.data.get(j).getSize())
                     {
+                        JOptionPane.showMessageDialog(null, "Eaten Animal", "Eat Animal", JOptionPane.INFORMATION_MESSAGE);
+
                         ZooPanel.data.get(i).eat(ZooPanel.data.get(j));
                         ZooPanel.data.remove(j);
-                        AddAnimalDialog.animalcounter =- 1;
+                        AddAnimalDialog.animalcounter -= 1;
+                        ZooPanel.dataTable[i][5] = ZooPanel.data.get(i).setEatCount();
                         repaint();
+                        totalEatCount += 1;
+//                        for (int l = 0; l < dataTable.length; l++)
+                            dataTable = new Object[11][6];
                         for(int k = 0 ; k < ZooPanel.data.size() ; k++)
                         {
                             ZooPanel.dataTable[k][0] = ZooPanel.data.get(k).getClass().getSimpleName();
@@ -328,6 +336,9 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
                             ZooPanel.dataTable[k][4] = ZooPanel.data.get(k).getVerSpeed();
                             ZooPanel.dataTable[k][5] = ZooPanel.data.get(k).getEatCount();
                         }
+                        ZooPanel.dataTable[10][0] = "Total";
+                        ZooPanel.dataTable[10][5] = totalEatCount;
+
 
                         return;
                     }

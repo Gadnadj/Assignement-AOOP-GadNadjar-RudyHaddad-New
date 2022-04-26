@@ -30,6 +30,9 @@ public class Lion extends Roar{
     private static Point location = new Point(20,0);
     private final static IDiet diet = new Carnivore();
 
+    static int lionCount = 1;
+
+
 
     /**
      * @param name : name of the animal
@@ -52,12 +55,15 @@ public class Lion extends Roar{
      * @param verSpeed : vertical speed of the animal
      * @param color : color of the animal
      */
-    public Lion(int size, int horSpeed, int verSpeed, String color, ZooPanel pan)
+    public Lion(String name, int size, int horSpeed, int verSpeed, String color, ZooPanel pan)
     {
+
         super(location, size, horSpeed, verSpeed, color, pan);
+        this.setName(name + lionCount);
         this.scarCount = 0;
-        this.setWeight(408.2);
+        this.setWeight(this.getSize() * 0.8);
         this.setDiet(diet);
+        lionCount++;
 
     }
 

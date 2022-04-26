@@ -51,6 +51,7 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
     private BufferedImage img2 = null;
 
 
+
     /**
      * @param name     : name of the animal
      * @param location : location of the animal

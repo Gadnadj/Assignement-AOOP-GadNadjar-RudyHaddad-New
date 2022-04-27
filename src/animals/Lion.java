@@ -27,10 +27,10 @@ import diet.IDiet;
 public class Lion extends Roar{
 
     private int scarCount;
-    private static Point location = new Point(20,0);
+    //private static Point location = new Point(20,0);
     private final static IDiet diet = new Carnivore();
 
-    static int lionCount = 1;
+    private static int lionCount = 1;
 
 
 
@@ -40,12 +40,14 @@ public class Lion extends Roar{
      */
     public Lion(String name)
     {
-        super(name, location);
+        super(name);
+        this.setLocation(new Point(20,0));
         this.setName(name);
         MessageUtility.logConstractor("Lion", name);
         this.scarCount = 0;
         this.setWeight(408.2);
         this.setDiet(diet);
+
     }
 
     /**
@@ -54,17 +56,19 @@ public class Lion extends Roar{
      * @param horSpeed : horizontal speed of the animal
      * @param verSpeed : vertical speed of the animal
      * @param color : color of the animal
+     * @param name  : name of the animal
+     * @param pan  : panel of zoopanel
      */
     public Lion(String name, int size, int horSpeed, int verSpeed, String color, ZooPanel pan)
     {
-
-        super(location, size, horSpeed, verSpeed, color, pan);
+        super(size, horSpeed, verSpeed, color, pan);
         this.setName(name + lionCount);
+        this.setX(50);
+        this.setY(0);
         this.scarCount = 0;
         this.setWeight(this.getSize() * 0.8);
         this.setDiet(diet);
         lionCount++;
-
     }
 
     /**
@@ -76,27 +80,34 @@ public class Lion extends Roar{
         return "[!]" + this.getName() + " : " + "total distance :" + "[" + this.gettotalDistance() + "]" + ", weight : " + "[" + this.getWeight() + "]";
     }
 
+    public static boolean setLionCount()
+    {
+        lionCount = 1;
+        return true;
+    }
+
     /**
      *
      * @param x : coordinate x
      * @return boolean
      */
-    public boolean settX(int x)
-    {
-        this.location.setX(x);
-        return true;
-    }
+//    public boolean settX(int x)
+//    {
+//        this.location.setX(x);
+//        return true;
+//    }
 
     /**
      *
      * @param y : coordinate y
      * @return boolean
      */
-    public boolean settY(int y)
-    {
-        this.location.setY(y);
-        return true;
-    }
+//    public boolean settY(int y)
+//    {
+//        this.location.setY(y);
+//        return true;
+//    }
+
 
 
     /**
@@ -153,9 +164,6 @@ public class Lion extends Roar{
             return true;
         }
     }
-
-
-
 
 
 

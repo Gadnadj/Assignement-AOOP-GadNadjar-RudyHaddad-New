@@ -25,8 +25,10 @@ import java.awt.*;
 public class Giraffe extends Chew
 {
     private double neckLength;
-    private static Point location = new Point(50,0);
     private final static IDiet diet = new Herbivore();
+
+    static int giraffeCount = 1;
+
 
     /**
      * the utilities of this class is the creation new animal Giraffe. all function giraffe can be use is here or
@@ -43,12 +45,13 @@ public class Giraffe extends Chew
      */
     public Giraffe(String name)
     {
-        super(name, location);
+        super(name);
         this.setName(name);
         MessageUtility.logConstractor("Elephant", name);
         this.setWeight(450);
         setNeckLength(1.5);
         this.setDiet(diet);
+        giraffeCount++;
 
     }
 
@@ -58,11 +61,17 @@ public class Giraffe extends Chew
      * @param horSpeed : horizontal speed of the animal
      * @param verSpeed : vertical speed of the animal
      * @param color : color of the animal
+     * @param name : name of the animal
+     * @param pan : panel
+     *
      */
-    public Giraffe(int size, int horSpeed, int verSpeed, String color, ZooPanel pan)
+    public Giraffe(String name, int size, int horSpeed, int verSpeed, String color, ZooPanel pan)
     {
-        super(location, size, horSpeed, verSpeed, color, pan);
-        this.setWeight(450);
+        super(size, horSpeed, verSpeed, color, pan);
+        this.setWeight(this.getSize() * 2.2);
+        this.setName(name + giraffeCount);
+        this.setX(50);
+        this.setY(0);
         setNeckLength(1.5);
         this.setDiet(diet);
     }
@@ -75,7 +84,7 @@ public class Giraffe extends Chew
     public Giraffe(String name, double neckLength)
 
     {
-        super(name, location);
+        super(name);
         MessageUtility.logSetter(this.getName(), "setName", name, true);
         MessageUtility.logConstractor("Giraffe", name);
         this.neckLength = neckLength;
@@ -97,34 +106,9 @@ public class Giraffe extends Chew
     }
 
 
-//    public void drawObject (Graphics g)
-//    {
-//            g.setColor(this.getColor());
-//        if(this.getx_dir_()==1) // giraffe goes to the right side
-//            g.drawImage(this.getImg1(), this.getLocation().getY()-this.getSize()/2, this.getLocation().getY()-this.getSize()/10, this.getSize()/2, this.getSize(), this.getPan());
-//        else // giraffe goes to the left side
-//            g.drawImage(this.getImg2(), this.getLocation().getX(), this.getLocation().getY()-this.getSize()/10, this.getSize()/2, this.getSize(), this.getPan());
-//    }
-
-    /**
-     *
-     * @param x : coordinate x
-     * @return boolean
-     */
-    public boolean settX(int x)
+    public static boolean setGiraffeCount()
     {
-        this.location.setX(x);
-        return true;
-    }
-
-    /**
-     *
-     * @param y : coordinate y
-     * @return boolean
-     */
-    public boolean settY(int y)
-    {
-        this.location.setY(y);
+        giraffeCount = 1;
         return true;
     }
 
@@ -164,7 +148,7 @@ public class Giraffe extends Chew
 
 
     /**
-     *
+     *the cry a giraffe makes after eating
      */
     public void chew()
     {

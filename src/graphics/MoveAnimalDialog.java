@@ -1,6 +1,7 @@
 package graphics;
 
 
+import mobility.Point;
 import plants.Plant;
 
 import javax.swing.*;
@@ -15,7 +16,7 @@ import java.awt.event.ActionListener;
  * @author Gad Nadjar
  * @see JFrame
  */
-public class NewWindow2 extends JFrame implements ActionListener
+public class MoveAnimalDialog extends JFrame implements ActionListener
 {
     /**
      * frame
@@ -78,7 +79,7 @@ public class NewWindow2 extends JFrame implements ActionListener
 
 
 
-    public NewWindow2(ZooPanel pan)
+    public MoveAnimalDialog(ZooPanel pan)
     {
         frame = new JFrame();
         frame.setTitle("Move Animal");
@@ -111,19 +112,23 @@ public class NewWindow2 extends JFrame implements ActionListener
         for (int i = 0; i <= 800; i++) {
             cSelect_X.addItem(i);
         }
+        cSelect_X.setSelectedIndex(-1);
+
         for (int i = 0 ; i <= 600; i++) {
             cSelect_Y.addItem(i);
         }
+        cSelect_Y.setSelectedIndex(-1);
+
         for(int i = 0 ; i < ZooPanel.data.size(); i++)
         {
-            cAllAnimal.addItem(ZooPanel.data.get(i).getClass().getSimpleName());
+            cAllAnimal.addItem(ZooPanel.data.get(i).getName());
         }
+        cAllAnimal.setSelectedIndex(-1);
 
         cAllAnimal.addActionListener(this);
         cSelect_X.addActionListener(this);
         cSelect_Y.addActionListener(this);
         bConfirmation.addActionListener(this);
-
     }
 
     /**
@@ -142,10 +147,7 @@ public class NewWindow2 extends JFrame implements ActionListener
         {
             if(ZooPanel.data.get(counter).gettX() != cSelect_X.getSelectedIndex())
                 ZooPanel.data.get(counter).setChanges(true);
-            ZooPanel.data.get(counter).settX(cSelect_X.getSelectedIndex());
-
-
-
+            ZooPanel.data.get(counter).setX(cSelect_X.getSelectedIndex());
 
         }
 
@@ -153,18 +155,19 @@ public class NewWindow2 extends JFrame implements ActionListener
         {
             if(ZooPanel.data.get(counter).gettY() != cSelect_Y.getSelectedIndex())
                 ZooPanel.data.get(counter).setChanges(true);
-            ZooPanel.data.get(counter).settY(cSelect_Y.getSelectedIndex());
-
-
-
+            ZooPanel.data.get(counter).setY(cSelect_Y.getSelectedIndex());
         }
 
         if(e.getSource() == bConfirmation)
         {
-            JOptionPane.showMessageDialog(null, "Coordinate Changed", "Coordinate", JOptionPane.INFORMATION_MESSAGE);
-            frame.dispose();
-            ZooPan.manageZoo();
-
+            if(cAllAnimal.getSelectedIndex() == -1 || cSelect_X.getSelectedIndex() == -1 || cSelect_Y.getSelectedIndex() == -1)
+                JOptionPane.showMessageDialog(null, "Selected All Characters", "Selected All Characters", JOptionPane.ERROR_MESSAGE);
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Coordinate Changed", "Coordinate", JOptionPane.INFORMATION_MESSAGE);
+                frame.dispose();
+                ZooPan.manageZoo();
+            }
         }
     }
 }

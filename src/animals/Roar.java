@@ -33,22 +33,21 @@ public abstract class Roar extends Animal
     /**
      *
      * @param name : name of the animal
-     * @param location : location of the animal
      */
-    public Roar(String name, Point location)
+    public Roar(String name)
     {
-        super(name, location);
+        super(name);
     }
 
     /**
      *
-     * @param location : location of the animal
      * @param size : size of the animal
      * @param horSpeed : horizontal speed of the animal
      * @param verSpeed : vertical speed of the animal
      * @param color : color of the animal
+     * @param pan  : panel of zoopanel
      */
-    public Roar(Point location, int size, int horSpeed, int verSpeed, String color, ZooPanel pan){super(location, size, horSpeed, verSpeed, color, pan);}
+    public Roar(int size, int horSpeed, int verSpeed, String color, ZooPanel pan){super(size, horSpeed, verSpeed, color, pan);}
 
     public void makeSound()
     {

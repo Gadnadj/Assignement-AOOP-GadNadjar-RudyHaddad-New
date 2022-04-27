@@ -2,18 +2,17 @@ package graphics;
 
 
 
-import animals.Animal;
+import animals.*;
 import plants.Cabbage;
 import plants.Lettuce;
 import plants.Plant;
+import privateutil.Meat;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * this class is a child class of JPanel and implements the Runnable and ActionListener interfaces. it displays on
@@ -38,7 +37,7 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
     /**
      * instance of NewWindow2
      */
-    private NewWindow2 window2;
+    private MoveAnimalDialog window2;
 
     /**
      * button addanimal
@@ -66,6 +65,8 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
     JButton info;
 
     private Plant plant = null;
+
+    private Meat meat = null;
 
     /**
      * button exit
@@ -98,9 +99,7 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
     /**
      * constructor
      */
-    //private static int counter = 0;
 
-    private ZooFrame frame2;
 
     int totalEatCount = 0;
 
@@ -139,45 +138,6 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
         this.setLayout(new BorderLayout());
         this.add(panelControler, BorderLayout.PAGE_END);
         manageZoo();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//        this.setSize(800, 600);
-//        this.setBackground(Color.PINK);
-//
-//
-//        addAnimal = new JButton("Add Animal");
-//        addAnimal.addActionListener(this);
-//        moveAnimal = new JButton("Move Animal");
-//        moveAnimal.addActionListener(this);
-//        clear = new JButton("Clear");
-//        clear.addActionListener(this);
-//        food = new JButton("Food");
-//        food.addActionListener(this);
-//        info = new JButton("Info");
-//        info.addActionListener(this);
-//        exit = new JButton("exit");
-//        exit.addActionListener(this);
-//        this.add(addAnimal);
-//        this.add(moveAnimal);
-//        this.add(clear);
-//        this.add(food);
-//        this.add(info);
-//        this.add(exit);
-
-
-
     }
 
 
@@ -201,14 +161,11 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
         }
 
         if (e.getSource() == moveAnimal) {
-//            for (int i = 0; i < ZooPanel.data.size(); i++)
-//                ZooPanel.data.get(i).setChanges(false);
             if (ZooPanel.data.size() == 0)
                 JOptionPane.showMessageDialog(null, "There's no animals", "Error", JOptionPane.ERROR_MESSAGE);
             else
             {
-                window2 = new NewWindow2(this);
-//                manageZoo();
+                window2 = new MoveAnimalDialog(this);
             }
 
 
@@ -225,6 +182,11 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
                     dataTable = new Object[11][6];
                 AddAnimalDialog.animalcounter = 0;
                 JOptionPane.showMessageDialog(null, "All animals deleted", "Information", JOptionPane.INFORMATION_MESSAGE);
+                Lion.setLionCount();
+                Bear.setBearCount();
+                Elephant.setElephantCount();
+                Giraffe.setGiraffeCount();
+                Turtle.setTurtleCount();
             }
 
         }
@@ -242,20 +204,24 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
 
             if(foods == 0)
             {
+                this.meat = null;
                 this.plant = new Lettuce(this);
-                this.plant.loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/lettuce.png");
+                this.plant.loadImages("Pictures/lettuce.png");
             }
             if(foods == 1)
             {
+                this.meat = null;
+
                 this.plant = new Cabbage(this);
-                this.plant.loadImages("/Users/nadjar/IdeaProjects/Assignement-AOOP-GadNadjar-RudyHaddad-New/Pictures/cabbage.png");
+                this.plant.loadImages("Pictures/cabbage.png");
             }
 
             if(foods == 2)
             {
-
+                this.plant = null;
+                this.meat = new Meat(this);
+                this.meat.loadImages("Pictures/meat.gif");
             }
-
             repaint();
         }
 
@@ -263,15 +229,14 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
 
             String[] column = {"Animal", "Color", "Weight", "Horizontal speed", "Vertical speed", "Eat Counter"};
             tableAnimal = new JTable(dataTable, column);
-            NewWindow window = new NewWindow(tableAnimal);
+            JTableCreation window = new JTableCreation(tableAnimal);
         }
 
         if (e.getSource() == exit) {
             System.out.println("Bye, have a great day !");
             System.exit(1);
         }
-        //String[]animals = {a.getName1(), a.getColors(), "a.gethSpeed1()", "a.gethSpeed1()", "AddAnimalDialog.counter"};
-        //data[AddAnimalDialog.counter][0] = animals;
+
     }
 
     public boolean isChange(){
@@ -292,7 +257,6 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
 
         for(Animal animal : ZooPanel.data)
         {
-            //System.out.println(animal.calcDistance(plant.getLocation()));
             if (plant != null)
             {
                 if (animal.calcDistance(plant.getLocation()) <= animal.getEatDistance() && (animal.getDiet().canEat(plant.getFoodtype())))
@@ -300,12 +264,37 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
                     animal.eat(plant);
                     animal.setEatCount();
                     plant = null;
+                    totalEatCount += 1;
                     ZooPanel.dataTable[counter2][5] = animal.getEatCount();
                     ZooPanel.dataTable[counter2][2] = animal.getWeight();
+                    ZooPanel.dataTable[10][0] = "Total";
+                    ZooPanel.dataTable[10][5] = totalEatCount;
+                    JOptionPane.showMessageDialog(null, "Eaten Plant", "Eat Plant", JOptionPane.INFORMATION_MESSAGE);
+                    repaint();
+                }
+            }
+
+
+            if(meat != null)
+            {
+                if(animal.calcDistance(meat.getLocation()) <= animal.getEatDistance() && (animal.getDiet().canEat(meat.getFoodtype())))
+                {
+                    animal.eat(meat);
+                    animal.setEatCount();
+                    meat = null;
+                    totalEatCount += 1;
+                    ZooPanel.dataTable[counter2][5] = animal.getEatCount();
+                    ZooPanel.dataTable[counter2][2] = animal.getWeight();
+                    ZooPanel.dataTable[10][0] = "Total";
+                    ZooPanel.dataTable[10][5] = totalEatCount;
+                    JOptionPane.showMessageDialog(null, "Eaten Meat", "Eat Meat", JOptionPane.INFORMATION_MESSAGE);
+                    repaint();
                 }
             }
             counter2++;
         }
+
+
         for(int i = 0 ; i < ZooPanel.data.size() ; i++)
         {
             for(int j = 0 ; j < ZooPanel.data.size() ; j++)
@@ -322,6 +311,8 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
                         ZooPanel.data.get(i).eat(ZooPanel.data.get(j));
                         ZooPanel.data.remove(j);
                         AddAnimalDialog.animalcounter -= 1;
+                        if(i == ZooPanel.data.size())
+                            i--;
                         ZooPanel.dataTable[i][5] = ZooPanel.data.get(i).setEatCount();
                         repaint();
                         totalEatCount += 1;
@@ -338,8 +329,6 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
                         }
                         ZooPanel.dataTable[10][0] = "Total";
                         ZooPanel.dataTable[10][5] = totalEatCount;
-
-
                         return;
                     }
                 }
@@ -360,6 +349,8 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
         }
         if(plant!= null)
             plant.drawObject(g);
+        if(meat != null)
+            meat.drawObject(g);
     }
 }
 

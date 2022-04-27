@@ -14,6 +14,8 @@ import animals.*;
  *
  */
 
+
+
 public  class Carnivore implements IDiet
 {
 

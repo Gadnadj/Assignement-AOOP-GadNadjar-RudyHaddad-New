@@ -28,15 +28,16 @@ import java.util.Objects;
  **/
 public class Bear extends Roar {
     private String furColor;
-    private static Point location = new Point(100, 5);
     private final static IDiet diet = new Omnivore();
+
+    static int bearCount = 1;
 
 
     /**
      *  @param name : name of the animal
      */
     public Bear(String name) {
-        super(name, location);
+        super(name);
         this.setName(name);
         MessageUtility.logConstractor("Bear", name);
         this.setWeight(this.getSize() * 0.8);
@@ -45,19 +46,24 @@ public class Bear extends Roar {
     }
 
     /**
-     *
+     * @param name : name of the animal
      * @param size : size of the animal
      * @param horSpeed : horizontal speed of the animal
      * @param verSpeed : vertical speed of the animal
      * @param color : color of the animal
+     * @param pan : panel of zoopanel
      */
-    public Bear(int size, int horSpeed, int verSpeed, String color, ZooPanel pan)
+    public Bear(String name, int size, int horSpeed, int verSpeed, String color, ZooPanel pan)
     {
-        super(location, size, horSpeed, verSpeed, color, pan);
-        this.setWeight(308.2);
+        super(size, horSpeed, verSpeed, color, pan);
+        this.setWeight(this.getSize() * 1.5);
+        this.setName(name + bearCount);
+        this.setX(100);
+        this.setY(5);
         this.furColor = String.valueOf(setFurColor("gray"));
         this.setDiet(diet);
         this.setPan(pan);
+        bearCount++;
     }
 
 
@@ -66,7 +72,7 @@ public class Bear extends Roar {
      *  @param furColor : color of the bear fur
      */
     public Bear(String name, String furColor) {
-        super(name, location);
+        super(name);
         MessageUtility.logSetter(this.getName(), "setName", name, true);
         MessageUtility.logConstractor("Bear", name);
         this.setWeight(308.2);
@@ -74,25 +80,11 @@ public class Bear extends Roar {
         this.setDiet(diet);
     }
 
-    /**
-     *
-     * @param x : coordinate x
-     * @return boolean
-     */
-    public boolean settX(int x)
-    {
-        this.location.setX(x);
-        return true;
-    }
 
-    /**
-     *
-     * @param y : coordinate y
-     * @return boolean
-     */
-    public boolean settY(int y)
+
+    public static boolean setBearCount()
     {
-        this.location.setY(y);
+        bearCount = 1;
         return true;
     }
 
@@ -138,7 +130,7 @@ public class Bear extends Roar {
 
 
     /**
-     *
+     *the cry a bear makes after eating
      */
     public void roar() {
         System.out.println("on its hind legs, roars and scratches its belly");

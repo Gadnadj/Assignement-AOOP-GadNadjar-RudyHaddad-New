@@ -8,7 +8,7 @@ import javax.swing.*;
  * @author Rudy Haddad
  *
  */
-public class NewWindow
+public class JTableCreation
 {
     JFrame frame;
     JLabel label;
@@ -17,7 +17,7 @@ public class NewWindow
      *
      * @param a : JTable
      */
-    NewWindow(JTable a){
+    JTableCreation(JTable a){
         label = new JLabel();
         frame = new JFrame();
         label.setBounds(0,0,150,50);
@@ -30,6 +30,8 @@ public class NewWindow
         frame.setSize(800,600);
         //frame.setLayout(null);
         frame.setVisible(true);
+        a.setEnabled(false);
+
 
 
     }

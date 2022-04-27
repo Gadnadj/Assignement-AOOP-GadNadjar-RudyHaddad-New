@@ -1,4 +1,4 @@
-package plants;
+package privateutil;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -19,7 +19,7 @@ import javax.imageio.ImageIO;
 /**
  * this class blablabla
  */
-public abstract class Plant implements IEdible, ILocatable, IDrawable
+public class Meat implements IEdible, ILocatable, IDrawable
 {
     private double height;
     private Point location;
@@ -33,40 +33,35 @@ public abstract class Plant implements IEdible, ILocatable, IDrawable
 
     /**
      *
-     * @param pan : panel of zoopanel
      */
-            public Plant(ZooPanel pan) {
-                this.height = 25;
-                this.weight = 25;
-                this.location = new Point((int) (pan.getWidth() / 2 - this.height / 2), (int) (pan.getHeight() / 2 - this.weight / 2));
-                MessageUtility.logConstractor("Plant", "Plant");
-                this.col = "Natural";
-                this.pan = pan;
-            }
-            public Plant()
-            {
-                Random rand = new Random();
-                int x = rand.nextInt(30);
-                int y = rand.nextInt(12);
-                this.location = new Point(x, y);
-                this.height = rand.nextInt(30);
-                this.weight = rand.nextInt(12);
-                MessageUtility.logConstractor("Plant", "Plant");
-            }
+    public Meat(ZooPanel pan) {
+        this.height = 25;
+        this.weight = 25;
+        this.location = new Point((int) (pan.getWidth() / 2 - this.height / 2), (int) (pan.getHeight() / 2 - this.weight / 2));
+        MessageUtility.logConstractor("Meat", "Meat");
+        this.col = "Natural";
+        this.pan = pan;
+    }
+    public Meat()
+    {
+        Random rand = new Random();
+        int x = rand.nextInt(30);
+        int y = rand.nextInt(12);
+        this.location = new Point(x, y);
+        this.height = rand.nextInt(30);
+        this.weight = rand.nextInt(12);
+        MessageUtility.logConstractor("Meat", "Meat");
+    }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see food.IFood#getFoodtype()
-     */
+
     @Override
     public EFoodType getFoodtype() {
-        MessageUtility.logGetter(this.getClass().getSimpleName(), "getFoodType", EFoodType.VEGETABLE);
-        return EFoodType.VEGETABLE;
+        MessageUtility.logGetter(this.getClass().getSimpleName(), "getFoodType", EFoodType.MEAT);
+        return EFoodType.MEAT;
     }
 
     /**
-     * @return double : weight of the plant
+     * @return double
      */
     public double getHeight()
     {
@@ -86,7 +81,7 @@ public abstract class Plant implements IEdible, ILocatable, IDrawable
     }
 
     /**
-     * @return double : weight of the plant
+     * @return double
      */
     public double getWeight() {
         MessageUtility.logGetter(this.getClass().getSimpleName(), "getWeight", this.weight);

@@ -24,8 +24,9 @@ import java.awt.*;
 public class Elephant extends Chew
 {
     private double trunkLength;
-    private static Point location = new Point(50,90);
     private final static IDiet diet = new Herbivore();
+
+    static int elephantCount = 1;
 
     /**
      * the utilities of this class is the creation new animal elephant. all function elephant can be use is here or
@@ -41,7 +42,7 @@ public class Elephant extends Chew
      */
     public Elephant(String name)
     {
-        super(name, location);
+        super(name);
         this.setName(name);
         MessageUtility.logConstractor("Elephant", name);
         this.setWeight(500);
@@ -55,13 +56,19 @@ public class Elephant extends Chew
      * @param horSpeed : horizontal speed of the animal
      * @param verSpeed : vertical speed of the animal
      * @param color : color of the animal
+     * @param name : name of the animal
+     * @param pan : panel of zoopanel
      */
-    public Elephant(int size, int horSpeed, int verSpeed, String color, ZooPanel pan)
+    public Elephant(String name, int size, int horSpeed, int verSpeed, String color, ZooPanel pan)
     {
-        super(location, size, horSpeed, verSpeed, color, pan);
-        this.setWeight(500);
+        super(size, horSpeed, verSpeed, color, pan);
+        this.setWeight(this.getSize() * 10);
+        this.setName(name + elephantCount);
+        this.setX(50);
+        this.setY(90);
         settrunkLength(1);
         this.setDiet(diet);
+        elephantCount++;
     }
 
 
@@ -71,7 +78,7 @@ public class Elephant extends Chew
      */
     public Elephant(String name, double trunkLength)
     {
-        super(name, location);
+        super(name);
         MessageUtility.logSetter(this.getName(), "setName", name, true);
         MessageUtility.logConstractor("Elephant", name);
         this.setWeight(500);
@@ -91,25 +98,10 @@ public class Elephant extends Chew
         this.setDiet(diet);
     }
 
-    /**
-     *
-     * @param x : coordinate x
-     * @return boolean
-     */
-    public boolean settX(int x)
-    {
-        this.location.setX(x);
-        return true;
-    }
 
-    /**
-     *
-     * @param y : coordinate y
-     * @return boolean
-     */
-    public boolean settY(int y)
+    public static boolean setElephantCount()
     {
-        this.location.setY(y);
+        elephantCount = 1;
         return true;
     }
 
@@ -154,7 +146,7 @@ public class Elephant extends Chew
 
 
     /**
-     *
+     *the cry a elephant makes after eating
      */
     public void chew()
     {

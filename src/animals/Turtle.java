@@ -23,15 +23,16 @@ import java.awt.*;
  **/
 public class Turtle extends Chew {
     private int age;
-    private static Point location = new Point(80, 0);
     private final static IDiet diet = new Herbivore();
+
+    static int turtleCount = 1;
 
 
     /**
      * @param name : name of the animal
      */
     public Turtle(String name) {
-        super(name, location);
+        super(name);
         this.setName(name);
         MessageUtility.logConstractor("Turtle", name);
         this.setWeight(1);
@@ -45,11 +46,15 @@ public class Turtle extends Chew {
      * @param verSpeed : vertical speed of the animal
      * @param color    : color of the animal
      */
-    public Turtle(int size, int horSpeed, int verSpeed, String color, ZooPanel pan) {
-        super(location, size, horSpeed, verSpeed, color, pan);
-        this.setWeight(1);
+    public Turtle(String name, int size, int horSpeed, int verSpeed, String color, ZooPanel pan) {
+        super(size, horSpeed, verSpeed, color, pan);
+        this.setWeight(this.getSize() * 0.5);
+        this.setName(name + turtleCount);
+        this.setX(80);
+        this.setY(0);
         setAge(1);
         this.setDiet(diet);
+        turtleCount++;
     }
 
 
@@ -58,7 +63,7 @@ public class Turtle extends Chew {
      * @param age  : age of the turtle
      */
     public Turtle(String name, int age) {
-        super(name, location);
+        super(name);
         MessageUtility.logSetter(this.getName(), "setName", name, true);
         MessageUtility.logConstractor("Turtle", name);
         this.setWeight(1);
@@ -74,24 +79,12 @@ public class Turtle extends Chew {
         this.setDiet(diet);
     }
 
-    /**
-     * @param x : coordinate x
-     * @return boolean
-     */
-    public boolean settX(int x) {
-        this.location.setX(x);
+
+    public static boolean setTurtleCount()
+    {
+        turtleCount = 1;
         return true;
     }
-
-    /**
-     * @param y : coordinate y
-     * @return boolean
-     */
-    public boolean settY(int y) {
-        this.location.setY(y);
-        return true;
-    }
-
 
     /**
      * @return String :

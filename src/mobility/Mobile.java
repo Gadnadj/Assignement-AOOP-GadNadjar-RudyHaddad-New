@@ -13,7 +13,7 @@ import java.lang.Math;
  */
 
 public abstract class Mobile implements ILocatable {
-    private Point location;
+    private Point location = new Point(0,0);
     private Double totalDistance;
 
 
@@ -25,6 +25,10 @@ public abstract class Mobile implements ILocatable {
         this.totalDistance = 0.0;
     }
 
+    public Mobile()
+    {
+        this.totalDistance = 0.0;
+    }
 
     public boolean setX(int x)
     {
@@ -38,15 +42,6 @@ public abstract class Mobile implements ILocatable {
         return true;
     }
 
-    public int getttX()
-    {
-        return this.location.getX();
-    }
-
-    public int getttY()
-    {
-        return this.location.getX();
-    }
 
     /**
      *

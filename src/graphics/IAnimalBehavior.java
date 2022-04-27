@@ -7,13 +7,13 @@ public interface IAnimalBehavior
 {
         /**
          *
-         * @return String
+         * @return String : name of the animal
          */
         public String getAnimalName();
 
         /**
          *
-         * @return int
+         * @return int : size of the animal
          */
         public int getSize();
 
@@ -24,19 +24,19 @@ public interface IAnimalBehavior
 
         /**
          *
-         * @return int
+         * @return int : counter of eaten animals
          */
         public int getEatCount();
 
         /**
          *
-         * @return boolean
+         * @return boolean : true if the animal mooved
          */
         public boolean getChanges ();
 
         /**
          *
-         * @param state : state
+         * @param state : true if the animal mooved
          */
         public void setChanges (boolean state);
 }

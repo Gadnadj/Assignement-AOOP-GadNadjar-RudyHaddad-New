@@ -52,26 +52,31 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
 
 
 
+
+
+
+
     /**
      * @param name     : name of the animal
-     * @param location : location of the animal
+     //* @param location : location of the animal
      */
-    public Animal(String name, Point location) {
-        super(location);
+    public Animal(String name) {
+        super();
         MessageUtility.logConstractor("Animal", name);
         this.name = name;
     }
 
     /**
      *
-     * @param location : location of the animal
+     //* @param location : location of the animal
      * @param size : size of the animal
      * @param horSpeed : horizontal speed of the animal
      * @param verSpeed : vertical speed of the animal
      * @param color : color of the animal
+     * @param pan : panel of ZooPanel
      */
-    public Animal(Point location, int size, int horSpeed, int verSpeed, String color, ZooPanel pan) {
-        super(location);
+    public Animal(int size, int horSpeed, int verSpeed, String color, ZooPanel pan) {
+        super();
         this.size = size;
         this.horSpeed = horSpeed;
         this.verSpeed = verSpeed;
@@ -90,15 +95,24 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
         return true;
     }
 
+    /**
+     *
+     * @return int : coordinate x of the animal
+     */
     public int gettX()
     {
         return this.getLocation().getX();
     }
 
+    /**
+     *
+     * @return int : coordinate y of the animal
+     */
     public int gettY()
     {
         return this.getLocation().getY();
     }
+
 
     /**
      *
@@ -120,13 +134,13 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
 
 
     /**
-     * @param edible : edible
+     * @param edible : if the type of food is edible
      * @return boolean
      */
     public abstract boolean eat(IEdible edible);
 
     /**
-     * @return String
+     * @return String : name of the animal
      */
     public String getName() {
         return this.name;
@@ -155,7 +169,7 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
 
 
     /**
-     * @return IDiet
+     * @return IDiet : if is edible
      */
     public IDiet getDiet() {
         return this.diet;
@@ -163,14 +177,18 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
 
 
     /**
-     * @return double
+     * @return double : weight of the animal
      */
     public double getWeight() {
         MessageUtility.logGetter(this.getName(), "getWeight", this.weight);
         return this.weight;
     }
 
-
+    /**
+     *
+     * @param pan : panel of zoopanel
+     * @return true if the placement is done
+     */
     public boolean setPan(ZooPanel pan)
     {
         this.pan = pan;
@@ -195,20 +213,24 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
     }
 
     /**
-     *
+     * sound of the animal when he eats
      */
     public abstract void makeSound();
 
-    /**
-     * @param point : coordinate
-     * @return double
-     */
-    public double move(Point point) {
-        double temp = super.move(point);
-        this.setWeight(this.weight - (temp * this.weight * 0.00025));
-        return temp;
-    }
 
+    public double move (Point p) {
+        double d = super.move(p);
+        if (d != 0) {
+            double temp = getWeight();
+            setWeight(temp - (d * temp * 0.00025));
+            setChanges(true);
+            if (getLocation().getX() <= p.getX())
+                this.x_dir = 1;
+            else
+                this.x_dir = -1;
+        }
+        return d;
+    }
     /**
      *
      * @return String
@@ -237,7 +259,7 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
 
     /**
      *
-     * @return int
+     * @return int : x direction
      */
     public int getx_dir_()
     {
@@ -246,7 +268,7 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
 
     /**
      *
-     * @return int
+     * @return int : y direction
      */
     public int gety_dir_()
     {
@@ -255,7 +277,7 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
 
     /**
      *
-     * @return BufferedImage
+     * @return BufferedImage : left image
      */
     public BufferedImage getImg1()
     {
@@ -264,7 +286,7 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
 
     /**
      *
-     * @return BufferedImage
+     * @return BufferedImage : right image
      */
     public BufferedImage getImg2()
     {
@@ -273,7 +295,7 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
 
     /**
      *
-     * @return ZooPanel
+     * @return ZooPanel : panel of ZooPanel
      */
     public ZooPanel getPan()
     {
@@ -354,7 +376,7 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
 
     /**
      *
-     * @return int
+     * @return int : horizontal speed
      */
     public int getHorSpeed()
     {
@@ -363,7 +385,7 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
 
     /**
      *
-     * @return int
+     * @return int : vertical speed
      */
     public int getVerSpeed()
     {
@@ -372,7 +394,7 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
 
     /**
      *
-     * @return int
+     * @return int : counter of animal eaten
      */
     @Override
     public int getEatCount()
@@ -386,17 +408,30 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
         return true;
     }
 
+    /**
+     *
+     * @return int : x direction
+     */
     public int getX_dir()
     {
         return this.x_dir;
     }
 
+    /**
+     *
+     * @param y_dir : y direction
+     * @return true if the placement is done
+     */
     public boolean setY_dir(int y_dir)
     {
         this.y_dir = y_dir;
         return true;
     }
 
+    /**
+     *
+     * @return int : y direction
+     */
     public int getY_dir()
     {
         return this.y_dir;
@@ -408,6 +443,10 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
         return true;
     }
 
+    /**
+     *
+     * @return int : eat distance
+     */
     public int getEatDistance()
     {
         return this.EAT_DISTANCE;

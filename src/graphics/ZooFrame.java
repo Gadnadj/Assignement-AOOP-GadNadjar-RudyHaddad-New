@@ -149,7 +149,7 @@ public class ZooFrame extends JFrame implements ActionListener
             try {
             this.remove(label);
             this.getContentPane().setBackground(null);
-            img = ImageIO.read(new File("savanna.png"));
+            img = ImageIO.read(new File("Pictures/savanna.png"));
             label = new JLabel();
             label.setBounds(0, 0, 800, 600);
             Image backimg = img.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);

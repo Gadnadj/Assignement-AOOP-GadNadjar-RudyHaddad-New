@@ -14,7 +14,7 @@ public class JTableCreation
     JLabel label;
 
     /**
-     *
+     * Creating a JTable
      * @param a : JTable
      */
     JTableCreation(JTable a){

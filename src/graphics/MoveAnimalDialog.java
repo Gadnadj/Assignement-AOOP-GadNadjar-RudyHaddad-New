@@ -69,16 +69,20 @@ public class MoveAnimalDialog extends JFrame implements ActionListener
     private int counter = 0;
 
     /**
-     * constructor
+     * plant
      */
-
     private Plant plant = null;
 
+    /**
+     * Zoopan of zoopanel
+     */
     private ZooPanel ZooPan;
 
 
-
-
+    /**
+     * Construcot of MoveAnimalDialog
+     * @param pan : panel of zoopanel
+     */
     public MoveAnimalDialog(ZooPanel pan)
     {
         frame = new JFrame();

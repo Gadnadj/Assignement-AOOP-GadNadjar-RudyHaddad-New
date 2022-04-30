@@ -64,18 +64,20 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
      */
     JButton info;
 
+    /**
+     * plant
+     */
     private Plant plant = null;
 
+    /**
+     * meat
+     */
     private Meat meat = null;
 
     /**
      * button exit
      */
     JButton exit;
-
-    /**
-     *
-     */
 
 
     /**
@@ -86,23 +88,27 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
     /**
      * Object array
      */
-
     protected static Object[][] dataTable = new Object[11][6];
+
     /**
      * type of food
      */
     private int foods;
 
 
+    /**
+     * Panel
+     */
     private JPanel panelControler;
 
     /**
-     * constructor
+     * Counter of animal eaten
      */
-
-
     int totalEatCount = 0;
 
+    /**
+     * Constructor of ZooPanel
+     */
     public ZooPanel()
     {
 
@@ -140,7 +146,9 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
         manageZoo();
     }
 
-
+    /**
+     * Function Thread
+     */
     @Override
     public void run() {
 
@@ -187,6 +195,7 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
                 Elephant.setElephantCount();
                 Giraffe.setGiraffeCount();
                 Turtle.setTurtleCount();
+                repaint();
             }
 
         }
@@ -239,6 +248,11 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
 
     }
 
+
+    /**
+     *
+     * @return true if the animal mooved0
+     */
     public boolean isChange(){
         for (Animal animal : ZooPanel.data)
             if(animal.getChanges())
@@ -249,12 +263,15 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
         return false;
     }
 
+    /**
+     * Function Controler
+     */
     public void manageZoo()
     {
         int counter2 = 0;
         if (isChange())
             repaint();
-
+        totalEatCount = 0;
         for(Animal animal : ZooPanel.data)
         {
             if (plant != null)
@@ -282,7 +299,8 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
                     animal.eat(meat);
                     animal.setEatCount();
                     meat = null;
-                    totalEatCount += 1;
+                    for(int l = 0 ; l < ZooPanel.data.size() ; l++)
+                        totalEatCount += ZooPanel.data.get(l).getEatCount();
                     ZooPanel.dataTable[counter2][5] = animal.getEatCount();
                     ZooPanel.dataTable[counter2][2] = animal.getWeight();
                     ZooPanel.dataTable[10][0] = "Total";
@@ -315,12 +333,14 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
                             i--;
                         ZooPanel.dataTable[i][5] = ZooPanel.data.get(i).setEatCount();
                         repaint();
-                        totalEatCount += 1;
+                        //totalEatCount += 1;
+                        for(int l = 0 ; l < ZooPanel.data.size() ; l++)
+                            totalEatCount += ZooPanel.data.get(l).getEatCount();
 //                        for (int l = 0; l < dataTable.length; l++)
                             dataTable = new Object[11][6];
                         for(int k = 0 ; k < ZooPanel.data.size() ; k++)
                         {
-                            ZooPanel.dataTable[k][0] = ZooPanel.data.get(k).getClass().getSimpleName();
+                            ZooPanel.dataTable[k][0] = ZooPanel.data.get(k).getName();
                             ZooPanel.dataTable[k][1] = ZooPanel.data.get(k).getColor();
                             ZooPanel.dataTable[k][2] = ZooPanel.data.get(k).getWeight();
                             ZooPanel.dataTable[k][3] = ZooPanel.data.get(k).getHorSpeed();
@@ -337,7 +357,10 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
 
     }
 
-
+    /**
+     *
+     * @param g the <code>Graphics</code> object to protect
+     */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (data.size() != 0)

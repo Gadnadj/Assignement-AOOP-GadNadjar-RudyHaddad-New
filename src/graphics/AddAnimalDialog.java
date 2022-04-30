@@ -183,7 +183,7 @@ public class AddAnimalDialog<counter> extends JDialog implements ActionListener
     }
 
     /**
-     * #
+     * this class create animals, posters in the JTable and in the zoo
      * @return Animal
      */
     public Animal addAnimal()
@@ -193,9 +193,6 @@ public class AddAnimalDialog<counter> extends JDialog implements ActionListener
             if (name.equals("Lion"))
             {
                 ZooPanel.data.add(new Lion(name, size, hSpeed, vSpeed, color, newPan));
-                //Lion lion = new Lion(size, hSpeed, vSpeed, color, newPan);
-                //lion.setWeight(size * 0.8);
-                //ZooPanel.data.add(animalcounter, lion);
                 ZooPanel.dataTable[animalcounter][0] = ZooPanel.data.get(animalcounter).getName();
                 ZooPanel.dataTable[animalcounter][1] = color;
                 ZooPanel.dataTable[animalcounter][2] = ZooPanel.data.get(animalcounter).getWeight();
@@ -203,20 +200,17 @@ public class AddAnimalDialog<counter> extends JDialog implements ActionListener
                 ZooPanel.dataTable[animalcounter][4] = vSpeed;
                 ZooPanel.dataTable[animalcounter][5] = ZooPanel.data.get(animalcounter).getEatCount();
                 if(color.equals("NATURAL"))
-                    ZooPanel.data.get(animalcounter).loadImages("Pictures/lio_n_1.png");
+                    ZooPanel.data.get(animalcounter).loadImages(IDrawable.PICTURE_PATH + "lio_n_1.png");
                 if(color.equals("BLUE"))
-                    ZooPanel.data.get(animalcounter).loadImages("Pictures/lio_b_1.png");
+                    ZooPanel.data.get(animalcounter).loadImages(IDrawable.PICTURE_PATH + "lio_b_1.png");
                 if(color.equals("RED"))
-                    ZooPanel.data.get(animalcounter).loadImages("Pictures/lio_r_1.png");
+                    ZooPanel.data.get(animalcounter).loadImages(IDrawable.PICTURE_PATH + "lio_r_1.png");
 
             }
 
             if (name.equals("Bear"))
             {
                 ZooPanel.data.add(new Bear(name, size, hSpeed, vSpeed, color, newPan));
-//                Bear bear = new Bear(size, hSpeed, vSpeed, color, newPan);
-//                bear.setWeight(size * 1.5);
-//                ZooPanel.data.add(animalcounter, bear);
                 ZooPanel.dataTable[animalcounter][0] = ZooPanel.data.get(animalcounter).getName();
                 ZooPanel.dataTable[animalcounter][1] = color;
                 ZooPanel.dataTable[animalcounter][2] = ZooPanel.data.get(animalcounter).getWeight();
@@ -224,20 +218,17 @@ public class AddAnimalDialog<counter> extends JDialog implements ActionListener
                 ZooPanel.dataTable[animalcounter][4] = vSpeed;
                 ZooPanel.dataTable[animalcounter][5] = ZooPanel.data.get(animalcounter).getEatCount();
                 if(color.equals("NATURAL"))
-                    ZooPanel.data.get(animalcounter).loadImages("Pictures/bea_n_1.png");
+                    ZooPanel.data.get(animalcounter).loadImages(IDrawable.PICTURE_PATH + "bea_n_1.png");
                 if(color.equals("BLUE"))
-                    ZooPanel.data.get(animalcounter).loadImages("Pictures/bea_b_1.png");
+                    ZooPanel.data.get(animalcounter).loadImages(IDrawable.PICTURE_PATH + "bea_b_1.png");
                 if(color.equals("RED"))
-                    ZooPanel.data.get(animalcounter).loadImages("Pictures/bea_r_1.png");
+                    ZooPanel.data.get(animalcounter).loadImages(IDrawable.PICTURE_PATH + "bea_r_1.png");
 
             }
 
             if (name.equals("Elephant"))
             {
                 ZooPanel.data.add(new Elephant(name, size, hSpeed, vSpeed, color, newPan));
-//                Elephant elephant = new Elephant(size, hSpeed, vSpeed, color, newPan);
-//                elephant.setWeight(size * 10);
-//                ZooPanel.data.add(animalcounter, elephant);
                 ZooPanel.dataTable[animalcounter][0] = ZooPanel.data.get(animalcounter).getName();
                 ZooPanel.dataTable[animalcounter][1] = color;
                 ZooPanel.dataTable[animalcounter][2] = ZooPanel.data.get(animalcounter).getWeight();
@@ -245,11 +236,11 @@ public class AddAnimalDialog<counter> extends JDialog implements ActionListener
                 ZooPanel.dataTable[animalcounter][4] = vSpeed;
                 ZooPanel.dataTable[animalcounter][5] = ZooPanel.data.get(animalcounter).getEatCount();
                 if(color.equals("NATURAL"))
-                    ZooPanel.data.get(animalcounter).loadImages("Pictures/elf_n_1.png");
+                    ZooPanel.data.get(animalcounter).loadImages(IDrawable.PICTURE_PATH + "elf_n_1.png");
                 if(color.equals("BLUE"))
-                    ZooPanel.data.get(animalcounter).loadImages("Pictures/elf_b_1.png");
+                    ZooPanel.data.get(animalcounter).loadImages(IDrawable.PICTURE_PATH + "elf_b_1.png");
                 if(color.equals("RED"))
-                    ZooPanel.data.get(animalcounter).loadImages("Pictures/elf_r_1.png");
+                    ZooPanel.data.get(animalcounter).loadImages(IDrawable.PICTURE_PATH + "elf_r_1.png");
 
 
             }
@@ -257,9 +248,6 @@ public class AddAnimalDialog<counter> extends JDialog implements ActionListener
             if (name.equals("Giraffe"))
             {
                 ZooPanel.data.add(new Giraffe(name, size, hSpeed, vSpeed, color, newPan));
-//                Giraffe giraffe = new Giraffe(size, hSpeed, vSpeed, color, newPan);
-//                giraffe.setWeight(size * 2.2);
-//                ZooPanel.data.add(animalcounter, giraffe);
                 ZooPanel.dataTable[animalcounter][0] = ZooPanel.data.get(animalcounter).getName();
                 ZooPanel.dataTable[animalcounter][1] = color;
                 ZooPanel.dataTable[animalcounter][2] = ZooPanel.data.get(animalcounter).getWeight();
@@ -267,20 +255,17 @@ public class AddAnimalDialog<counter> extends JDialog implements ActionListener
                 ZooPanel.dataTable[animalcounter][4] = vSpeed;
                 ZooPanel.dataTable[animalcounter][5] = ZooPanel.data.get(animalcounter).getEatCount();
                 if(color.equals("NATURAL"))
-                    ZooPanel.data.get(animalcounter).loadImages("Pictures/grf_n_1.png");
+                    ZooPanel.data.get(animalcounter).loadImages(IDrawable.PICTURE_PATH + "grf_n_1.png");
                 if(color.equals("BLUE"))
-                    ZooPanel.data.get(animalcounter).loadImages("Pictures/grf_b_1.png");
+                    ZooPanel.data.get(animalcounter).loadImages(IDrawable.PICTURE_PATH + "grf_b_1.png");
                 if(color.equals("RED"))
-                    ZooPanel.data.get(animalcounter).loadImages("Pictures/grf_r_1.png");
+                    ZooPanel.data.get(animalcounter).loadImages(IDrawable.PICTURE_PATH + "grf_r_1.png");
 
             }
 
             if (name.equals("Turtle"))
             {
                 ZooPanel.data.add(new Turtle(name, size, hSpeed, vSpeed, color, newPan));
-//                Turtle turtle = new Turtle(size, hSpeed, vSpeed, color, newPan);
-//                turtle.setWeight(size * 0.5);
-//                ZooPanel.data.add(animalcounter, turtle);
                 ZooPanel.dataTable[animalcounter][0] = ZooPanel.data.get(animalcounter).getName();
                 ZooPanel.dataTable[animalcounter][1] = color;
                 ZooPanel.dataTable[animalcounter][2] = ZooPanel.data.get(animalcounter).getWeight();
@@ -288,11 +273,11 @@ public class AddAnimalDialog<counter> extends JDialog implements ActionListener
                 ZooPanel.dataTable[animalcounter][4] = vSpeed;
                 ZooPanel.dataTable[animalcounter][5] = ZooPanel.data.get(animalcounter).getEatCount();
                 if(color.equals("NATURAL"))
-                    ZooPanel.data.get(animalcounter).loadImages("Pictures/trt_n_1.png");
+                    ZooPanel.data.get(animalcounter).loadImages(IDrawable.PICTURE_PATH + "trt_n_1.png");
                 if(color.equals("BLUE"))
-                    ZooPanel.data.get(animalcounter).loadImages("Pictures/trt_b_1.png");
+                    ZooPanel.data.get(animalcounter).loadImages(IDrawable.PICTURE_PATH + "trt_b_1.png");
                 if(color.equals("RED"))
-                    ZooPanel.data.get(animalcounter).loadImages("Pictures/trt_r_1.png");
+                    ZooPanel.data.get(animalcounter).loadImages(IDrawable.PICTURE_PATH + "trt_r_1.png");
             }
         }
 
@@ -375,6 +360,7 @@ public class AddAnimalDialog<counter> extends JDialog implements ActionListener
 
         if (e.getSource() == bConfirmation)
         {
+
             if(name == null || size == 0 || hSpeed == 0 || vSpeed == 0 || color == null)
                 JOptionPane.showMessageDialog(null, "Selected All Characters", "Selected All Characters", JOptionPane.ERROR_MESSAGE);
             else

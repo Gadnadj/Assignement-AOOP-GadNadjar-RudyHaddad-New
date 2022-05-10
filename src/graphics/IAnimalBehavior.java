@@ -39,4 +39,18 @@ public interface IAnimalBehavior
          * @param state : true if the animal mooved
          */
         public void setChanges (boolean state);
+
+        /**
+         *
+         *
+         */
+        public void setSuspended();
+
+        /**
+         *
+         *
+         */
+        public void setResumed();
+
+
 }

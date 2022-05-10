@@ -80,7 +80,7 @@ public class MoveAnimalDialog extends JFrame implements ActionListener
 
 
     /**
-     * Construcot of MoveAnimalDialog
+     * Construct of MoveAnimalDialog
      * @param pan : panel of zoopanel
      */
     public MoveAnimalDialog(ZooPanel pan)

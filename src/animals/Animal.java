@@ -26,7 +26,7 @@ import java.io.IOException;
  * @see mobility.Mobile
  *
  */
-public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnimalBehavior {
+public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnimalBehavior, Runnable {
     private String name;
     private double weight;
     private IDiet diet;
@@ -41,7 +41,6 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
     private int verSpeed;
     private boolean coordChanged = true;
 
-    private Thread thread;
     private int x_dir = 1;
     private int y_dir = -1;
     private int eatCount = 0;
@@ -49,6 +48,10 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
     private BufferedImage img1 = null;
 
     private BufferedImage img2 = null;
+
+    protected Thread thread;
+
+    protected boolean threadSuspended;
 
 
 

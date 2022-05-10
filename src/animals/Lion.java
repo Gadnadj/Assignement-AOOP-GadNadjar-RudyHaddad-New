@@ -166,5 +166,18 @@ public class Lion extends Roar{
     }
 
 
+    @Override
+    public void setSuspended() {
 
+    }
+
+    @Override
+    public void setResumed() {
+
+    }
+
+    @Override
+    public void run() {
+
+    }
 }

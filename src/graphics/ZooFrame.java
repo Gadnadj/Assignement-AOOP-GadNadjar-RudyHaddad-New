@@ -157,7 +157,7 @@ public class ZooFrame extends JFrame implements ActionListener
             label.setIcon(imageIcon);
             this.getContentPane().add(label);
         }
-catch (IOException a) { System.out.println("Cannot load image");
+catch (IOException a) { System.out.println("Cannot load image [zoo frame - actionPerformed");
             System.out.println(a.toString());}
         }
 

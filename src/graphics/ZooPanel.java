@@ -45,6 +45,16 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
     private JButton addAnimal;
 
     /**
+     * button sleep
+     */
+    private JButton sleep;
+
+    /**
+     * button wakeUp
+     */
+    private JButton wakeUp;
+
+    /**
      * button moveanimal
      */
     JButton moveAnimal;
@@ -116,6 +126,8 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
 
 
         addAnimal = new JButton("Add Animal");
+        sleep = new JButton("sleep");
+        wakeUp = new JButton("Wake up");
         moveAnimal = new JButton("Move Animal");
         clear = new JButton("Clear");
         food = new JButton("Food");
@@ -133,6 +145,8 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
 
 
         panelControler.add(addAnimal);
+        panelControler.add(sleep);
+        panelControler.add(wakeUp);
         panelControler.add(moveAnimal);
         panelControler.add(clear);
         panelControler.add(food);
@@ -158,17 +172,20 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
      * @param e : e
      */
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e)
+    {
         if (e.getSource() == addAnimal)
         {
-            if (AddAnimalDialog.animalcounter < 10) {
+            if (AddAnimalDialog.animalcounter < 10)
+            {
                 new AddAnimalDialog(this);
                 manageZoo();
             } else
                 JOptionPane.showMessageDialog(null, "There is no more places in the zoo", "Can't add animal", JOptionPane.ERROR_MESSAGE);
         }
 
-        if (e.getSource() == moveAnimal) {
+        if (e.getSource() == moveAnimal)
+        {
             if (ZooPanel.data.size() == 0)
                 JOptionPane.showMessageDialog(null, "There's no animals", "Error", JOptionPane.ERROR_MESSAGE);
             else
@@ -179,7 +196,8 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
 
         }
 
-        if (e.getSource() == clear) {
+        if (e.getSource() == clear)
+        {
             if (this.data.size() == 0) {
                 JOptionPane.showMessageDialog(null, "There's no animals", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
@@ -200,7 +218,8 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
 
         }
 
-        if (e.getSource() == food) {
+        if (e.getSource() == food)
+        {
             String[] responses = {"Lettuce", "Cabbage", "Meat"};
             foods = JOptionPane.showOptionDialog(null,
                     "Please choose food",
@@ -234,17 +253,30 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener {
             repaint();
         }
 
-        if (e.getSource() == info) {
+        if (e.getSource() == info)
+        {
 
             String[] column = {"Animal", "Color", "Weight", "Horizontal speed", "Vertical speed", "Eat Counter"};
             tableAnimal = new JTable(dataTable, column);
             JTableCreation window = new JTableCreation(tableAnimal);
         }
 
-        if (e.getSource() == exit) {
+        if (e.getSource() == exit)
+        {
             System.out.println("Bye, have a great day !");
             System.exit(1);
         }
+
+        if (e.getSource() == sleep)
+        {
+
+        }
+
+        if (e.getSource() == wakeUp)
+        {
+
+        }
+
 
     }
 

@@ -10,7 +10,7 @@ public interface IDrawable
     /**
      * Picture_Path
      */
-    public final static String PICTURE_PATH = "/Users/nadjar/Desktop/assignment2_pictures/";
+    public final static String PICTURE_PATH = "Pictures/";
     
     /**
      *

@@ -339,7 +339,7 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
         }
         catch (IOException e)
         {
-            System.out.println("Cannot load image");
+            System.out.println("Cannot load image - [animal - loadImages]");
         }
     }
 

@@ -35,14 +35,14 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
 
 
     private final int EAT_DISTANCE = 10;
-    private int size;
+    protected int size;
     private String col;
     private int horSpeed;
     private int verSpeed;
     private boolean coordChanged = true;
 
-    private int x_dir = 1;
-    private int y_dir = -1;
+    private int x_dir;
+    private int y_dir;
     private int eatCount = 0;
     private ZooPanel pan;
     private BufferedImage img1 = null;
@@ -53,9 +53,10 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
 
     protected boolean threadSuspended;
 
+    protected int cor_x1, cor_x2, cor_x3, cor_x4, cor_x5, cor_x6;
+    protected int cor_y1, cor_y2, cor_y3, cor_y4, cor_y5, cor_y6;
 
-
-
+    protected int cor_w, cor_h;
 
 
 
@@ -85,6 +86,15 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
         this.verSpeed = verSpeed;
         this.col = color;
         this.pan = pan;
+        this.x_dir = 1;
+        this.y_dir = 1;
+        cor_x1=cor_x3=cor_x5=cor_x6=0;
+        cor_y1=cor_y3=cor_y5=cor_y6=0;
+        cor_x2=cor_y2=cor_x4=cor_y4=-1;
+        cor_w = cor_h = size;
+        coordChanged = false;
+        thread = new Thread(this);
+
     }
 
     /**
@@ -223,7 +233,8 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
 
     public double move (Point p) {
         double d = super.move(p);
-        if (d != 0) {
+        if (d != 0)
+        {
             double temp = getWeight();
             setWeight(temp - (d * temp * 0.00025));
             setChanges(true);
@@ -231,6 +242,9 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
                 this.x_dir = 1;
             else
                 this.x_dir = -1;
+            if(getLocation().getY() <= p.getY())
+                this.y_dir = 1;
+            else this.y_dir = -1;
         }
         return d;
     }
@@ -257,7 +271,7 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
     @Override
     public void eatInc()
     {
-
+        eatCount++;
     }
 
     /**
@@ -333,13 +347,44 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
     @Override
     public void loadImages(String nm)
     {
-        try
+        switch(getColor())
         {
-            this.img1 = ImageIO.read(new File(nm));
-        }
-        catch (IOException e)
-        {
-            System.out.println("Cannot load image - [animal - loadImages]");
+            case "RED": {
+                try {
+                    img1 = ImageIO.read(new File(PICTURE_PATH + nm + "_r_1.png"));
+                    img2 = ImageIO.read(new File(PICTURE_PATH + nm + "_r_2.png"));
+
+
+                } catch (IOException e) {
+                    System.out.println("Cannot load picture - loadImages / Red");
+                }
+                break;
+            }
+
+            case "BLUE": {
+                try {
+                    img1 = ImageIO.read(new File(PICTURE_PATH + nm + "_b_1.png"));
+                    img2 = ImageIO.read(new File(PICTURE_PATH + nm + "_b_2.png"));
+
+
+                } catch (IOException e) {
+                    System.out.println("Cannot load picture - loadImages / Blue");
+                }
+                break;
+            }
+
+            case "NATURAL": {
+                try {
+                    img1 = ImageIO.read(new File(PICTURE_PATH + nm + "_n_1.png"));
+                    img2 = ImageIO.read(new File(PICTURE_PATH + nm + "_n_2.png"));
+
+
+                } catch (IOException e) {
+                    System.out.println("Cannot load picture - loadImages / Natural");
+                }
+                break;
+            }
+
         }
     }
 
@@ -454,5 +499,128 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
     {
         return this.EAT_DISTANCE;
     }
+
+    @Override
+    public void setSuspended()
+    {
+        threadSuspended = true;
+    }
+
+    @Override
+    synchronized public void setResumed()
+    {
+        threadSuspended = false;
+        notify();
+    }
+
+    @Override
+    public void run()
+    {
+        while (true)
+        {
+            try
+            {
+                Thread.sleep(50);
+
+                synchronized(this) {
+                    while (threadSuspended)
+                        wait();
+                }
+            }
+            catch (InterruptedException e)
+            {
+                System.out.println(getName()+ " dead...");
+                return;
+            }
+
+            if(this.getDiet().canEat(pan.checkFood()))
+            {
+                double oldSpead = Math.sqrt(horSpeed*horSpeed+verSpeed*verSpeed);
+                double newHorSpeed = oldSpead*(location.getX() - pan.getWidth()/2)/
+                        (Math.sqrt(Math.pow(location.getX() - pan.getWidth()/2,2)+
+                                Math.pow(location.getY() - pan.getHeight()/2,2)));
+                double newVerSpeed = oldSpead*(location.getY() - pan.getHeight()/2)/
+                        (Math.sqrt(Math.pow(location.getX() - pan.getWidth()/2,2)+
+                                Math.pow(location.getY() - pan.getHeight()/2,2)));
+                int v = 1;
+                if(newVerSpeed<0) { v=-1; newVerSpeed = -newVerSpeed; }
+                if(newVerSpeed > 10)
+                    newVerSpeed = 10;
+                else if(newVerSpeed < 1) {
+                    if(location.getY() != pan.getHeight()/2)
+                        newVerSpeed = 1;
+                    else
+                        newVerSpeed = 0;
+                }
+                int h = 1;
+                if(newHorSpeed<0) { h=-1; newHorSpeed = -newHorSpeed; }
+                if(newHorSpeed > 10)
+                    newHorSpeed = 10;
+                else if(newHorSpeed < 1) {
+                    if(location.getX() != pan.getWidth()/2)
+                        newHorSpeed = 1;
+                    else
+                        newHorSpeed = 0;
+                }
+                location.setX((int)(location.getX() - newHorSpeed*h));
+                location.setY((int)(location.getY() - newVerSpeed*v));
+                if(location.getX()<pan.getWidth()/2)
+                    x_dir = 1;
+                else
+                    x_dir = -1;
+                if((Math.abs(location.getX()-pan.getWidth()/2)<EAT_DISTANCE) &&
+                        (Math.abs(location.getY()-pan.getHeight()/2)<EAT_DISTANCE))
+                {
+                    pan.eatFood(this);
+                }
+            }
+            else
+            {
+                location.setX(location.getX() + horSpeed*x_dir);
+                location.setY(location.getY() + verSpeed*y_dir);
+            }
+
+            if(location.getX() > pan.getWidth()+cor_x1)
+            {
+                x_dir = -1;
+                if(cor_x2!=-1)
+                    location.setX(location.getX()+cor_x2);
+            }
+            else if(location.getX() < cor_x3)
+            {
+                x_dir = 1;
+                if(cor_x4!=-1)
+                    location.setX(cor_x4);
+            }
+
+            if(location.getY() > (pan.getHeight() + cor_y1))
+            {
+                y_dir = -1;
+                if(cor_y2!=-1)
+                    location.setY(location.getY()+cor_y2);
+            }
+            else if(location.getY() < cor_y3)
+            {
+                y_dir = 1;
+                if(cor_y4!=-1)
+                    location.setY(cor_y4);
+            }
+
+            setChanges(true);
+        }
+    }
+
+    public void start()
+    {
+        this.thread.start();
+    }
+
+    public void interrupt()
+    {
+        this.thread.interrupt();
+    }
+
+
+
 
 }

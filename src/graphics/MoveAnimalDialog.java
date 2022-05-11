@@ -170,7 +170,7 @@ public class MoveAnimalDialog extends JFrame implements ActionListener
             {
                 JOptionPane.showMessageDialog(null, "Coordinate Changed", "Coordinate", JOptionPane.INFORMATION_MESSAGE);
                 frame.dispose();
-                ZooPan.manageZoo();
+                //ZooPan.manageZoo();
             }
         }
     }

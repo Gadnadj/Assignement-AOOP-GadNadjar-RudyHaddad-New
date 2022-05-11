@@ -61,6 +61,7 @@ public class Bear extends Roar {
         this.setX(100);
         this.setY(5);
         this.furColor = String.valueOf(setFurColor("gray"));
+        this.loadImages("bea");
         this.setDiet(diet);
         this.setPan(pan);
         bearCount++;
@@ -170,18 +171,4 @@ public class Bear extends Roar {
     }
 
 
-    @Override
-    public void setSuspended() {
-
-    }
-
-    @Override
-    public void setResumed() {
-
-    }
-
-    @Override
-    public void run() {
-
-    }
 }

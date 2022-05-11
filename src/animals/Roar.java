@@ -27,36 +27,30 @@ import java.awt.*;
 /**
  * class Roar
  */
-public abstract class Roar extends Animal
-{
+public abstract class Roar extends Animal {
 
     /**
-     *
      * @param name : name of the animal
      */
-    public Roar(String name)
-    {
+    public Roar(String name) {
         super(name);
     }
 
     /**
-     *
-     * @param size : size of the animal
+     * @param size     : size of the animal
      * @param horSpeed : horizontal speed of the animal
      * @param verSpeed : vertical speed of the animal
-     * @param color : color of the animal
-     * @param pan  : panel of zoopanel
+     * @param color    : color of the animal
+     * @param pan      : panel of zoopanel
      */
-    public Roar(int size, int horSpeed, int verSpeed, String color, ZooPanel pan){super(size, horSpeed, verSpeed, color, pan);}
-
-    public void makeSound()
-    {
-        if(this instanceof Lion)
-            MessageUtility.logSound(getName(), "Roars, then stretches and shakes its mane");
-        if(this instanceof Bear)
-            MessageUtility.logSound(getName(),"Stands on its hind legs, roars and scratches its belly");
+    public Roar(int size, int horSpeed, int verSpeed, String color, ZooPanel pan) {
+        super(size, horSpeed, verSpeed, color, pan);
     }
 
-
-
+    public void makeSound() {
+        if (this instanceof Lion)
+            MessageUtility.logSound(getName(), "Roars, then stretches and shakes its mane");
+        if (this instanceof Bear)
+            MessageUtility.logSound(getName(), "Stands on its hind legs, roars and scratches its belly");
+    }
 }

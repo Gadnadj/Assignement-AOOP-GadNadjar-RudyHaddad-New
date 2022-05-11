@@ -66,9 +66,16 @@ public class Lion extends Roar{
         this.setX(50);
         this.setY(0);
         this.scarCount = 0;
+        this.loadImages("lio");
         this.setWeight(this.getSize() * 0.8);
         this.setDiet(diet);
         lionCount++;
+        cor_x4 = 0;
+        cor_y1 = (int) (-30-size/3);
+        cor_y3 = (int) (size*0.25);
+        cor_x5 = cor_x6 = -size/2;
+        cor_y5 = cor_y6 = -size/3;
+        cor_h = (int)(size*0.73);
     }
 
     /**
@@ -166,18 +173,4 @@ public class Lion extends Roar{
     }
 
 
-    @Override
-    public void setSuspended() {
-
-    }
-
-    @Override
-    public void setResumed() {
-
-    }
-
-    @Override
-    public void run() {
-
-    }
 }

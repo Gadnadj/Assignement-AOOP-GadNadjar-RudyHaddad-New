@@ -13,7 +13,7 @@ import java.lang.Math;
  */
 
 public abstract class Mobile implements ILocatable {
-    private Point location = new Point(0,0);
+    protected Point location = new Point(0,0);
     private Double totalDistance;
 
 

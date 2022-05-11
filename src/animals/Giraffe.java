@@ -72,6 +72,7 @@ public class Giraffe extends Chew
         this.setName(name + giraffeCount);
         this.setX(50);
         this.setY(0);
+        this.loadImages("grf");
         setNeckLength(1.5);
         this.setDiet(diet);
     }
@@ -192,18 +193,4 @@ public class Giraffe extends Chew
     }
 
 
-    @Override
-    public void setSuspended() {
-
-    }
-
-    @Override
-    public void setResumed() {
-
-    }
-
-    @Override
-    public void run() {
-
-    }
 }

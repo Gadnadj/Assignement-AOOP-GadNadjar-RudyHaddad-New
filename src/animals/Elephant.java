@@ -66,6 +66,7 @@ public class Elephant extends Chew
         this.setName(name + elephantCount);
         this.setX(50);
         this.setY(90);
+        loadImages("elf");
         settrunkLength(1);
         this.setDiet(diet);
         elephantCount++;
@@ -188,18 +189,4 @@ public class Elephant extends Chew
     }
 
 
-    @Override
-    public void setSuspended() {
-
-    }
-
-    @Override
-    public void setResumed() {
-
-    }
-
-    @Override
-    public void run() {
-
-    }
 }

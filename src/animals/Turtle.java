@@ -52,6 +52,7 @@ public class Turtle extends Chew {
         this.setName(name + turtleCount);
         this.setX(80);
         this.setY(0);
+        this.loadImages("trt");
         setAge(1);
         this.setDiet(diet);
         turtleCount++;
@@ -149,18 +150,4 @@ public class Turtle extends Chew {
     }
 
 
-    @Override
-    public void setSuspended() {
-
-    }
-
-    @Override
-    public void setResumed() {
-
-    }
-
-    @Override
-    public void run() {
-
-    }
 }

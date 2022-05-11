@@ -1,5 +1,4 @@
 package graphics;
-
 import java.awt.*;
 
 /**
@@ -7,26 +6,23 @@ import java.awt.*;
  */
 public interface IDrawable
 {
+    String PICTURE_PATH = "Pictures/";
+
+
     /**
-     * Picture_Path
-     */
-    public final static String PICTURE_PATH = "Pictures/";
-    
-    /**
-     *
      * @param nm : string of the image
      */
-    public void loadImages(String nm);
+     void loadImages(String nm);
+
 
     /**
-     *
      * @param g : graphics
      */
-    public void drawObject (Graphics g);
+     void drawObject (Graphics g);
+
 
     /**
-     *
      * @return String : color of the animal
      */
-    public String getColor();
+     String getColor();
 }

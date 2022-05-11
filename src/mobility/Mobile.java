@@ -12,30 +12,48 @@ import java.lang.Math;
  *
  */
 
-public abstract class Mobile implements ILocatable {
-    private Point location = new Point(0,0);
+public abstract class Mobile implements ILocatable
+{
+    protected Point location = new Point(0,0);
     private Double totalDistance;
 
 
-    /** @param location : location of the animal
+
+    /**
+     *  @param location : location of the animal
      */
-    public Mobile(Point location) {
+    public Mobile(Point location)
+    {
         if(Point.checkBoundaries(location))
             this.location = location;
         this.totalDistance = 0.0;
     }
 
+
+    /**
+     * Total distance
+     */
     public Mobile()
     {
         this.totalDistance = 0.0;
     }
 
+
+    /**
+     * @param x : coordinate x
+     * @return boolean
+     */
     public boolean setX(int x)
     {
         this.location.setX(x);
         return true;
     }
 
+
+    /**
+     * @param y : coordinate y
+     * @return
+     */
     public boolean setY(int y)
     {
         this.location.setY(y);
@@ -44,7 +62,6 @@ public abstract class Mobile implements ILocatable {
 
 
     /**
-     *
      * @return Point: the location of the animal
      */
     public Point getLocation() {
@@ -53,10 +70,10 @@ public abstract class Mobile implements ILocatable {
 
 
     /** @param point : the new point of the animal
-     *
      * @return boolean : true if the placement worked
      */
-    public boolean setLocation(Point point) {
+    public boolean setLocation(Point point)
+    {
         if(Point.checkBoundaries(point))
         {
             this.location.setX(point.getX());
@@ -78,7 +95,6 @@ public abstract class Mobile implements ILocatable {
 
     /**
      *  @param totalDistance : new distance traveled
-     *
      * @return boolean : true if the placement worked
      */
     public boolean settotalDistance(double totalDistance) {
@@ -89,40 +105,35 @@ public abstract class Mobile implements ILocatable {
 
     /**
      * @param distance : the distance that the animal traveled
-     *
      */
-    public void addTotalDistance(double distance) {
-        if (distance <= 0) {
+    public void addTotalDistance(double distance)
+    {
+        if (distance <= 0)
             System.out.println("The distance must be positive !");
-        } else {
-            //this.totalDistance += distance;
+        else
             this.settotalDistance(gettotalDistance() + distance);
-        }
     }
 
 
     /**
      * @param location : the new location of the animal
-     *
      *  @return : the distance between the old and new point
      */
-    public double calcDistance(Point location) {
+    public double calcDistance(Point location)
+    {
         return Math.sqrt(Math.pow(getLocation().getX() - location.getX(), 2) + (Math.pow(getLocation().getY() - location.getY(), 2)));
     }
 
 
     /**
      * @param l : new point
-     *
      * @return double : the total distance between the new and old point
      */
     public double move(Point l)
     {
         double sum = 0;
         if (this.location.getX() == l.getX() && this.location.getY() == l.getY())
-        {
             return 0;
-        }
         else
         {
             if (!(Point.checkBoundaries(l)))

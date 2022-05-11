@@ -1,15 +1,9 @@
 package graphics;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.nio.channels.ScatteringByteChannel;
-
 
 /**
  * this class is a child class of JFrame and implements the ActionListener interface. it allows us to create
@@ -20,51 +14,16 @@ import java.nio.channels.ScatteringByteChannel;
  */
 public class ZooFrame extends JFrame implements ActionListener
 {
-    /**
-     * item exit
-     */
+
     private JMenuItem exit;
-
-    /**
-     * item background image
-     */
-    JMenuItem image;
-
-    /**
-     * item background green
-     */
-    JMenuItem green;
-
-    /**
-     * item background none
-     */
-    JMenuItem none;
-
-    /**
-     * item help
-     */
-    JMenuItem help;
-
-    /**
-     * frame
-     */
-
-    /**
-     * label
-     */
+    private JMenuItem image;
+    private JMenuItem green;
+    private JMenuItem none;
+    private JMenuItem help;
     private JLabel label;
-
-    /**
-     * zoo
-     */
     private ZooPanel zoo;
 
-    private BufferedImage img = null;
-
-
-
     /**
-     *
      * @param args : main
      */
     public static void main(String[] args)
@@ -73,6 +32,7 @@ public class ZooFrame extends JFrame implements ActionListener
         zooframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         zooframe.setVisible(true);
     }
+
 
     /**
      * constructor of ZooFrame
@@ -90,10 +50,9 @@ public class ZooFrame extends JFrame implements ActionListener
 
         exit = new JMenuItem("Exit");
         image = new JMenuItem("Image");
-        green = new JMenuItem("green");
+        green = new JMenuItem("Green");
         none = new JMenuItem("None");
-        help = new JMenuItem("help");
-
+        help = new JMenuItem("Help");
 
         exit.addActionListener(this);
         image.addActionListener(this);
@@ -108,18 +67,14 @@ public class ZooFrame extends JFrame implements ActionListener
 
         file.add(exit);
         background.add(green);
+        background.addSeparator();
         background.add(image);
+        background.addSeparator();
         background.add(none);
         Help.add(help);
 
-
-
-
-
         label = new JLabel();
         this.add(label);
-
-
 
         this.setLayout(new BorderLayout());
         this.setSize(800,600);
@@ -128,55 +83,36 @@ public class ZooFrame extends JFrame implements ActionListener
         zoo = new ZooPanel();
         zoo.setOpaque(false);
         this.add(zoo);
-
-
     }
 
     /**
-     *
      * @param e : e
      */
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        if (e.getSource() == exit) {
+        if (e.getSource() == exit)
+        {
             System.out.println("Bye, have a great day !");
             System.exit(1);
         }
 
         if (e.getSource() == image)
-        {
-            try {
-            this.remove(label);
-            this.getContentPane().setBackground(null);
-            img = ImageIO.read(new File(IDrawable.PICTURE_PATH + "savanna.png"));
-            label = new JLabel();
-            label.setBounds(0, 0, 800, 600);
-            Image backimg = img.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
-            ImageIcon imageIcon = new ImageIcon(backimg);
-            label.setIcon(imageIcon);
-            this.getContentPane().add(label);
-        }
-catch (IOException a) { System.out.println("Cannot load image [zoo frame - actionPerformed");
-            System.out.println(a.toString());}
-        }
+            zoo.setBackgr(2);
 
         if(e.getSource() == green)
         {
-            this.remove(label);
+            zoo.setBackgr(1);
             this.getContentPane().setBackground(Color.green);
         }
 
         if(e.getSource() == none)
         {
-            this.remove(label);
+            zoo.setBackgr(0);
             this.getContentPane().setBackground(null);
         }
 
         if(e.getSource() == help)
-        {
-            JOptionPane.showMessageDialog(null, "Home Work 2\nGUI", "Message", JOptionPane.INFORMATION_MESSAGE);
-        }
-
+            JOptionPane.showMessageDialog(null, "Home Work 3\n@Thread", "Message", JOptionPane.INFORMATION_MESSAGE);
     }
 }

@@ -395,9 +395,9 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
     @Override
     public void drawObject(Graphics g) {
         if (this.getX_dir() == 1) // giraffe goes to the right side
-            g.drawImage(this.getImg1(), this.getLocation().getX() - this.getSize() / 2, this.getLocation().getY() - this.getSize() / 10, this.getSize() / 2, this.getSize(), this.getPan());
+            g.drawImage(this.getImg1(), this.getLocation().getX() - this.getSize() / 2, this.getLocation().getY() - this.getSize() / 10, (int)(this.getSize() * 1.2), this.getSize(), this.getPan());
         else // giraffe goes to the left side
-            g.drawImage(this.getImg2(), this.getLocation().getX(), this.getLocation().getY() - this.getSize() / 10, this.getSize() / 2, this.getSize(), this.getPan());
+            g.drawImage(this.getImg2(), this.getLocation().getX(), this.getLocation().getY() - this.getSize() / 10, (int)(this.getSize() * 1.2), this.getSize(), this.getPan());
     }
 
     /**

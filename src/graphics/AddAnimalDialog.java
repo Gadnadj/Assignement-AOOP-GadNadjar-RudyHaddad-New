@@ -1,5 +1,10 @@
 package graphics;
 import animals.*;
+import factory.AbstractZooFactory;
+import factory.FactoryCarnivore;
+import factory.FactoryHerbivore;
+import factory.FactoryOmnivore;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -28,12 +33,16 @@ public class AddAnimalDialog<counter> extends JDialog implements ActionListener
     JComboBox cselectColor;
     JButton bConfirmation;
 
+    private int choosenFact;
+
     /**
      * constructor that creates a Dialog and displays a page that allows us to select the animals to add to the table
      * @param pan : panel of ZooPanel
      */
-    public AddAnimalDialog(ZooPanel pan)
+    public AddAnimalDialog(ZooPanel pan, int choosenfactory)
     {
+        this.choosenFact = choosenfactory;
+        newPan = pan;
         this.setTitle("Add Animal");
         this.setSize(new Dimension(600, 100));
         this.setLayout(new GridLayout(2, 6));
@@ -100,22 +109,54 @@ public class AddAnimalDialog<counter> extends JDialog implements ActionListener
      */
     public void addAnimal()
     {
+        Animal an = null;
+        AbstractZooFactory zooFactory = null;
+        if (choosenFact == 0)
+            zooFactory = createAnimalFactory("FactoryHerbivore");
+        if(choosenFact == 1)
+            zooFactory = createAnimalFactory("FactoryOmnivore");
+        if(choosenFact == 2)
+            zooFactory = createAnimalFactory("FactoryCarnivore");
         if (animalcounter < 10)
         {
-            if (name.equals("Lion"))
-                ZooPanel.data.add(new Lion(name, size, hSpeed, vSpeed, color, newPan));
+            if (name.equals("Lion")) {
+                zooFactory = createAnimalFactory("FactoryCarnivore");
+                //ZooPanel.data.add(new Lion(name, size, hSpeed, vSpeed, color, newPan));
+                an = zooFactory.produceAnimal("Lion", size, hSpeed, vSpeed, color, newPan);
+            }
 
-            if (name.equals("Bear"))
-                ZooPanel.data.add(new Bear(name, size, hSpeed, vSpeed, color, newPan));
+            if (name.equals("Bear")) {
+                zooFactory = createAnimalFactory("FactoryOmnivore");
+                //ZooPanel.data.add(new Bear(name, size, hSpeed, vSpeed, color, newPan));
+                an = zooFactory.produceAnimal("Bear", size, hSpeed, vSpeed, color, newPan);
 
-            if (name.equals("Elephant"))
-                ZooPanel.data.add(new Elephant(name, size, hSpeed, vSpeed, color, newPan));
 
-            if (name.equals("Giraffe"))
-                ZooPanel.data.add(new Giraffe(name, size, hSpeed, vSpeed, color, newPan));
+            }
 
-            if (name.equals("Turtle"))
-                ZooPanel.data.add(new Turtle(name, size, hSpeed, vSpeed, color, newPan));
+            if (name.equals("Elephant")) {
+                zooFactory = createAnimalFactory("FactoryHerbivore");
+                //ZooPanel.data.add(new Elephant(name, size, hSpeed, vSpeed, color, newPan));
+                an = zooFactory.produceAnimal("Elephant", size, hSpeed, vSpeed, color, newPan);
+
+            }
+
+            if (name.equals("Giraffe")) {
+                zooFactory = createAnimalFactory("FactoryHerbivore");
+                //ZooPanel.data.add(new Giraffe(name, size, hSpeed, vSpeed, color, newPan));
+                an = zooFactory.produceAnimal("Giraffe", size, hSpeed, vSpeed, color, newPan);
+
+            }
+
+            if (name.equals("Turtle")) {
+                zooFactory = createAnimalFactory("FactoryHerbivore");
+                //ZooPanel.data.add(new Turtle(name, size, hSpeed, vSpeed, color, newPan));
+                an = zooFactory.produceAnimal("Turtle", size, hSpeed, vSpeed, color, newPan);
+            }
+            if(an !=null)
+            {
+                //an.setFactor(choosenFact);
+
+            }
         }
     }
 
@@ -148,6 +189,7 @@ public class AddAnimalDialog<counter> extends JDialog implements ActionListener
             else
             {
                 addAnimal();
+                ZooPanel.getInstance();
                 ZooPanel.data.get(animalcounter).start();
                 animalcounter++;
                 dispose();
@@ -155,5 +197,18 @@ public class AddAnimalDialog<counter> extends JDialog implements ActionListener
                     JOptionPane.showMessageDialog(null, "Animal Added", "Animal Added", JOptionPane.INFORMATION_MESSAGE);
             }
         }
+    }
+
+
+    private AbstractZooFactory createAnimalFactory (String type)
+    {
+        if (type.equals("FactoryHerbivore"))
+            return new FactoryHerbivore();
+        else if (type.equals("FactoryOmnivore"))
+            return new FactoryOmnivore();
+        else if (type.equals("FactoryCarnivore"))
+            return new FactoryCarnivore();
+
+        return null;
     }
 }

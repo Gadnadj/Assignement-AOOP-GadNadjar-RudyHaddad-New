@@ -15,6 +15,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import factory.AbstractZooFactory;
+import factory.FactoryCarnivore;
+import factory.FactoryOmnivore;
+import factory.FactoryHerbivore;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  * this class is a child class of JPanel and implements the Runnable and ActionListener interfaces. it displays on
@@ -48,11 +54,20 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener
     boolean bgr;
     private IEdible food1;
 
+    private Executor threadPool;
+
+    private static ZooPanel instance = null;
+
+    private int factory = -1;
+
     /**
      * Constructor of ZooPanel
      */
     public ZooPanel()
     {
+        threadPool = Executors.newFixedThreadPool (5);
+
+
         isTableVisible = false;
         controller = new Thread(this);
         controller.start();
@@ -153,10 +168,7 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener
     {
         if (e.getSource() == addAnimal)
         {
-            if (AddAnimalDialog.animalcounter < 10)
-                new AddAnimalDialog(this);
-            else
-                JOptionPane.showMessageDialog(null, "There is no more places in the zoo", "Can't add animal", JOptionPane.ERROR_MESSAGE);
+            addDialog();
         }
 
         if (e.getSource() == clear)
@@ -394,6 +406,52 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener
     {
         predator.eatInc();
         totalEatCount -= (prey.getEatCount() - 1);
+    }
+
+
+
+
+
+
+
+    /**
+     * singelton related
+     * @return instance
+     */
+    public static ZooPanel getInstance()
+    {
+        if(instance == null)
+            synchronized(ZooPanel.class)
+            {
+                instance  = new ZooPanel();
+            }
+
+
+        return instance;
+    }
+
+    /**
+     * select the factory
+     * @return the result
+     */
+    private int selectFactory()
+    {
+        String FactoryType[] = {"Herbivore", "Omnivore", "Carnivore"};
+        int dialogRes = JOptionPane.showOptionDialog (null, "Please Choose Animal Factory", "Animal Factory", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, FactoryType, FactoryType[0]);
+        return dialogRes;
+    }
+
+
+    public void addDialog()
+    {
+        if(data.size()==10) {
+            JOptionPane.showMessageDialog(this, "You cannot add more than "+10+" animals");
+        }
+        else {
+            this.factory=selectFactory();
+            AddAnimalDialog dial = new AddAnimalDialog(this ,factory);
+            dial.setVisible(true);
+        }
     }
 }
 

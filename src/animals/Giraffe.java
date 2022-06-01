@@ -22,7 +22,7 @@ public class Giraffe extends Animal {
         cor_x2 = (-size/4);
         cor_x3 = (int) (- size*0.25);
         cor_x4 = (int) (size*0.25);
-        cor_y1 = (int) (-30 - size*9/10);
+        cor_y1 = -30 - size*9/10;
         cor_y3 = size/10;
         cor_x5 = -size/2;
         cor_y5 = cor_y6 = -size/10;
@@ -31,7 +31,7 @@ public class Giraffe extends Animal {
 
 
     /**
-     * @return EFoodType : return the type of food of the animal
+     * @return EFoodType : return the type of food of the giraffe
      */
     @Override
     public EFoodType getFoodtype() {return EFoodType.MEAT;}

@@ -34,6 +34,10 @@ public class ZooFrame extends JFrame implements ActionListener
         aqua.setVisible(true);
     }
 
+
+    /**
+     * Constructor
+     */
     public ZooFrame()
     {
         this.setName("Zoo Frame");
@@ -109,10 +113,18 @@ public class ZooFrame extends JFrame implements ActionListener
         }
     }
 
+
+    /**
+     * active the function interrupt on all animal
+     */
     public void destroy() {
         ZooPanel.getInstance().destroy();
     }
 
+
+    /**
+     * display a message
+     */
     public void printHelp() {
         JOptionPane.showMessageDialog(this, "Home Work 4\nGUI @ Designs Pattern");
     }

@@ -10,7 +10,7 @@ import javax.swing.*;
 
 import animals.Animal;
 /**
- *
+ * Duplicate Animal
  * @author Gad Nadjar, Rudy Haddad
  */
 public class DuplicateDialog extends JDialog implements ActionListener {
@@ -29,6 +29,9 @@ public class DuplicateDialog extends JDialog implements ActionListener {
     int counter1= 0, counter2 = 0, counter3 = 0;
 
 
+    /**
+     * constructor
+     */
     public DuplicateDialog()
     {
 
@@ -79,12 +82,12 @@ public class DuplicateDialog extends JDialog implements ActionListener {
         cselectHorSpeed.addActionListener(this);
         cselectVerSpeed.addActionListener(this);
         bConfirmation.addActionListener(this);
-
-
-
-
     }
 
+
+    /**
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e)
     {

@@ -19,7 +19,7 @@ public class Turtle extends Animal {
         setDiet(new Herbivore());
         loadImages("trt");
         cor_x1 = size/4;
-        cor_x2 = (int) (-size/4);
+        cor_x2 = -size/4;
         cor_x3 = (int) (-size*0.25);
         cor_x4 = (int) (size*0.25);
         cor_y1 = (int) (-30-size*0.125);
@@ -30,6 +30,9 @@ public class Turtle extends Animal {
     }
 
 
+    /**
+     * @return the food type of the turtle
+     */
     public EFoodType getFoodtype() {return EFoodType.MEAT;}
 
     @Override

@@ -12,4 +12,4 @@ package food;
 /**
  * type of food
  */
-public enum EFoodType {MEAT, NOTFOOD, VEGETABLE;}
+public enum EFoodType {MEAT, NOTFOOD, VEGETABLE}

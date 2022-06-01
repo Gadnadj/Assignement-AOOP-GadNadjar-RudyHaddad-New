@@ -21,14 +21,14 @@ public class Elephant extends Animal {
         cor_y1 = (int) (-30-size*0.45);
         cor_y3 = (int) (size*0.25);
         cor_x5 = -size*3/4;
-        cor_x6 = -size*1/5;
+        cor_x6 = -size /5;
         cor_y5 = cor_y6 = -size/4;
         cor_h = (int)(size*0.7);
     }
 
 
     /**
-     * @return EFoodType : return the type of food of the animal
+     * @return EFoodType : return the type of food of the elephant
      */
     @Override
     public EFoodType getFoodtype() {return EFoodType.MEAT;}

@@ -50,17 +50,16 @@ public abstract class Animal extends Observable implements IEdible,IDrawable,IAn
 
 
     /**
-     * Default Constructor initializes all the fields that belongs to animal and the super class
-     * @param nm
-     * @param sz
-     * @param w
-     * @param hor
-     * @param ver
-     * @param c
+     * Default Constructor
+     * @param nm : type of animal
+     * @param sz : size of the animal
+     * @param hor : horizontal speed of the animal
+     * @param ver : vertical speed of the animal
+     * @param c : color of the animal
      */
     public Animal(String nm, int sz, int w, int hor, int ver, String c) {
         this.setLocation(new Point(0,0));
-        name = new String(nm);
+        name = nm;
         size = sz;
         weight = w;
         horSpeed = hor;
@@ -82,90 +81,135 @@ public abstract class Animal extends Observable implements IEdible,IDrawable,IAn
         return super.clone();
     }
 
+
+    /**
+     * @return the type of the animal
+     */
     public EFoodType getFoodtype()
     {
         return EFoodType.MEAT;
     }
 
 
+    /**
+     * @return IDiet
+     */
     public IDiet getDiet()
     {
         return diet;
     }
 
 
+    /**
+     * @return the name of the animal
+     */
     public String getName()
     {
         return this.name;
     }
 
 
+    /**
+     * @return the weight of the animal
+     */
     public double getWeight()
     {
         return this.weight;
     }
 
 
+    /**
+     * @param w : set the weight of the animal
+     */
     public void setWeight(double w)
     {
         weight = w;
     }
 
 
+    /**
+     * @param diet : set diet
+     */
     protected void setDiet(IDiet diet)
     {
         this.diet = diet;
     }
 
 
+    /**
+     * @return the size of the animal
+     */
     public int getSize()
     {
         return size;
     }
 
 
+    /**
+     * @return the hor speed
+     */
     public int getHorSpeed()
     {
         return horSpeed;
     }
 
 
+    /**
+     * @param hor : set the hor speed
+     */
     public void setHorSpeed(int hor)
     {
         horSpeed  = hor;
     }
 
 
+    /**
+     * @return : ver speed
+     */
     public int getVerSpeed()
     {
         return verSpeed;
     }
 
 
+    /**
+     * @param ver : set the ver speed
+     */
     public void setVerSpeed(int ver)
     {
         verSpeed  = ver;
     }
 
-
+    /**
+     * increase 1 after animal eated
+     */
     public void eatInc()
     {
         eatCount++;
     }
 
 
+    /**
+     * @return the number of animal eaten
+     */
     public int getEatCount()
     {
         return eatCount;
     }
 
 
+    /**
+     * suspend thread
+     */
     synchronized public void setSuspend()
     {
         threadSuspended = true;
     }
 
 
+    /**
+     * resume the thread
+     */
     synchronized public void setResume()
     {
         threadSuspended = false;
@@ -173,36 +217,54 @@ public abstract class Animal extends Observable implements IEdible,IDrawable,IAn
     }
 
 
+    /**
+     * @return true if the coordinate changed
+     */
     synchronized public boolean getChanges()
     {
         return coordChanged;
     }
 
 
+    /**
+     * @param state : change the state of the animal
+     */
     synchronized public void setChanges(boolean state)
     {
         coordChanged = state;
     }
 
 
+    /**
+     * @return the color of the animal
+     */
     public String getColor()
     {
         return col;
     }
 
 
+    /**
+     * @param color : set the color
+     */
     public void setColor(String color)
     {
         this.col=color;
     }
 
 
+    /**
+     * start thread
+     */
     public void start()
     {
         thread.start();
     }
 
 
+    /**
+     * interrupt thread
+     */
     public void interrupt()
     {
         isRun = false;
@@ -383,8 +445,10 @@ public abstract class Animal extends Observable implements IEdible,IDrawable,IAn
     }
 
 
-
-
+    /**
+     * representation of the animal
+     * @return String
+     */
     public String toString()
     {
         return "["+getName() + ": weight=" + weight + ", color="+col+"]";
@@ -414,12 +478,19 @@ public abstract class Animal extends Observable implements IEdible,IDrawable,IAn
     }
 
 
+    /**
+     * @return the location of the animal
+     */
     public Point getLocation()
     {
         return location;
     }
 
 
+    /**
+     * @param newLocation : new location
+     * @return true if the placement worked
+     */
     public boolean setLocation(Point newLocation)
     {
         this.location = newLocation;
@@ -447,7 +518,7 @@ public abstract class Animal extends Observable implements IEdible,IDrawable,IAn
 
     /**
      * set the factory type of this animal by number(0,1,2)
-     * @param factor
+     * @param factor : type of factory
      */
     public void setFactor(int factor)
     {

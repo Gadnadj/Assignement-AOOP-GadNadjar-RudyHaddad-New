@@ -10,7 +10,10 @@ public class ColoredAnimalDecorator implements ColoredAnimal
     private Animal animal;
 
 
-
+    /**
+     * constructor
+     * @param animal : animal
+     */
     public ColoredAnimalDecorator(Animal animal)
     {
         super();
@@ -25,7 +28,7 @@ public class ColoredAnimalDecorator implements ColoredAnimal
     @Override
     public void PaintAnimal(String col)
     {
-        Animal an = ((Animal) animal);
+        Animal an = animal;
         an.setColor(col);
         String nm = null;
         if (an.getName().equals("Lion"))

@@ -13,7 +13,7 @@ import mobility.ILocatable;
 import mobility.Point;
 /**
  * this class creates instance of plant
- * @author Gad Nadjar & Rudy Haddad
+ * @author Gad Nadjar, Rudy Haddad
  */
 
 public abstract class Plant implements IEdible, ILocatable, IDrawable {

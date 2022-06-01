@@ -18,6 +18,9 @@ public class Omnivore implements IDiet
     private IDiet herbivore;
 
 
+    /**
+     * constructor
+     */
     public Omnivore()
     {
         this.carnivore = new Carnivore();

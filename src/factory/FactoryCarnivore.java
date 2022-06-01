@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 import animals.Animal;
 import animals.Lion;
 /**
- *
+ * Carnivore Factory class
  * @author Gad Nadjar, Rudy Haddad
  */
 public class FactoryCarnivore implements AbstractZooFactory{

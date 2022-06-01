@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.Objects;
 import javax.swing.*;
 import animals.Animal;
 /**
@@ -59,7 +60,7 @@ public class DecorateDialog extends JDialog implements ItemListener, ActionListe
         cSelectColor.setSelectedIndex(-1);
         for (int i = 0; i < animals.size(); i++)
         {
-            if (animals.get(i).getColor() == "Natural") {
+            if (Objects.equals(animals.get(i).getColor(), "Natural")) {
                 naturalAnimals.add(animals.get(i));
                 String s=animals.get(i).getName()+": running=" +animals.get(i).IsRunning()+", weight="+animals.get(i).getWeight()+", color="+animals.get(i).getColor();
                 cSelectAnimal.addItem(s);
@@ -76,7 +77,9 @@ public class DecorateDialog extends JDialog implements ItemListener, ActionListe
     }
 
 
-
+    /**
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e)
     {
@@ -104,6 +107,9 @@ public class DecorateDialog extends JDialog implements ItemListener, ActionListe
         }
     }
 
+    /**
+     * @param e the event to be processed
+     */
     @Override
     public void itemStateChanged(ItemEvent e)
     {

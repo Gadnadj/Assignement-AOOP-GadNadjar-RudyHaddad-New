@@ -18,7 +18,7 @@ public class Lion extends Animal {
         setDiet(new Carnivore());
         loadImages("lio");
         cor_x4 = 0;
-        cor_y1 = (int) (-30-size/3);
+        cor_y1 = -30-size/3;
         cor_y3 = (int) (size*0.25);
         cor_x5 = cor_x6 = -size/2;
         cor_y5 = cor_y6 = -size/3;
@@ -27,7 +27,7 @@ public class Lion extends Animal {
 
 
     /**
-     * @return EFoodType : return the type of food of the animal
+     * @return EFoodType : return the type of food of the lion
      */
     @Override
     public EFoodType getFoodtype() {return EFoodType.NOTFOOD;}

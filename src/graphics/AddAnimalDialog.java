@@ -27,12 +27,13 @@ public class AddAnimalDialog extends JDialog implements ItemListener, ActionList
     String[] colors;
 
     /**
-     * Create the dialog, lables and bottuns
+     * Create the dialog
+     * @param title : title of the dialog
+     * @param Factory : type of the factory
      */
 
     public AddAnimalDialog(String title, int Factory)
     {
-        //super(new JFrame(), title, true);
         this.choosenfactory = Factory;
         this.setTitle("Add Animal");
         this.setSize(new Dimension(600, 100));
@@ -95,15 +96,19 @@ public class AddAnimalDialog extends JDialog implements ItemListener, ActionList
     }
 
 
-
-
-
+    /**
+     * @param e the event to be processed
+     */
     @Override
     public void itemStateChanged(ItemEvent e)
     {
 
     }
 
+
+    /**
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == cselectAnimal)

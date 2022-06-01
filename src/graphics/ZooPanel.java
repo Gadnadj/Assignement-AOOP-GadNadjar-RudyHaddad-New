@@ -122,7 +122,9 @@ public class ZooPanel extends JPanel implements ActionListener
     }
 
 
-
+    /**
+     * Constructor
+     */
     public void addDialog()
     {
         if(animals.size()==MAX_ANIMAL_COUNTER)
@@ -137,14 +139,18 @@ public class ZooPanel extends JPanel implements ActionListener
         }
     }
 
-
+    /**
+     * Stop the threads
+     */
     public void stop()
     {
         for(Animal an : animals)
             an.setSuspend();
     }
 
-
+    /**
+     * start the thread
+     */
     public void start()
     {
         for(Animal an : animals)
@@ -153,7 +159,7 @@ public class ZooPanel extends JPanel implements ActionListener
 
 
     /**
-     * clear method to clear all animals and food
+     * clear all animals and food
      */
     synchronized public void clear()
     {
@@ -250,14 +256,14 @@ public class ZooPanel extends JPanel implements ActionListener
 
 
     /**
-     * secorate function to set a new color to exsit animal who color is natural
+     * set a new color toanimal who color is natural
      */
     public void decorate()
     {
         boolean natural=false;
         for(int i=0; i<animals.size(); i++)
         {
-            if(animals.get(i).getColor()=="Natural")
+            if(Objects.equals(animals.get(i).getColor(), "Natural"))
                 natural=true;
         }
         if(natural)
@@ -280,6 +286,9 @@ public class ZooPanel extends JPanel implements ActionListener
     }
 
 
+    /**
+     * Save current state to restore him in the futur ( maximum 3 saves)
+     */
     public void saveState()
     {
         MementoZoo zoomemento;
@@ -301,6 +310,9 @@ public class ZooPanel extends JPanel implements ActionListener
     }
 
 
+    /**
+     * restore saved state (maximum 3 saves)
+     */
     public void restoreState()
     {
         if(mementos.size()<1)
@@ -367,6 +379,9 @@ public class ZooPanel extends JPanel implements ActionListener
     }
 
 
+    /**
+     * interrupt all the threads
+     */
     public void destroy()
     {
         for(Animal an : animals)
@@ -378,7 +393,7 @@ public class ZooPanel extends JPanel implements ActionListener
 
     /**
      * set background of the frame
-     * @param num
+     * @param num : which type of backgound choosen
      */
     public void setBackgr(int num)
     {
@@ -399,7 +414,7 @@ public class ZooPanel extends JPanel implements ActionListener
 
 
     /**
-     * function to draw the right image.
+     * Draw the right image
      */
     public void paintComponent(Graphics g)
     {
@@ -421,6 +436,10 @@ public class ZooPanel extends JPanel implements ActionListener
     }
 
 
+    /**
+     * check if the food is edible for the animal if yes he eats him
+     * @param an : which animal
+     */
     synchronized public void eatFood(Animal an)
     {
         if(Food != EFoodType.NOTFOOD)
@@ -437,7 +456,10 @@ public class ZooPanel extends JPanel implements ActionListener
         }
     }
 
-
+    /**
+     * check which type of food is it
+     * @return EFoodType
+     */
     synchronized public EFoodType checkFood(){return Food;}
 
 
@@ -568,7 +590,11 @@ public class ZooPanel extends JPanel implements ActionListener
         };
     }
 
-
+    /**
+     * increase 1 to the counter of eaten food of the predator and decrease the number of eaten food of the prey
+     * @param predator : predator
+     * @param prey : prey
+     */
     synchronized public void preyEating(Animal predator, Animal prey)
     {
         predator.eatInc();
@@ -623,6 +649,9 @@ public class ZooPanel extends JPanel implements ActionListener
     }
 
 
+    /**
+     * @return the array of animal
+     */
     public ArrayList<Animal> getAnimals()
     {
         return animals;

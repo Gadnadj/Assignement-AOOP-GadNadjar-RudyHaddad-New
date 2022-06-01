@@ -1,11 +1,9 @@
 package graphics;
 import animals.*;
 import food.EFoodType;
-import food.IEdible;
 import plants.Cabbage;
 import plants.Lettuce;
 import plants.Plant;
-import privateutil.Meat;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -16,9 +14,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import factory.AbstractZooFactory;
-import factory.FactoryCarnivore;
-import factory.FactoryOmnivore;
-import factory.FactoryHerbivore;
+import factory.*;
+
+import java.util.Iterator;
+import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -29,54 +28,53 @@ import java.util.concurrent.Executors;
  * @author Gad Nadjar
  * @see JPanel
  */
-
-public class ZooPanel extends JPanel implements Runnable, ActionListener
+public class ZooPanel extends JPanel implements ActionListener
 {
+    private static final int MAX_ANIMAL_COUNTER  = 10;
+
+    private JScrollPane scrollPane;
+    private boolean isTableVisible;
+    private Plant forFood = null;
+    private EFoodType Food;
+    private int totalEatCount;
+    private BufferedImage img, img_m;
+    private final String BACKGROUND_PATH = Animal.PICTURE_PATH+"savanna.jpg";
+    private final String MEAT_PATH = Animal.PICTURE_PATH+"meat.gif";
+    private ArrayList<Animal> animals;
+    private boolean bgr;
+    private Executor threadPool;
+    private int factory=-1;
+    private ZooObserver controller2;
+    protected boolean duplicateFlag=false;
+    private static ZooPanel instance = null;
+    private ArrayList<MementoZoo> mementos;
     private JButton addAnimal;
     private JButton sleep;
     private JButton wakeUp;
     private JButton clear;
     private JButton food;
     private JButton info;
-    private Plant plant = null;
-    private Meat meat = null;
+    private JButton Decorate;
+    private JButton Duplicate;
+    private JButton SaveState;
+    private JButton RestoreState;
     private JButton exit;
-    protected static ArrayList<Animal> data = new ArrayList<>(10);
-    protected static Object[][] dataTable = new Object[11][6];
-    private int foods;
     private JPanel panelControler;
-    int totalEatCount = 0;
-    private EFoodType Food;
-    private Thread controller;
-    private JScrollPane scrollPane;
-    private boolean isTableVisible;
-    private BufferedImage img;
-    boolean bgr;
-    private IEdible food1;
 
-    private Executor threadPool;
 
-    private static ZooPanel instance = null;
 
-    private int factory = -1;
-
-    /**
-     * Constructor of ZooPanel
-     */
     public ZooPanel()
     {
         threadPool = Executors.newFixedThreadPool (5);
-
-
+        mementos=new ArrayList<MementoZoo>();
+        Food = EFoodType.NOTFOOD;
+        totalEatCount = 0;
         isTableVisible = false;
-        controller = new Thread(this);
-        controller.start();
-
+        controller2=new ZooObserver();
+        animals = new ArrayList<Animal>();
         setBackground(new Color(255,255,255));
-
-        panelControler = new JPanel(new GridLayout(1,7,0,0));
+        panelControler = new JPanel(new GridLayout(2,7,0,0));
         panelControler.setBackground(new Color(255,51,153));
-
         Food = EFoodType.NOTFOOD;
         addAnimal = new JButton("Add Animal");
         sleep = new JButton("sleep");
@@ -84,8 +82,11 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener
         clear = new JButton("Clear");
         food = new JButton("Food");
         info = new JButton("Info");
-        exit = new JButton("exit");
-
+        exit = new JButton("Exit");
+        Decorate = new JButton("Decorate");
+        Duplicate = new JButton("Duplicate");
+        SaveState = new JButton("Save State");
+        RestoreState = new JButton("Restore State");
         addAnimal.addActionListener(this);
         sleep.addActionListener(this);
         wakeUp.addActionListener(this);
@@ -93,213 +94,285 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener
         food.addActionListener(this);
         info.addActionListener(this);
         exit.addActionListener(this);
-
+        Decorate.addActionListener(this);
+        Duplicate.addActionListener(this);
+        SaveState.addActionListener(this);
+        RestoreState.addActionListener(this);
         panelControler.add(addAnimal);
         panelControler.add(sleep);
         panelControler.add(wakeUp);
         panelControler.add(clear);
         panelControler.add(food);
         panelControler.add(info);
+        panelControler.add(Decorate);
+        panelControler.add(Duplicate);
+        panelControler.add(SaveState);
+        panelControler.add(RestoreState);
         panelControler.add(exit);
-
         panelControler.setFocusable(true);
         setLayout(new BorderLayout());
         add("South", panelControler);
-
-        img = null;
+        img = img_m = null;
         bgr = false;
-
-        try { img = ImageIO.read(new File(IDrawable.PICTURE_PATH + "savanna.png")); }
+        try { img = ImageIO.read(new File(BACKGROUND_PATH)); }
         catch (IOException e) { System.out.println("Cannot load background"); }
+        try { img_m = ImageIO.read(new File(MEAT_PATH)); }
+        catch (IOException e) { System.out.println("Cannot load meat"); }
+        controller2.start();
     }
 
 
-    /**
-     * activation of thread
-     */
-    @Override
-    public void run()
+
+    public void addDialog()
     {
-        while(true)
+        if(animals.size()==MAX_ANIMAL_COUNTER)
         {
-            if(isChange())
-                repaint();
-            boolean prey_eaten = false;
-            synchronized(this) {
-                for(Animal predator : ZooPanel.data)
-                {
-                    for(Animal prey : ZooPanel.data)
-                    {
-                        if(predator != prey && predator.getDiet().canEat(prey.getFoodtype()) && predator.getWeight()/prey.getWeight() >= 2 &&
-                                (Math.abs(predator.getLocation().getX() - prey.getLocation().getX()) < prey.getSize()) &&
-                                (Math.abs(predator.getLocation().getY() - prey.getLocation().getY()) < prey.getSize()))
-                        {
-                            preyEating(predator,prey);
-                            prey.interrupt();
-                            ZooPanel.data.remove(prey);
-                            predator.eat(prey);
-                            AddAnimalDialog.animalcounter--;
-                            repaint();
-                            prey_eaten = true;
-                            break;
-                        }
-                    }
-                    if(prey_eaten)
-                        break;
-                }
-            }
-            try
-            {
-                Thread.sleep(10);
-            }
-            catch (InterruptedException e)
-            {
-                return;
-            }
+            JOptionPane.showMessageDialog(this, "You cannot add more than "+MAX_ANIMAL_COUNTER+" animals");
+        }
+        else
+        {
+            this.factory=selectFactory();
+            AddAnimalDialog dial = new AddAnimalDialog("Add an animal to Zoo",factory);
+            dial.setVisible(true);
         }
     }
 
 
-    /**
-     * @param e : e
-     */
-    @Override
-    public void actionPerformed(ActionEvent e)
+    public void stop()
     {
-        if (e.getSource() == addAnimal)
-        {
-            addDialog();
-        }
+        for(Animal an : animals)
+            an.setSuspend();
+    }
 
-        if (e.getSource() == clear)
+
+    public void start()
+    {
+        for(Animal an : animals)
+            an.setResume();
+    }
+
+
+    /**
+     * clear method to clear all animals and food
+     */
+    synchronized public void clear()
+    {
+        Iterator<Animal> iterator  = animals.iterator();
+        while(iterator.hasNext())
         {
-            synchronized (this)
+            Animal an = iterator.next();
+            if(an.IsRunning())
             {
-                if (data.size() == 0)
-                    JOptionPane.showMessageDialog(null, "There's no animals", "Error", JOptionPane.ERROR_MESSAGE);
-                else
-                {
-                    for (int i = 0; i < ZooPanel.data.size(); i++)
-                        ZooPanel.data.get(i).interrupt();
-                    ZooPanel.data.clear();
-                    meat = null;
-                    plant = null;
-                    for (int i = 0; i < dataTable.length; i++)
-                        dataTable = new Object[11][6];
-                    AddAnimalDialog.animalcounter = 0;
-                    totalEatCount = 0;
-                    JOptionPane.showMessageDialog(null, "All animals deleted", "Information", JOptionPane.INFORMATION_MESSAGE);
-                    Lion.setLionCount();
-                    Bear.setBearCount();
-                    Elephant.setElephantCount();
-                    Giraffe.setGiraffeCount();
-                    Turtle.setTurtleCount();
-                    repaint();
-                }
+                an.interrupt();
+                iterator.remove();
             }
         }
+        Food = EFoodType.NOTFOOD;
+        forFood = null;
+        totalEatCount = 0;
+        repaint();
+    }
 
-        if (e.getSource() == food)
-        {
-                String[] responses = {"Lettuce", "Cabbage", "Meat"};
-                foods = JOptionPane.showOptionDialog(null,
-                        "Please choose food",
-                        "Food", JOptionPane.YES_NO_CANCEL_OPTION,
-                        JOptionPane.INFORMATION_MESSAGE,
-                        null,
-                        responses,
-                        0);
-                System.out.println(foods);
 
-                if (foods == 0)
-                {
-                    this.meat = null;
-                    this.plant = new Lettuce(this);
-                    this.plant.loadImages(IDrawable.PICTURE_PATH + "lettuce.png");
-                    Food = EFoodType.VEGETABLE;
-                    food1 = plant;
-                }
-
-                if (foods == 1)
-                {
-                    this.meat = null;
-                    this.plant = new Cabbage(this);
-                    this.plant.loadImages(IDrawable.PICTURE_PATH + "cabbage.png");
-                    Food = EFoodType.VEGETABLE;
-                    food1 = plant;
-                }
-
-                if (foods == 2)
-                {
-                    this.plant = null;
-                    this.meat = new Meat(this);
-                    this.meat.loadImages(IDrawable.PICTURE_PATH + "meat.gif");
+    /**
+     * add food by choice
+     */
+    synchronized public void addFood()
+    {
+        if(Food == EFoodType.NOTFOOD){
+            Object[] options = {"Meat", "Cabbage", "Lettuce"};
+            int n = JOptionPane.showOptionDialog(null,
+                    "Please choose food", "Food for animals",
+                    JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
+                    null, options, options[2]);
+            switch(n) {
+                case 0: // Meat
                     Food = EFoodType.MEAT;
-                    food1 = meat;
-                }
-                repaint();
+                    break;
+                case 1: // Cabbage
+                    Food = EFoodType.VEGETABLE;
+                    forFood = Cabbage.getInstance();
+                    //forFood
+                    break;
+                default: // Lettuce
+                    Food = EFoodType.VEGETABLE;
+                    forFood = Lettuce.getInstance();
+
+                    break;
+            }
         }
+        else {
+            Food = EFoodType.NOTFOOD;
+            forFood = null;
+        }
+        repaint();
+    }
 
-        if (e.getSource() == info)
+
+    /**
+     * info table show info about animals on the zoo
+     */
+    public void info()
+    {
+        if(!isTableVisible)
         {
-            if(!isTableVisible)
+            int i=0;
+            int sz = animals.size();
+
+            String[] columnTitle = {"Animal","Color","Weight","Hor. speed","Ver. speed","Eat counter"};
+            String [][] data = new String[sz+1][columnTitle.length];
+            for(Animal an : animals)
             {
-                int i=0;
-                int size2 = ZooPanel.data.size();
+                data[i][0] = an.getName();
+                data[i][1] = an.getColor();
+                data[i][2] = Integer.toString((int) (an.getWeight()));
+                data[i][3] = Integer.toString(an.getHorSpeed());
+                data[i][4] = Integer.toString(an.getVerSpeed());
+                data[i][5] = Integer.toString(an.getEatCount());
+                i++;
+            }
+            data[i][0] = "Total";
+            data[i][5] = Integer.toString(totalEatCount);
 
-                String[] columnNames = {"Animal","Color","Weight","Hor. speed","Ver. speed","Eat counter"};
-                String [][] data = new String[size2+1][columnNames.length];
-                for(Animal an : ZooPanel.data)
-                {
-                    data[i][0] = an.getName();
-                    data[i][1] = an.getColor();
-                    data[i][2] = Integer.toString((int) (an.getWeight()));
-                    data[i][3] = Integer.toString(an.getHorSpeed());
-                    data[i][4] = Integer.toString(an.getVerSpeed());
-                    data[i][5] = Integer.toString(an.getEatCount());
-                    i++;
-                }
-                data[i][0] = "Total";
-                data[i][5] = Integer.toString(totalEatCount);
+            JTable table = new JTable(data, columnTitle);
+            scrollPane = new JScrollPane(table);
+            scrollPane.setSize(450,table.getRowHeight()*(sz+1)+24);
+            add( scrollPane, BorderLayout.CENTER );
+            isTableVisible = true;
+        }
+        else
+        {
+            isTableVisible = false;
+        }
+        scrollPane.setVisible(isTableVisible);
+        repaint();
+    }
 
-                JTable table = new JTable(data, columnNames);
-                scrollPane = new JScrollPane(table);
-                scrollPane.setSize(450,table.getRowHeight()*(size2+1)+24);
-                add(scrollPane, BorderLayout.CENTER);
-                isTableVisible = true;
+
+    /**
+     * secorate function to set a new color to exsit animal who color is natural
+     */
+    public void decorate()
+    {
+        boolean natural=false;
+        for(int i=0; i<animals.size(); i++)
+        {
+            if(animals.get(i).getColor()=="Natural")
+                natural=true;
+        }
+        if(natural)
+        {
+            DecorateDialog d = new DecorateDialog();
+            d.setVisible(true);
+        }
+        else
+            JOptionPane.showMessageDialog(this, "You do not have animals for decoration");
+    }
+
+
+    /**
+     * open duplicate dialog
+     */
+    public void duplicate()
+    {
+        DuplicateDialog dd = new DuplicateDialog();
+        dd.setVisible(true);
+    }
+
+
+    public void saveState()
+    {
+        MementoZoo zoomemento;
+        try
+        {
+            zoomemento = new MementoZoo(animals,Food);
+            if(mementos.size()<3)
+            {
+                mementos.add(zoomemento);
+                JOptionPane.showMessageDialog(null,"The state has been saved");
             }
             else
-                isTableVisible = false;
-            scrollPane.setVisible(isTableVisible);
-            repaint();
+                JOptionPane.showMessageDialog(null,"You can't save more then 3 states");
         }
-
-        if (e.getSource() == exit)
+        catch (CloneNotSupportedException e)
         {
-            for(int i = 0 ; i < ZooPanel.data.size() ; i++)
-                ZooPanel.data.get(i).interrupt();
-            System.exit(1);
+            e.printStackTrace();
         }
-
-        if (e.getSource() == sleep)
-            stop();
-
-        if (e.getSource() == wakeUp)
-            start();
     }
 
 
-    /**
-     * @return true if the animal mooved
-     */
-    public boolean isChange(){
-        for (Animal animal : ZooPanel.data)
-            if(animal.getChanges())
-            {
-                animal.setChanges(false);
-                return true;
-            }
-        return false;
+    public void restoreState()
+    {
+        if(mementos.size()<1)
+        {
+            JOptionPane.showMessageDialog(null,"You have not saved state");
+            return;
+        }
+        ArrayList<Animal> rAnimlas;
+        String[] States = {"State 1", "State 2", "State 3", "Cancel"};
+        int s = JOptionPane.showOptionDialog (null, "Please Choose state for restore", "Saved states", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, States, States[0]);
+        switch(s) {
+            case 0:
+                if(mementos.size()>0)
+                {
+                    clear();
+                    Food=mementos.get(0).getFood();
+                    repaint();
+                    rAnimlas = mementos.get(0).getList();
+                    System.out.println(rAnimlas.size());
+                    for(int i=0; i<rAnimlas.size(); i++)
+                    {
+                        addAnimal(rAnimlas.get(i).getName(),rAnimlas.get(i).getSize(),rAnimlas.get(i).getHorSpeed(),rAnimlas.get(i).getVerSpeed(),rAnimlas.get(i).getColor(),rAnimlas.get(i).getFactor());
+                    }
+                    mementos.remove(0);
+                }
+                else
+                    JOptionPane.showMessageDialog(null,"There is no saved state here");
+
+                break;
+            case 1:
+                if(mementos.size()>1)
+                {
+                    clear();
+                    Food=mementos.get(1).getFood();
+                    repaint();
+                    rAnimlas = mementos.get(1).getList();
+                    for(int i=0; i<rAnimlas.size(); i++)
+                    {
+                        addAnimal(rAnimlas.get(i).getName(),rAnimlas.get(i).getSize(),rAnimlas.get(i).getHorSpeed(),rAnimlas.get(i).getVerSpeed(),rAnimlas.get(i).getColor(),rAnimlas.get(i).getFactor());
+                    }
+                    mementos.remove(1);
+                }
+                else
+                    JOptionPane.showMessageDialog(null,"There is no saved state here");
+                break;
+            case 2:
+                if(mementos.size()>2)
+                {
+                    clear();
+                    Food=mementos.get(2).getFood();
+                    repaint();
+                    rAnimlas = mementos.get(2).getList();
+                    for(int i=0; i<rAnimlas.size(); i++)
+                    {
+                        addAnimal(rAnimlas.get(i).getName(),rAnimlas.get(i).getSize(),rAnimlas.get(i).getHorSpeed(),rAnimlas.get(i).getVerSpeed(),rAnimlas.get(i).getColor(),rAnimlas.get(i).getFactor());
+                    }
+                    mementos.remove(2);
+                }
+                else
+                    JOptionPane.showMessageDialog(null,"There is no saved state here");
+
+                break;
+        }
+    }
+
+
+    public void destroy()
+    {
+        for(Animal an : animals)
+            an.interrupt();
+        controller2.interrupt();
+        System.exit(0);
     }
 
 
@@ -324,99 +397,241 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener
     }
 
 
+
     /**
-     * @param g : g
+     * function to draw the right image.
      */
     public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
-        if (bgr && (img != null))
+
+        if(bgr && (img!=null))
             g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
-        synchronized (this)
-        {
-        if (data.size() != 0)
-        {
-            for (int i = 0; i < data.size(); i++)
-                ZooPanel.data.get(i).drawObject(g);
+
+        if(Food == EFoodType.MEAT)
+            g.drawImage(img_m, getWidth()/2-20, getHeight()/2-20, 40, 40, this);
+
+        if((Food == EFoodType.VEGETABLE) && (forFood != null))
+            forFood.drawObject(g);
+
+        synchronized(this) {
+            for(Animal an : animals)
+                an.drawObject(g);
         }
-        }
-        if(plant!= null)
-            plant.drawObject(g);
-        if(meat != null)
-            meat.drawObject(g);
     }
 
 
-    /**
-     * start thread
-     */
-    synchronized public void start()
+    synchronized public void eatFood(Animal an)
     {
-        for(int i = 0 ; i < data.size() ; i++)
-            data.get(i).setResumed();
-    }
-
-
-    /**
-     * check which food is it
-     * @return ERoodType : type of food
-     */
-    synchronized public EFoodType checkFood()
-    {
-        return Food;
-    }
-
-
-    /**
-     * stop thread
-     */
-    synchronized public void stop()
-    {
-        for(int i = 0 ; i < data.size() ; i++)
-            data.get(i).setSuspended();
-    }
-
-
-    /**
-     *
-     * @param animal : animal
-     */
-    synchronized public void eatFood(Animal animal)
-    {
-        if (Food != EFoodType.NOTFOOD)
+        if(Food != EFoodType.NOTFOOD)
         {
-            if (Food == EFoodType.VEGETABLE)
-                plant = null;
-            if (Food == EFoodType.MEAT)
-                meat = null;
-            animal.setWeight(animal.getWeight() + animal.getDiet().eat(animal, food1));
+            if(Food == EFoodType.VEGETABLE)
+                forFood = null;
             Food = EFoodType.NOTFOOD;
-            animal.eatInc();
+            an.eatInc();
             totalEatCount++;
         }
+        else
+        {
+            System.out.println("The "+an.getName()+" with "+an.getColor()+" color and size "+an.getSize()+" missed food.");
+        }
+    }
+
+
+    synchronized public EFoodType checkFood(){return Food;}
+
+
+    /**
+     * checks if one animal can eat another
+     * @param prey_eaten  :which animal is eaten
+     */
+    public void eatAnotherAnimal(boolean prey_eaten)
+    {
+        for(Animal predator : animals) {
+            for(Animal prey : animals) {
+                if(predator != prey && predator.getDiet().canEat(prey.getFoodtype()) && predator.getWeight()/prey.getWeight() >= 2 &&
+                        (Math.abs(predator.getLocation().getX() - prey.getLocation().getX()) < prey.getSize()) &&
+                        (Math.abs(predator.getLocation().getY() - prey.getLocation().getY()) < prey.getSize()) && !Objects.equals(prey.getName(), "Lion"))
+                {
+                    preyEating(predator,prey);
+                    System.out.print("The "+predator+" cought up the "+prey+" ==> ");
+                    prey.interrupt();
+                    animals.remove(prey);
+                    repaint();
+                    prey_eaten = true;
+                    break;
+                }
+            }
+            if(prey_eaten)
+                break;
+        }
     }
 
 
     /**
-     * if the prey is eated, sub the number of animal eaten of the prey
-     * @param predator
-     * @param prey
+     * add animal to the zoo
+     * @param animal : animal
+     * @param sz : size of the animal
+     * @param hor : horizontal speed of the animal
+     * @param ver : vertical speed of the animal
+     * @param c : color of the animal
+     * @param factor : type of the animal (Carnivore...)
      */
+    public void addAnimal(String animal, int sz, int hor, int ver, String c,int factor)
+    {
+        Animal an = null;
+        AbstractZooFactory zooFactory = null;
+        if(factor==0)
+            zooFactory = this.createAnimalFactory("HerbivoreFactory");
+        else if(factor==1)
+            zooFactory = this.createAnimalFactory("OmnivoreFactory");
+        else if(factor==2)
+            zooFactory = this.createAnimalFactory("CarnivoreFactory");
+
+        if(zooFactory != null || duplicateFlag)
+        {
+            switch (animal) {
+                case "Elephant" -> {
+                    if (duplicateFlag)
+                        zooFactory = this.createAnimalFactory("HerbivoreFactory");
+                    factory = 0;
+                    assert zooFactory != null;
+                    an = zooFactory.produceAnimal("Elephant", sz, hor, ver, c);
+                }
+                case "Lion" -> {
+                    if (duplicateFlag)
+                        zooFactory = this.createAnimalFactory("CarnivoreFactory");
+                    factory = 2;
+                    assert zooFactory != null;
+                    an = zooFactory.produceAnimal("Lion", sz, hor, ver, c);
+                }
+                case "Turtle" -> {
+                    if (duplicateFlag)
+                        zooFactory = this.createAnimalFactory("HerbivoreFactory");
+                    factory = 0;
+                    assert zooFactory != null;
+                    an = zooFactory.produceAnimal("Turtle", sz, hor, ver, c);
+                }
+                case "Bear" -> {
+                    if (duplicateFlag)
+                        zooFactory = this.createAnimalFactory("OmnivoreFactory");
+                    factory = 1;
+                    assert zooFactory != null;
+                    an = zooFactory.produceAnimal("Bear", sz, hor, ver, c);
+                }
+                default -> {
+                    if (duplicateFlag)
+                        zooFactory = this.createAnimalFactory("HerbivoreFactory");
+                    factory = 0;
+                    assert zooFactory != null;
+                    an = zooFactory.produceAnimal("Giraffe", sz, hor, ver, c);
+                }
+            }
+            if(an!=null)
+            {
+                an.setFactor(factory);
+                animals.add(an);
+                threadPool.execute(an);
+                an.addObserver(controller2);
+            }
+
+            duplicateFlag=false;
+        }
+        factory=-1;
+    }
+
+
+    /**
+     * select the factory
+     * @return the result
+     */
+    private int selectFactory()
+    {
+        String[] FactoryType = {"Herbivore", "Omnivore", "Carnivore"};
+        int dialogRes = JOptionPane.showOptionDialog (null, "Please Choose Animal Factory", "Animal Factory", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, FactoryType, FactoryType[0]);
+        return dialogRes;
+    }
+
+
+    /**
+     * create the animal by the factory type
+     * @param type : type of the animal
+     * @return AbstractFacory
+     */
+    private AbstractZooFactory createAnimalFactory (String type)
+    {
+        return switch (type) {
+            case "HerbivoreFactory" -> new FactoryHerbivore();
+            case "OmnivoreFactory" -> new FactoryOmnivore();
+            case "CarnivoreFactory" -> new FactoryCarnivore();
+            default -> null;
+        };
+    }
+
+
     synchronized public void preyEating(Animal predator, Animal prey)
     {
         predator.eatInc();
-        totalEatCount -= (prey.getEatCount() - 1);
+        totalEatCount -= (prey.getEatCount()-1);
     }
 
 
+    /**
+     * actionPerformed
+     */
+    public void actionPerformed(ActionEvent e)
+    {
 
-
-
+        if(e.getSource() == addAnimal)
+            addDialog();
+        if(e.getSource() == sleep)
+            stop();
+        if(e.getSource() == wakeUp)
+            start();
+        if(e.getSource() == clear)
+            clear();
+        if(e.getSource() == food)
+            addFood();
+        if(e.getSource() == info)
+            info();
+        if(e.getSource() == Decorate)
+            decorate();
+        if(e.getSource() == Duplicate)
+            duplicate();
+        if(e.getSource() == SaveState)
+            saveState();
+        if(e.getSource() == RestoreState)
+            restoreState();
+        if(e.getSource() == exit)
+            destroy();
+    }
 
 
     /**
-     * singelton related
-     * @return instance
+     * check if animal has changed
+     * @return true if changed
+     */
+    public boolean isChange() {
+        boolean rc = false;
+        for(Animal an : animals) {
+            if(an.hasChanged()){
+                rc = true;
+                an.setTheChanged();
+            }
+        }
+        return rc;
+    }
+
+
+    public ArrayList<Animal> getAnimals()
+    {
+        return animals;
+    }
+
+
+    /**
+     * Singelton
+     * @return instance of zoopanel
      */
     public static ZooPanel getInstance()
     {
@@ -425,34 +640,12 @@ public class ZooPanel extends JPanel implements Runnable, ActionListener
             {
                 instance  = new ZooPanel();
             }
-
-
         return instance;
     }
 
-    /**
-     * select the factory
-     * @return the result
-     */
-    private int selectFactory()
-    {
-        String FactoryType[] = {"Herbivore", "Omnivore", "Carnivore"};
-        int dialogRes = JOptionPane.showOptionDialog (null, "Please Choose Animal Factory", "Animal Factory", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, FactoryType, FactoryType[0]);
-        return dialogRes;
-    }
 
 
-    public void addDialog()
-    {
-        if(data.size()==10) {
-            JOptionPane.showMessageDialog(this, "You cannot add more than "+10+" animals");
-        }
-        else {
-            this.factory=selectFactory();
-            AddAnimalDialog dial = new AddAnimalDialog(this ,factory);
-            dial.setVisible(true);
-        }
-    }
 }
+
 
 

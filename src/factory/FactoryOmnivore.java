@@ -4,20 +4,18 @@ import javax.swing.JOptionPane;
 
 import animals.Animal;
 import animals.Bear;
-import graphics.ZooPanel;
-
 /**
  *
- * @author Haim Nahmani
+ * @author Gad Nadjar, Rudy Haddad
  */
 public class FactoryOmnivore implements AbstractZooFactory{
     /**
      * produceAnimal by his Factory(OmnivoreFactory)
      */
     @Override
-    public Animal produceAnimal(String animal, int sz, int hor, int ver,String c, ZooPanel pan) {
+    public Animal produceAnimal(String animal, int sz, int hor, int ver,String c) {
         if(animal.equals("Bear"))
-            return new Bear(animal, sz, hor, ver, c, pan);
+            return new Bear(sz,0,0,hor,ver,c);
         else
         {
             JOptionPane.showMessageDialog(null, "Omnivore Factory Can Create Only : Bear");

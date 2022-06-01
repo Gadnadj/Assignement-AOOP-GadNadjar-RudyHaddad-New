@@ -1,21 +1,20 @@
-/**@Author : Gad Nadjar : 337744155
- @Author : Rudy Haddad : 336351481*/
-
 package animals;
-import graphics.IAnimalBehavior;
-import graphics.IDrawable;
-import graphics.ZooPanel;
-import mobility.Mobile;
-import food.IEdible;
-import diet.IDiet;
-import mobility.Point;
-import food.EFoodType;
-import javax.imageio.ImageIO;
-import java.awt.*;
+
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
+import java.util.Observable;
+import javax.imageio.ImageIO;
+import diet.IDiet;
+import food.EFoodType;
+import food.IEdible;
+import graphics.ColoredAnimal;
+import graphics.ColoredAnimalDecorator;
+import graphics.IAnimalBehavior;
+import graphics.IDrawable;
+import graphics.ZooPanel;
+import mobility.Point;
 /**
  * the usefulness of this class is to create instances of animals that will belong to the zoo,
  * the class will allow them to perform actions on different breeds of animals such as moving them, feeding them etc...
@@ -24,46 +23,51 @@ import java.io.IOException;
  * @see mobility.Mobile
  *
  */
-public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnimalBehavior, Runnable
-{
-    private String name;
-    private double weight;
+public abstract class Animal extends Observable implements IEdible,IDrawable,IAnimalBehavior, ColoredAnimal,Cloneable,Runnable {
+
+    protected final int EAT_DISTANCE = 5;
     private IDiet diet;
-    private final int EAT_DISTANCE = 10;
+    protected String name;
+    private double weight;
     protected int size;
-    private String col;
-    private int horSpeed;
-    private int verSpeed;
-    private boolean coordChanged = true;
-    private int x_dir;
-    private int y_dir;
-    private int eatCount = 0;
-    private ZooPanel pan;
-    private BufferedImage img1 = null;
-    private BufferedImage img2 = null;
+    protected String col;
+    protected int horSpeed;
+    protected int verSpeed;
+    protected boolean coordChanged;
     protected Thread thread;
+    protected int x_dir;
+    protected int y_dir;
+    protected int eatCount;
     protected boolean threadSuspended;
+    protected BufferedImage img1, img2;
     protected int cor_x1, cor_x2, cor_x3, cor_x4, cor_x5, cor_x6;
     protected int cor_y1, cor_y2, cor_y3, cor_y4, cor_y5, cor_y6;
     protected int cor_w, cor_h;
+    private boolean isRun = false;
+    protected Point location;
+    private int factor;
+
+
 
     /**
-     //* @param location : location of the animal
-     * @param size : size of the animal
-     * @param horSpeed : horizontal speed of the animal
-     * @param verSpeed : vertical speed of the animal
-     * @param color : color of the animal
-     * @param pan : panel of ZooPanel
+     * Default Constructor initializes all the fields that belongs to animal and the super class
+     * @param nm
+     * @param sz
+     * @param w
+     * @param hor
+     * @param ver
+     * @param c
      */
-    public Animal(int size, int horSpeed, int verSpeed, String color, ZooPanel pan) {
-        super();
-        this.size = size;
-        this.horSpeed = horSpeed;
-        this.verSpeed = verSpeed;
-        this.col = color;
-        this.pan = pan;
-        this.x_dir = 1;
-        this.y_dir = 1;
+    public Animal(String nm, int sz, int w, int hor, int ver, String c) {
+        this.setLocation(new Point(0,0));
+        name = new String(nm);
+        size = sz;
+        weight = w;
+        horSpeed = hor;
+        verSpeed = ver;
+        col = c;
+        x_dir = 1;
+        y_dir = 1;
         cor_x1=cor_x3=cor_x5=cor_x6=0;
         cor_y1=cor_y3=cor_y5=cor_y6=0;
         cor_x2=cor_y2=cor_x4=cor_y4=-1;
@@ -71,224 +75,149 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
         coordChanged = false;
         thread = new Thread(this);
     }
-
-
     /**
-     *
-     * @return int : coordinate x of the animal
+     * Clone method
      */
-    public int gettX()
+    public Object clone()throws CloneNotSupportedException{
+        return super.clone();
+    }
+
+    public EFoodType getFoodtype()
     {
-        return this.getLocation().getX();
+        return EFoodType.MEAT;
     }
 
 
-    /**
-     *
-     * @return int : coordinate y of the animal
-     */
-    public int gettY()
+    public IDiet getDiet()
     {
-        return this.getLocation().getY();
+        return diet;
     }
 
 
-    /**
-     * @return EFoodType
-     */
-    public abstract EFoodType getFoodtype();
-
-
-    /**
-     * @param obj : if the type of food is edible
-     * @return boolean
-     */
-    public boolean eat(IEdible obj)
+    public String getName()
     {
-            if (!this.getDiet().canEat(obj.getFoodtype())) {
-                return false;
-            } else {
-                this.setWeight(getWeight() + this.getDiet().eat(this, obj));
-                return true;
-            }
+        return this.name;
     }
 
 
-    /**
-     * @return String : name of the animal
-     */
-    public String getName(){return this.name;}
-
-
-    /**
-     * @param Name : name of the animal
-     * @return boolean
-     */
-    public boolean setName(String Name)
+    public double getWeight()
     {
-        this.name = Name;
-        return true;
+        return this.weight;
     }
 
-    /**
-     * @param diet : diet
-     * @return boolean
-     */
-    public boolean setDiet(IDiet diet)
+
+    public void setWeight(double w)
+    {
+        weight = w;
+    }
+
+
+    protected void setDiet(IDiet diet)
     {
         this.diet = diet;
-        return true;
     }
 
 
-    /**
-     * @return IDiet : if is edible
-     */
-    public IDiet getDiet(){return this.diet;}
-
-
-    /**
-     * @return double : weight of the animal
-     */
-    public double getWeight(){return this.weight;}
-
-
-    /**
-     * @param pan : panel of zoopanel
-     * @return true if the placement is done
-     */
-    public boolean setPan(ZooPanel pan)
-    {
-        this.pan = pan;
-        return true;
-    }
-
-
-    /**
-     * @param weight : weight of the animal
-     * @return boolean
-     */
-    public boolean setWeight(double weight)
-    {
-        if (weight > 0)
-        {
-            this.weight = weight;
-            return true;
-        }
-        else
-            return false;
-    }
-
-
-    /**
-     * @param p : new point
-     * @return double : distance between two points
-     */
-    public double move (Point p)
-    {
-        double d = super.move(p);
-        if (d != 0)
-        {
-            double temp = getWeight();
-            setWeight(temp - (d * temp * 0.00025));
-            setChanges(true);
-            if (getLocation().getX() <= p.getX())
-                this.x_dir = 1;
-            else
-                this.x_dir = -1;
-            if(getLocation().getY() <= p.getY())
-                this.y_dir = 1;
-            else this.y_dir = -1;
-        }
-        return d;
-    }
-
-
-    /**
-     * @return String : name of the animal
-     */
-    @Override
-    public String getAnimalName() {
-        return null;
-    }
-
-
-    /**
-     * @return int : size of the animal
-     */
-    @Override
     public int getSize()
     {
-        return this.size;
+        return size;
     }
 
 
-    /**
-     * number of foods eaten
-     */
-    @Override
+    public int getHorSpeed()
+    {
+        return horSpeed;
+    }
+
+
+    public void setHorSpeed(int hor)
+    {
+        horSpeed  = hor;
+    }
+
+
+    public int getVerSpeed()
+    {
+        return verSpeed;
+    }
+
+
+    public void setVerSpeed(int ver)
+    {
+        verSpeed  = ver;
+    }
+
+
     public void eatInc()
     {
         eatCount++;
     }
 
 
-    /**
-     * @return BufferedImage : left image
-     */
-    public BufferedImage getImg1()
+    public int getEatCount()
     {
-        return this.img1;
+        return eatCount;
+    }
+
+
+    synchronized public void setSuspend()
+    {
+        threadSuspended = true;
+    }
+
+
+    synchronized public void setResume()
+    {
+        threadSuspended = false;
+        notify();
+    }
+
+
+    synchronized public boolean getChanges()
+    {
+        return coordChanged;
+    }
+
+
+    synchronized public void setChanges(boolean state)
+    {
+        coordChanged = state;
+    }
+
+
+    public String getColor()
+    {
+        return col;
+    }
+
+
+    public void setColor(String color)
+    {
+        this.col=color;
+    }
+
+
+    public void start()
+    {
+        thread.start();
+    }
+
+
+    public void interrupt()
+    {
+        isRun = false;
+        thread.interrupt();
     }
 
 
     /**
-     * @return BufferedImage : right image
+     * load the images of the animal by his color
      */
-    public BufferedImage getImg2()
-    {
-        return this.img2;
-    }
-
-
-    /**
-     * @return ZooPanel : panel of ZooPanel
-     */
-    public ZooPanel getPan()
-    {
-        return this.pan;
-    }
-
-
-    /**
-     * @return true if coordinates changed
-     */
-    @Override
-    public boolean getChanges()
-    {
-        return this.coordChanged;
-    }
-
-
-    /**
-     * @param state : state
-     */
-    @Override
-    public void setChanges(boolean state)
-    {
-        this.coordChanged = state;
-    }
-
-
-    /**
-     * @param nm : nm
-     */
-    @Override
     public void loadImages(String nm)
     {
         switch(getColor())
         {
-            case "RED":
+            case "Red":
             {
                 try
                 {
@@ -302,7 +231,7 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
                 break;
             }
 
-            case "BLUE":
+            case "Blue":
             {
                 try
                 {
@@ -316,7 +245,7 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
                 break;
             }
 
-            case "NATURAL":
+            case "Natural":
             {
                 try
                 {
@@ -334,125 +263,19 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
 
 
     /**
-     * @param g : g
+     * checks if there are any food that can be eaten, and set new direction
+     * if there is no food, apply movement as normal
      */
-    @Override
-    public void drawObject(Graphics g)
-    {
-        if (this.getX_dir() == 1)
-            g.drawImage(this.getImg1(), this.getLocation().getX() - this.getSize() / 2, this.getLocation().getY() - this.getSize() / 10, (int)(this.getSize() * 1.2), this.getSize(), this.getPan());
-        else // giraffe goes to the left side
-            g.drawImage(this.getImg2(), this.getLocation().getX(), this.getLocation().getY() - this.getSize() / 10, (int)(this.getSize() * 1.2), this.getSize(), this.getPan());
-    }
-
-
-    /**
-     * @return String : color of the animal
-     */
-    @Override
-    public String getColor() {return this.col;}
-
-
-    /**
-     * @return int : horizontal speed
-     */
-    public int getHorSpeed()
-    {
-        return this.horSpeed;
-    }
-
-
-    /**
-     * @return int : vertical speed
-     */
-    public int getVerSpeed()
-    {
-        return this.verSpeed;
-    }
-
-
-    /**
-     * @return int : counter of animal eaten
-     */
-    @Override
-    public int getEatCount()
-    {
-        return eatCount;
-    }
-
-
-    /**
-     * @param x_dir : direction x of the animal
-     * @return boolean
-     */
-    public boolean setX_dir(int x_dir)
-    {
-        this.x_dir = x_dir;
-        return true;
-    }
-
-
-    /**
-     * @return int : x direction
-     */
-    public int getX_dir()
-    {
-        return this.x_dir;
-    }
-
-
-    /**
-     * @param y_dir : y direction
-     * @return true if the placement is done
-     */
-    public boolean setY_dir(int y_dir)
-    {
-        this.y_dir = y_dir;
-        return true;
-    }
-
-
-    /**
-     * @return int : y direction
-     */
-    public int getY_dir()
-    {
-        return this.y_dir;
-    }
-
-
-    /**
-     * suspend animal(Thread)
-     */
-    @Override
-    public void setSuspended() {threadSuspended = true;}
-
-
-    /**
-     * resume animal(Thread)
-     */
-    @Override
-    synchronized public void setResumed()
-    {
-        threadSuspended = false;
-        notify();
-    }
-
-
-    /**
-     * activation of thread
-     */
-    @Override
     public void run()
     {
-        while (true)
+        isRun=true;
+        while (isRun)
         {
             try
             {
                 Thread.sleep(50);
 
-                synchronized(this)
-                {
+                synchronized(this) {
                     while (threadSuspended)
                         wait();
                 }
@@ -463,56 +286,45 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
                 return;
             }
 
-            if(this.getDiet().canEat(pan.checkFood()))
+            if(this.getDiet().canEat(ZooPanel.getInstance().checkFood()))
             {
                 double oldSpead = Math.sqrt(horSpeed*horSpeed+verSpeed*verSpeed);
-                double newHorSpeed = oldSpead*(location.getX() - pan.getWidth()/2)/
-                        (Math.sqrt(Math.pow(location.getX() - pan.getWidth()/2,2)+
-                                Math.pow(location.getY() - pan.getHeight()/2,2)));
-                double newVerSpeed = oldSpead*(location.getY() - pan.getHeight()/2)/
-                        (Math.sqrt(Math.pow(location.getX() - pan.getWidth()/2,2)+
-                                Math.pow(location.getY() - pan.getHeight()/2,2)));
-                int verSpeed = 1;
-                if(newVerSpeed<0)
-                {
-                    verSpeed=-1;
-                    newVerSpeed = -newVerSpeed;
-                }
+                double newHorSpeed = oldSpead*(location.getX() - ZooPanel.getInstance().getWidth()/2)/
+                        (Math.sqrt(Math.pow(location.getX() - ZooPanel.getInstance().getWidth()/2,2)+
+                                Math.pow(location.getY() - ZooPanel.getInstance().getHeight()/2,2)));
+                double newVerSpeed = oldSpead*(location.getY() - ZooPanel.getInstance().getHeight()/2)/
+                        (Math.sqrt(Math.pow(location.getX() - ZooPanel.getInstance().getWidth()/2,2)+
+                                Math.pow(location.getY() - ZooPanel.getInstance().getHeight()/2,2)));
+                int v = 1;
+                if(newVerSpeed<0) { v=-1; newVerSpeed = -newVerSpeed; }
                 if(newVerSpeed > 10)
                     newVerSpeed = 10;
-                else if(newVerSpeed < 1)
-                {
-                    if(location.getY() != pan.getHeight()/2)
+                else if(newVerSpeed < 1) {
+                    if(location.getY() != ZooPanel.getInstance().getHeight()/2)
                         newVerSpeed = 1;
                     else
                         newVerSpeed = 0;
                 }
-                int horSpeed = 1;
-                if(newHorSpeed<0)
-                {
-                    horSpeed=-1;
-                    newHorSpeed = -newHorSpeed;
-                }
+                int h = 1;
+                if(newHorSpeed<0) { h=-1; newHorSpeed = -newHorSpeed; }
                 if(newHorSpeed > 10)
                     newHorSpeed = 10;
-                else if(newHorSpeed < 1)
-                {
-                    if(location.getX() != pan.getWidth()/2)
+                else if(newHorSpeed < 1) {
+                    if(location.getX() != ZooPanel.getInstance().getWidth()/2)
                         newHorSpeed = 1;
                     else
                         newHorSpeed = 0;
                 }
-                location.setX((int)(location.getX() - newHorSpeed*horSpeed));
-                location.setY((int)(location.getY() - newVerSpeed*verSpeed));
-                if(location.getX()<pan.getWidth()/2)
+                location.setX((int)(location.getX() - newHorSpeed*h));
+                location.setY((int)(location.getY() - newVerSpeed*v));
+                if(location.getX()<ZooPanel.getInstance().getWidth()/2)
                     x_dir = 1;
                 else
                     x_dir = -1;
-                if((Math.abs(location.getX()-pan.getWidth()/2)<EAT_DISTANCE) &&
-                        (Math.abs(location.getY()-pan.getHeight()/2)<EAT_DISTANCE))
+                if((Math.abs(location.getX()-ZooPanel.getInstance().getWidth()/2)<EAT_DISTANCE) &&
+                        (Math.abs(location.getY()-ZooPanel.getInstance().getHeight()/2)<EAT_DISTANCE))
                 {
-                    eat(this);
-                    pan.eatFood(this);
+                    ZooPanel.getInstance().eatFood(this);
                 }
             }
             else
@@ -521,7 +333,7 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
                 location.setY(location.getY() + verSpeed*y_dir);
             }
 
-            if(location.getX() > pan.getWidth()+cor_x1)
+            if(location.getX() > ZooPanel.getInstance().getWidth()+cor_x1)
             {
                 x_dir = -1;
                 if(cor_x2!=-1)
@@ -534,7 +346,7 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
                     location.setX(cor_x4);
             }
 
-            if(location.getY() > (pan.getHeight() + cor_y1))
+            if(location.getY() > (ZooPanel.getInstance().getHeight() + cor_y1))
             {
                 y_dir = -1;
                 if(cor_y2!=-1)
@@ -546,29 +358,99 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
                 if(cor_y4!=-1)
                     location.setY(cor_y4);
             }
-            setChanges(true);
+            setChanged();
+            notifyObservers();
+            ZooPanel.getInstance().repaint();
         }
     }
 
 
+
     /**
-     * start thread
+     * draw the animal
      */
-    public void start()
+    public void drawObject(Graphics g)
     {
-        this.thread.start();
+
+        if(x_dir==1)
+        {
+            g.drawImage(img1, location.getX()+cor_x5, location.getY()+cor_y5, cor_w, cor_h, ZooPanel.getInstance());
+        }
+        else
+        {
+            g.drawImage(img2, location.getX()+cor_x6, location.getY()+cor_y6, cor_w, cor_h, ZooPanel.getInstance());
+        }
+    }
+
+
+
+
+    public String toString()
+    {
+        return "["+getName() + ": weight=" + weight + ", color="+col+"]";
+    }
+
+
+
+    /**
+     * check if thread is running
+     * @return true if running
+     */
+    public boolean IsRunning()
+    {
+        return this.isRun;
     }
 
 
     /**
-     * stop thread
+     * create new decorate that gets this animal and paint him
      */
-    public void interrupt()
+    @Override
+    public void PaintAnimal(String col)
     {
-        this.thread.interrupt();
+
+        ColoredAnimalDecorator dec = new ColoredAnimalDecorator(this);
+        dec.PaintAnimal(col);
     }
 
 
+    public Point getLocation()
+    {
+        return location;
+    }
 
 
+    public boolean setLocation(Point newLocation)
+    {
+        this.location = newLocation;
+        return true;
+    }
+
+
+    /**
+     * set change related to observer\listner pattern
+     */
+    public void setTheChanged()
+    {
+        setChanged();
+    }
+
+
+    /**
+     * @return factor by int
+     */
+    public int getFactor()
+    {
+        return factor;
+    }
+
+
+    /**
+     * set the factory type of this animal by number(0,1,2)
+     * @param factor
+     */
+    public void setFactor(int factor)
+    {
+        this.factor = factor;
+    }
 }

@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"animals"},{"l":"diet"},{"l":"food"},{"l":"graphics"},{"l":"mobility"},{"l":"plants"},{"l":"privateutil"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"animals"},{"l":"diet"},{"l":"factory"},{"l":"food"},{"l":"graphics"},{"l":"mobility"},{"l":"plants"},{"l":"privateutil"}];updateSearchResults();

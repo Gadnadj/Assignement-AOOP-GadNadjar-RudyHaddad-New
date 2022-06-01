@@ -1,23 +1,13 @@
 package graphics;
-import animals.*;
-import factory.AbstractZooFactory;
-import factory.FactoryCarnivore;
-import factory.FactoryHerbivore;
-import factory.FactoryOmnivore;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
+import javax.swing.*;
+import java.awt.event.*;
 /** class that creates a frame, containing all the information on the creation of animals
- * @param <counter> : number of animals
- *  class that creates a frame, containing all the information on the creation of animals
  * @author Gad Nadjar
  * @see JDialog
  */
-public class AddAnimalDialog<counter> extends JDialog implements ActionListener
-{
+public class AddAnimalDialog extends JDialog implements ItemListener, ActionListener {
     private String name = null;
     private int size = 0;
     private int hSpeed = 0;
@@ -32,23 +22,24 @@ public class AddAnimalDialog<counter> extends JDialog implements ActionListener
     JComboBox cselectHorSpeed;
     JComboBox cselectColor;
     JButton bConfirmation;
-
-    private int choosenFact;
+    private int choosenfactory;
+    String[] animals;
+    String[] colors;
 
     /**
-     * constructor that creates a Dialog and displays a page that allows us to select the animals to add to the table
-     * @param pan : panel of ZooPanel
+     * Create the dialog, lables and bottuns
      */
-    public AddAnimalDialog(ZooPanel pan, int choosenfactory)
+
+    public AddAnimalDialog(String title, int Factory)
     {
-        this.choosenFact = choosenfactory;
-        newPan = pan;
+        //super(new JFrame(), title, true);
+        this.choosenfactory = Factory;
         this.setTitle("Add Animal");
         this.setSize(new Dimension(600, 100));
         this.setLayout(new GridLayout(2, 6));
         this.setVisible(true);
-        String[] animals = {"Lion", "Bear", "Elephant", "Giraffe", "Turtle"};
-        String[] colors = {"RED", "BLUE", "NATURAL"};
+        animals = new String[]{"Lion", "Bear", "Elephant", "Giraffe", "Turtle"};
+        colors = new String[]{"Red", "Blue", "Natural"};
 
         selectAnimal = new JLabel("Select Animal");
         selectSize = new JLabel("Select Size");
@@ -80,7 +71,6 @@ public class AddAnimalDialog<counter> extends JDialog implements ActionListener
         add(cselectColor);
         add(bConfirmation);
 
-        newPan = pan;
 
         for (int i = 50; i <= 300; i++)
             cselectSize.addItem(i);
@@ -104,74 +94,23 @@ public class AddAnimalDialog<counter> extends JDialog implements ActionListener
         bConfirmation.addActionListener(this);
     }
 
-    /**
-     * this class create animals
-     */
-    public void addAnimal()
+
+
+
+
+    @Override
+    public void itemStateChanged(ItemEvent e)
     {
-        Animal an = null;
-        AbstractZooFactory zooFactory = null;
-        if (choosenFact == 0)
-            zooFactory = createAnimalFactory("FactoryHerbivore");
-        if(choosenFact == 1)
-            zooFactory = createAnimalFactory("FactoryOmnivore");
-        if(choosenFact == 2)
-            zooFactory = createAnimalFactory("FactoryCarnivore");
-        if (animalcounter < 10)
-        {
-            if (name.equals("Lion")) {
-                zooFactory = createAnimalFactory("FactoryCarnivore");
-                //ZooPanel.data.add(new Lion(name, size, hSpeed, vSpeed, color, newPan));
-                an = zooFactory.produceAnimal("Lion", size, hSpeed, vSpeed, color, newPan);
-            }
 
-            if (name.equals("Bear")) {
-                zooFactory = createAnimalFactory("FactoryOmnivore");
-                //ZooPanel.data.add(new Bear(name, size, hSpeed, vSpeed, color, newPan));
-                an = zooFactory.produceAnimal("Bear", size, hSpeed, vSpeed, color, newPan);
-
-
-            }
-
-            if (name.equals("Elephant")) {
-                zooFactory = createAnimalFactory("FactoryHerbivore");
-                //ZooPanel.data.add(new Elephant(name, size, hSpeed, vSpeed, color, newPan));
-                an = zooFactory.produceAnimal("Elephant", size, hSpeed, vSpeed, color, newPan);
-
-            }
-
-            if (name.equals("Giraffe")) {
-                zooFactory = createAnimalFactory("FactoryHerbivore");
-                //ZooPanel.data.add(new Giraffe(name, size, hSpeed, vSpeed, color, newPan));
-                an = zooFactory.produceAnimal("Giraffe", size, hSpeed, vSpeed, color, newPan);
-
-            }
-
-            if (name.equals("Turtle")) {
-                zooFactory = createAnimalFactory("FactoryHerbivore");
-                //ZooPanel.data.add(new Turtle(name, size, hSpeed, vSpeed, color, newPan));
-                an = zooFactory.produceAnimal("Turtle", size, hSpeed, vSpeed, color, newPan);
-            }
-            if(an !=null)
-            {
-                //an.setFactor(choosenFact);
-
-            }
-        }
     }
 
-
-    /**
-     * @param e : e
-     */
     @Override
-    public void actionPerformed(ActionEvent e)
-    {
+    public void actionPerformed(ActionEvent e) {
         if (e.getSource() == cselectAnimal)
             name = (String) cselectAnimal.getSelectedItem();
 
         if (e.getSource() == cselectSize)
-            size =  (int)cselectSize.getSelectedItem();
+            size = (int) cselectSize.getSelectedItem();
 
         if (e.getSource() == cselectHorSpeed)
             hSpeed = (int) cselectHorSpeed.getSelectedItem();
@@ -184,31 +123,8 @@ public class AddAnimalDialog<counter> extends JDialog implements ActionListener
 
         if (e.getSource() == bConfirmation)
         {
-            if(name == null || size == 0 || hSpeed == 0 || vSpeed == 0 || color == null)
-                JOptionPane.showMessageDialog(null, "Select All Characters", "Selected All Characters", JOptionPane.ERROR_MESSAGE);
-            else
-            {
-                addAnimal();
-                ZooPanel.getInstance();
-                ZooPanel.data.get(animalcounter).start();
-                animalcounter++;
-                dispose();
-                if (animalcounter > 0)
-                    JOptionPane.showMessageDialog(null, "Animal Added", "Animal Added", JOptionPane.INFORMATION_MESSAGE);
-            }
+            ZooPanel.getInstance().addAnimal(name, size, hSpeed, vSpeed, color, choosenfactory);
+            setVisible(false);
         }
-    }
-
-
-    private AbstractZooFactory createAnimalFactory (String type)
-    {
-        if (type.equals("FactoryHerbivore"))
-            return new FactoryHerbivore();
-        else if (type.equals("FactoryOmnivore"))
-            return new FactoryOmnivore();
-        else if (type.equals("FactoryCarnivore"))
-            return new FactoryCarnivore();
-
-        return null;
     }
 }

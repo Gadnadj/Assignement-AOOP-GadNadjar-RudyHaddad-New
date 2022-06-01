@@ -1,13 +1,8 @@
-/**@Author : Gad Nadjar : 337744155
- @Author : Rudy Haddad : 336351481*/
-
 package animals;
+
 import diet.Carnivore;
 import food.EFoodType;
-import graphics.ZooPanel;
-import diet.IDiet;
-
-
+import mobility.Point;
 /**
  * the utilities of this class is the creation of a new animal Lion. all function lion can be use is here or
  * from supers classes.
@@ -15,39 +10,20 @@ import diet.IDiet;
  * @author Gad Nadjar
  * @see animals.Animal
  **/
-public class Lion extends Animal
-{
+public class Lion extends Animal {
 
-    private final static IDiet diet = new Carnivore();
-    private static int lionCount = 1;
-
-
-    /**
-     * @param size : size of the animal
-     * @param horSpeed : horizontal speed of the animal
-     * @param verSpeed : vertical speed of the animal
-     * @param color : color of the animal
-     * @param name  : name of the animal
-     * @param pan  : panel of zoopanel
-     */
-    public Lion(String name, int size, int horSpeed, int verSpeed, String color, ZooPanel pan)
-    {
-        super(size, horSpeed, verSpeed, color, pan);
-        this.setName(name + lionCount);
-        this.setX(50);
-        this.setY(0);
-        this.loadImages("lio");
-        this.setWeight(this.getSize() * 0.8);
-        this.setDiet(diet);
-        this.setPan(pan);
-        lionCount++;
+    public Lion(int s,int x, int y, int h, int v, String c) {
+        super("Lion",s,(int)(s*0.8),h,v,c);
+        setLocation(new Point(x,y));
+        setDiet(new Carnivore());
+        loadImages("lio");
+        cor_x4 = 0;
+        cor_y1 = (int) (-30-size/3);
+        cor_y3 = (int) (size*0.25);
+        cor_x5 = cor_x6 = -size/2;
+        cor_y5 = cor_y6 = -size/3;
+        cor_h = (int)(size*0.73);
     }
-
-
-    /**
-     * number of lion in the zoo
-     */
-    public static void setLionCount() {lionCount = 1;}
 
 
     /**
@@ -57,11 +33,13 @@ public class Lion extends Animal
     public EFoodType getFoodtype() {return EFoodType.NOTFOOD;}
 
 
-    /**
-     * @return String : representation of the lion
-     */
-    public String toString()
-    {
-        return "[!]" + this.getName() + " : " + "total distance :" + "[" + this.gettotalDistance() + "]" + ", weight : " + "[" + this.getWeight() + "]";
+    @Override
+    public String getAnimalName() {
+        return null;
+    }
+
+    @Override
+    public void setResum() {
+
     }
 }

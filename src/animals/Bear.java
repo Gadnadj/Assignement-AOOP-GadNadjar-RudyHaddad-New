@@ -1,66 +1,41 @@
-/**@Author : Gad Nadjar : 337744155
- @Author : Rudy Haddad : 336351481*/
-
 package animals;
-import food.EFoodType;
-import graphics.ZooPanel;
-import diet.IDiet;
-import diet.Omnivore;
 
+import diet.Omnivore;
+import food.EFoodType;
+import mobility.Point;
 /**
  * the utilities of this class is the creation a new animal bear. all function bear can be use is here or
  * from supers classes.
  * @version 26.03.2022
  * @author Gad Nadjar
- *
  **/
-public class Bear extends Animal
-{
-    private final static IDiet diet = new Omnivore();
-    static int bearCount = 1;
+public class Bear extends Animal {
 
-
-    /**
-     * @param name : name of the animal
-     * @param size : size of the animal
-     * @param horSpeed : horizontal speed of the animal
-     * @param verSpeed : vertical speed of the animal
-     * @param color : color of the animal
-     * @param pan : panel of zoopanel
-     */
-    public Bear(String name, int size, int horSpeed, int verSpeed, String color, ZooPanel pan)
-    {
-        super(size, horSpeed, verSpeed, color, pan);
-        this.setWeight(this.getSize() * 1.5);
-        this.setName(name + bearCount);
-        this.setX(100);
-        this.setY(5);
-        this.loadImages("bea");
-        this.setDiet(diet);
-        this.setPan(pan);
-        bearCount++;
+    public Bear(int s,int x, int y, int h, int v, String c) {
+        super("Bear",s,(int)(s*1.5),h,v,c);
+        setLocation(new Point(x,y));
+        setDiet(new Omnivore());
+        loadImages("bea");
+        cor_x3 = -size/2;
+        cor_x4 = 0;
+        cor_y1 = (int) (-30-size/5);
+        cor_y3 = (int) (size*0.3);
+        cor_x5 = -size*6/7;
+        cor_y5 = cor_y6 = -size/3;
+        cor_h = (int)(size*2/3);
     }
 
-
-    /**
-     * number of bear in the zoo
-     */
-    public static void setBearCount() {bearCount = 1;}
-
-
-    /**
-     *
-     * @return EFoodType : return the type of food of the animal
-     */
     @Override
     public EFoodType getFoodtype() {return EFoodType.MEAT;}
 
 
-    /**
-     * @return String : representation of bear
-     */
-    public String toString()
-    {
-        return "[!]" + this.getName() + " : " + "total distance :" + "[" + this.gettotalDistance() + "]" + ", weight : " + "[" + this.getWeight() + "]";
+    @Override
+    public String getAnimalName() {
+        return null;
+    }
+
+    @Override
+    public void setResum() {
+
     }
 }

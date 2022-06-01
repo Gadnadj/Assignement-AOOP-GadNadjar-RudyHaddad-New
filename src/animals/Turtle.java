@@ -1,11 +1,9 @@
-/**@Author : Gad Nadjar : 337744155
- @Author : Rudy Haddad : 336351481*/
-
 package animals;
-import diet.IDiet;
-import food.EFoodType;
-import graphics.ZooPanel;
+
 import diet.Herbivore;
+import food.EFoodType;
+import mobility.Point;
+
 /**
  * the utilities of this class is the creation of a new animal turtle. all function turtle can be use is here or
  * from supers classes.
@@ -13,52 +11,34 @@ import diet.Herbivore;
  * @author Rudy Haddad
  * @see animals.Animal
  **/
-public class Turtle extends Animal
-{
-    private int age;
-    private final static IDiet diet = new Herbivore();
-    static int turtleCount = 1;
+public class Turtle extends Animal {
 
-
-    /**
-     * @param size     : size of the animal
-     * @param horSpeed : horizontal speed of the animal
-     * @param verSpeed : vertical speed of the animal
-     * @param color    : color of the animal
-     * @param pan : panel of ZooPanel
-     * @param name : name of the turtle
-     */
-    public Turtle(String name, int size, int horSpeed, int verSpeed, String color, ZooPanel pan)
-    {
-        super(size, horSpeed, verSpeed, color, pan);
-        this.setWeight(this.getSize() * 0.5);
-        this.setName(name + turtleCount);
-        this.setX(80);
-        this.setY(0);
-        this.loadImages("trt");
-        this.setDiet(diet);
-        this.setPan(pan);
-        turtleCount++;
+    public Turtle(int s,int x, int y, int h, int v, String c) {
+        super("Turtle",s,s/2,h,v,c);
+        setLocation(new Point(x,y));
+        setDiet(new Herbivore());
+        loadImages("trt");
+        cor_x1 = size/4;
+        cor_x2 = (int) (-size/4);
+        cor_x3 = (int) (-size*0.25);
+        cor_x4 = (int) (size*0.25);
+        cor_y1 = (int) (-30-size*0.125);
+        cor_y3 = size/8;
+        cor_x5 = -size;
+        cor_y5 = cor_y6 = -size/4;
+        cor_h = (int)(size*0.68);
     }
 
 
-    /**
-     * number of turtle in the zoo
-     */
-    public static void setTurtleCount(){turtleCount = 1;}
-
-
-    /**
-     * @return EFoodType : return the type of food of the animal
-     */
-    @Override
     public EFoodType getFoodtype() {return EFoodType.MEAT;}
 
+    @Override
+    public String getAnimalName() {
+        return null;
+    }
 
-    /**
-     * @return String : Representation of turtle
-     */
-    public String toString() {
-        return "[!]" + this.getName() + " : " + "total distance :" + "[" + this.gettotalDistance() + "]" + ", weight : " + "[" + this.getWeight() + "]";
+    @Override
+    public void setResum() {
+
     }
 }

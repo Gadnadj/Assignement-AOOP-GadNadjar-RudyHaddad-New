@@ -1,12 +1,8 @@
-/**@Author : Gad Nadjar : 337744155
- @Author : Rudy Haddad : 336351481*/
-
 package animals;
-import diet.IDiet;
-import food.EFoodType;
-import graphics.ZooPanel;
-import diet.Herbivore;
 
+import diet.Herbivore;
+import food.EFoodType;
+import mobility.Point;
 /**
  * the utilities of this class is the creation new animal elephant. all function elephant can be use is here or
  * from supers classes.
@@ -14,40 +10,21 @@ import diet.Herbivore;
  * @author Rudy Haddad
  * @see animals.Animal
  **/
-public class Elephant extends Animal
-{
-    private double trunkLength;
-    private final static IDiet diet = new Herbivore();
-    static int elephantCount = 1;
+public class Elephant extends Animal {
 
-
-
-    /**
-     * @param size     : size of the animal
-     * @param horSpeed : horizontal speed of the animal
-     * @param verSpeed : vertical speed of the animal
-     * @param color    : color of the animal
-     * @param name     : name of the animal
-     * @param pan      : panel of zoopanel
-     */
-    public Elephant(String name, int size, int horSpeed, int verSpeed, String color, ZooPanel pan)
-    {
-        super(size, horSpeed, verSpeed, color, pan);
-        this.setWeight(this.getSize() * 10);
-        this.setName(name + elephantCount);
-        this.setX(50);
-        this.setY(90);
-        this.loadImages("elf");
-        this.setDiet(diet);
-        this.setPan(pan);
-        elephantCount++;
+    public Elephant(int s,int x, int y, int h, int v, String c) {
+        super("Elephant",s,s*10,h,v,c);
+        setLocation(new Point(x,y));
+        setDiet(new Herbivore());
+        loadImages("elf");
+        cor_x3 = (int) (-size*0.3);
+        cor_y1 = (int) (-30-size*0.45);
+        cor_y3 = (int) (size*0.25);
+        cor_x5 = -size*3/4;
+        cor_x6 = -size*1/5;
+        cor_y5 = cor_y6 = -size/4;
+        cor_h = (int)(size*0.7);
     }
-
-
-    /**
-     * number of elephant in the zoo
-     */
-    public static void setElephantCount() {elephantCount = 1;}
 
 
     /**
@@ -56,12 +33,13 @@ public class Elephant extends Animal
     @Override
     public EFoodType getFoodtype() {return EFoodType.MEAT;}
 
+    @Override
+    public String getAnimalName() {
+        return null;
+    }
 
-    /**
-     * @return String : representation of elephant
-     */
-    public String toString()
-    {
-        return "[!]" + this.getName() + " : " + "total distance :" + "[" + this.gettotalDistance() + "]" + ", weight : " + "[" + this.getWeight() + "]";
+    @Override
+    public void setResum() {
+
     }
 }

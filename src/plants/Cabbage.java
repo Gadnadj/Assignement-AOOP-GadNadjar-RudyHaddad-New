@@ -1,16 +1,27 @@
 package plants;
-import graphics.ZooPanel;
 
 
 /**
  * class that creates cabbage objects
  * @author baroh
  */
-public class Cabbage extends Plant {
+public class Cabbage extends Plant
+{
+    private static Cabbage instance = null;
 
+    public Cabbage() {
+        super();
+        loadImages("cabbage");
+    }
     /**
-     * constructor of Cabbage
-     * @param pan : panel of zoopanel
+     * get instance related to singelton
+     * @return instance
      */
-    public Cabbage(ZooPanel pan) {super(pan);}
+    public static Cabbage getInstance()
+    {
+        if (instance  == null)
+            instance = new Cabbage();
+
+        return instance;
+    }
 }

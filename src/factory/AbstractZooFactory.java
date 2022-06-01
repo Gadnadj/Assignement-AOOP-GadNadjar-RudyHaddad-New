@@ -1,9 +1,12 @@
 package factory;
 
 import animals.Animal;
-import graphics.ZooPanel;
+/**
+ *
+ * @author Gad Nadjar, Rudy Haddad
+ */
+public interface AbstractZooFactory {
+    public Animal produceAnimal(String animal, int sz, int hor, int ver, String c);
 
-public interface AbstractZooFactory
-{
-    public Animal produceAnimal(String animal, int sz, int hor, int ver,String c, ZooPanel pan);
+
 }

@@ -12,8 +12,8 @@ public interface IAnimalBehavior
         String getAnimalName();
         boolean getChanges ();
         void setChanges (boolean state);
-        void setSuspended();
-        void setResumed();
+        void setSuspend();
+        void setResum();
 
 
 }

@@ -1,12 +1,8 @@
-/**@Author : Gad Nadjar : 337744155
- @Author : Rudy Haddad : 336351481*/
-
 package animals;
-import diet.IDiet;
-import food.EFoodType;
-import graphics.ZooPanel;
-import diet.Herbivore;
 
+import diet.Herbivore;
+import food.EFoodType;
+import mobility.Point;
 /**
  * the utilities of this class is the creation of a new animal Giraffe. all function bear can be use is here or
  * from supers classes.
@@ -15,38 +11,23 @@ import diet.Herbivore;
  * @see animals.Animal
  *
  **/
-public class Giraffe extends Animal
-{
-    private final static IDiet diet = new Herbivore();
-    static int giraffeCount = 1;
+public class Giraffe extends Animal {
 
-
-    /**
-     * @param size : size of the animal
-     * @param horSpeed : horizontal speed of the animal
-     * @param verSpeed : vertical speed of the animal
-     * @param color : color of the animal
-     * @param name : name of the animal
-     * @param pan : panel
-     */
-    public Giraffe(String name, int size, int horSpeed, int verSpeed, String color, ZooPanel pan)
-    {
-        super(size, horSpeed, verSpeed, color, pan);
-        this.setWeight(this.getSize() * 2.2);
-        this.setName(name + giraffeCount);
-        this.setX(50);
-        this.setY(0);
-        this.loadImages("grf");
-        this.setDiet(diet);
-        this.setPan(pan);
-        giraffeCount++;
+    public Giraffe(int s,int x, int y, int h, int v, String c) {
+        super("Giraffe",s,(int)(s*2.2),h,v,c);
+        setLocation(new Point(0,0));
+        setDiet(new Herbivore());
+        loadImages("grf");
+        cor_x1 = size/4;
+        cor_x2 = (-size/4);
+        cor_x3 = (int) (- size*0.25);
+        cor_x4 = (int) (size*0.25);
+        cor_y1 = (int) (-30 - size*9/10);
+        cor_y3 = size/10;
+        cor_x5 = -size/2;
+        cor_y5 = cor_y6 = -size/10;
+        cor_w = (int)(size*0.7);
     }
-
-
-    /**
-     * number of giraffe in the zoo
-     */
-    public static void setGiraffeCount() {giraffeCount = 1;}
 
 
     /**
@@ -55,12 +36,13 @@ public class Giraffe extends Animal
     @Override
     public EFoodType getFoodtype() {return EFoodType.MEAT;}
 
+    @Override
+    public String getAnimalName() {
+        return null;
+    }
 
-    /**
-     * @return String : representation of giraffe
-     */
-    public String toString()
-    {
-        return "[!]" + this.getName() + " : " + "total distance :" + "[" + this.gettotalDistance() + "]" + ", weight : " + "[" + this.getWeight() + "]";
+    @Override
+    public void setResum() {
+
     }
 }

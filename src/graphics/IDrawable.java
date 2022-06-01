@@ -12,17 +12,17 @@ public interface IDrawable
     /**
      * @param nm : string of the image
      */
-     void loadImages(String nm);
+    void loadImages(String nm);
 
 
     /**
      * @param g : graphics
      */
-     void drawObject (Graphics g);
+    void drawObject (Graphics g);
 
 
     /**
      * @return String : color of the animal
      */
-     String getColor();
+    String getColor();
 }

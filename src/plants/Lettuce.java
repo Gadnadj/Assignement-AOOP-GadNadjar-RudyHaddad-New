@@ -1,18 +1,26 @@
 package plants;
 
-import graphics.ZooPanel;
 
 /** class that creates lettuce objects
  * @author baroh
  */
-public class Lettuce extends Plant {
+public class Lettuce extends Plant
+{
+    private static Lettuce instance = null;
 
+    public Lettuce() {
+        super();
+        loadImages("lettuce");
+    }
     /**
-     * constructor of lettuce class
-     * @param pan : panel of zoopanel
+     * get instance related to singelton
+     * @return instance
      */
-    public Lettuce(ZooPanel pan) {super(pan);}
+    public static Lettuce getInstance()
+    {
+        if (instance  == null)
+            instance = new Lettuce();
 
-
-    public Lettuce() {}
+        return instance;
+    }
 }
